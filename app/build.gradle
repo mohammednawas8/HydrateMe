@@ -73,4 +73,8 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
 
+    //Constraint layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha03"
+
+
 }

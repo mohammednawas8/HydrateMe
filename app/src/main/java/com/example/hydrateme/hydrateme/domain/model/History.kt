@@ -1,4 +1,4 @@
-package com.example.hydrateme.hyprateme.domain.model
+package com.example.hydrateme.hydrateme.domain.model
 
 
 data class History(

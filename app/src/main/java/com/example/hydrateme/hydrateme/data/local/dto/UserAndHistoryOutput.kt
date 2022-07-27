@@ -1,9 +1,9 @@
-package com.example.hydrateme.hyprateme.data.local.dto
+package com.example.hydrateme.hydrateme.data.local.dto
 
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class UserAndHistory(
+data class UserAndHistoryOutput(
     @Embedded val userEntity: UserEntity,
     @Relation(
         parentColumn = "id",

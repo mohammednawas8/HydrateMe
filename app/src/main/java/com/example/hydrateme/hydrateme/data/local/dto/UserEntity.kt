@@ -1,4 +1,4 @@
-package com.example.hydrateme.hyprateme.data.local.dto
+package com.example.hydrateme.hydrateme.data.local.dto
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -13,7 +13,6 @@ data class UserEntity(
     val dailyGoal: Int,
     val complete: Int,
     @Embedded val unit: Unit,
-    val language: String,
     val soundPath: String,
     @PrimaryKey val id: Int? = null,
 )

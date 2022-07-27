@@ -1,6 +1,6 @@
-package com.example.hydrateme.hyprateme.domain.model
+package com.example.hydrateme.hydrateme.domain.model
 
-import com.example.hydrateme.hyprateme.data.local.dto.Unit
+import com.example.hydrateme.hydrateme.data.local.dto.Unit
 
 data class User(
     val gender: String,
@@ -10,6 +10,5 @@ data class User(
     val dailyGoal: Int,
     val complete: Int,
     val unit: Unit,
-    val language: String,
     val soundPath: String,
 )

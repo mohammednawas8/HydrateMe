@@ -1,4 +1,4 @@
-package com.example.hydrateme.hyprateme.data.local.dto
+package com.example.hydrateme.hydrateme.data.local.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
