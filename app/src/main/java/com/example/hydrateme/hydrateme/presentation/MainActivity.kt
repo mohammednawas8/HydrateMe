@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.colors.background)
                 ) {
                     Box {
-                        WelcomeSection(modifier = Modifier.background(Color.Red).height(220.dp))
+                        WelcomeSection(modifier = Modifier.fillMaxWidth().height(250.dp))
 
                     }
                     }

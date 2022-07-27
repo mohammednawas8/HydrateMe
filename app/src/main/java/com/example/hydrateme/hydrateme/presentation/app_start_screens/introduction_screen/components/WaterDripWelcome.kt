@@ -29,7 +29,7 @@ fun WaterDripWelcome(
     Box(modifier = modifier) {
         Canvas(modifier = Modifier
             .fillMaxSize()
-            .background(Color.Magenta)) {
+            ) {
             val width = size.width
             val height = size.height
 
