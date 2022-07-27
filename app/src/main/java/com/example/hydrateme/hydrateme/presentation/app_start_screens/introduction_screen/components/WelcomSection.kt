@@ -29,7 +29,7 @@ import com.example.hydrateme.ui.theme.Roboto
 @Composable
 fun WelcomeSection(
     modifier: Modifier = Modifier,
-    shadow: Float = 120f,
+    shadow: Float = 110f,
     welcomeText: String = "Hi",
     color: Color = MaterialTheme.colors.primary,
 
@@ -176,14 +176,14 @@ fun WelcomeSection(
             drawOval(
                 color = color,
                 topLeft = Offset(canvasWidth * 0.415f, maxHeight * 0.89f),
-                size = Size(canvasWidth * 0.05f,canvasHeight * 0.06f)
+                size = Size(canvasWidth * 0.05f,canvasHeight * 0.05f)
             )
 
             //Right finger
             drawOval(
                 color = color,
                 topLeft = Offset(canvasWidth * 0.56f, maxHeight * 0.89f),
-                size = Size(canvasWidth * 0.05f,canvasHeight * 0.06f)
+                size = Size(canvasWidth * 0.05f,canvasHeight * 0.05f)
             )
         }
 
@@ -292,7 +292,7 @@ fun MainFunc(
             drawOval(
                 Rect(
                     offset = Offset(width * 0.4f, height + 10),
-                    size = Size(45f, 23f)
+                    size = Size(45f, 20f)
                 ),
                 fingerPaint
             )
