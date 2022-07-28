@@ -118,7 +118,7 @@ fun WelcomeSection(
                         Color.Black
                     )
                 ),
-                radius = 12f,
+                radius = 8f,
                 center = Offset(canvasWidth * 0.3f, canvasHeight * 0.9f)
             )
 
@@ -130,7 +130,7 @@ fun WelcomeSection(
                         Color.Black
                     )
                 ),
-                radius = 12f,
+                radius = 8f,
                 center = Offset(canvasWidth * 0.7f, canvasHeight * 0.9f)
             )
 
@@ -164,8 +164,8 @@ fun WelcomeSection(
                 //The text background
                 drawOval(
                     Rect(
-                        offset = Offset(maxWidth / 2.35f, maxHeight.toFloat() * 0.82f),
-                        size = Size(canvasWidth * 0.17f, canvasHeight * 0.18f)
+                        offset = Offset(maxWidth / 2.41f, maxHeight.toFloat() * 0.82f),
+                        size = Size(canvasWidth * 0.19f, canvasHeight * 0.18f)
                     ),
                     textBackgroundPaint
                 )
@@ -175,14 +175,14 @@ fun WelcomeSection(
             //Left finger
             drawOval(
                 color = color,
-                topLeft = Offset(canvasWidth * 0.415f, maxHeight * 0.89f),
+                topLeft = Offset(canvasWidth * 0.40f, maxHeight * 0.89f),
                 size = Size(canvasWidth * 0.05f,canvasHeight * 0.05f)
             )
 
             //Right finger
             drawOval(
                 color = color,
-                topLeft = Offset(canvasWidth * 0.56f, maxHeight * 0.89f),
+                topLeft = Offset(canvasWidth * 0.57f, maxHeight * 0.89f),
                 size = Size(canvasWidth * 0.05f,canvasHeight * 0.05f)
             )
         }
@@ -200,13 +200,13 @@ fun WelcomeSection(
             ) {
 
                 WaterDrip(
-                    gender = Gender.Male(),
+                    gender = Gender.Male,
                     happy = true,
                     modifier = Modifier
                         .fillMaxSize()
                         .offset(x = (-width * 0.10f), y = height * 0.05f)
                         .rotate(30f)
-                        .scale(1.2f)
+                        .scale((maxWidth/40f) * 0.053f)
                 )
 
             }
@@ -217,13 +217,13 @@ fun WelcomeSection(
                     .width(width * 0.46f)
             ) {
                 WaterDrip(
-                    gender = Gender.Male(),
+                    gender = Gender.Male,
                     happy = true,
                     modifier = Modifier
                         .fillMaxSize()
                         .offset(x = (width * 0.10f), y = height * 0.05f)
                         .rotate(-30f)
-                        .scale(1.2f)
+                        .scale((maxWidth/40f) * 0.053f)
                         .graphicsLayer {
                             rotationY = 180f
                         }
@@ -234,7 +234,7 @@ fun WelcomeSection(
             text = welcomeText,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 4.dp, start = 4.dp),
+                .padding(bottom = 1.dp, start = 4.dp),
             color = color,
             fontSize = 30.sp,
             fontFamily = FontFamily(Font(R.font.koorkinpro)),
@@ -274,7 +274,7 @@ fun MainFunc(
             drawOval(
                 Rect(
                     offset = Offset(width * 0.42f, height * 0.95f),
-                    size = Size(width * 0.17f, height * 0.2f)
+                    size = Size(width * 0.17f, height * 0.18f)
                 ),
                 textBackgroundPaint
             )

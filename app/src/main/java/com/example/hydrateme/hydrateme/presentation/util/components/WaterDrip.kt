@@ -55,12 +55,12 @@ fun WaterDrip(
 fun PreviewBlueDrip() {
     Row {
         WaterDrip(
-            gender = Gender.Male(),
+            gender = Gender.Male,
             happy = true,
             modifier = Modifier.size(100.dp)
         )
         WaterDrip(
-            gender = Gender.Male(),
+            gender = Gender.Male,
             happy = false,
             modifier = Modifier.size(100.dp)
         )
@@ -72,12 +72,12 @@ fun PreviewBlueDrip() {
 fun PreviewPinkDrip() {
     Row {
         WaterDrip(
-            gender = Gender.Female(),
+            gender = Gender.Female,
             happy = true,
             modifier = Modifier.size(100.dp)
         )
         WaterDrip(
-            gender = Gender.Female(),
+            gender = Gender.Female,
             happy = false,
             modifier = Modifier.size(100.dp)
         )

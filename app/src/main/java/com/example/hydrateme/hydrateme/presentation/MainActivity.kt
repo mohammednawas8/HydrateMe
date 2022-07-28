@@ -9,11 +9,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.GradientButton
+import androidx.navigation.compose.rememberNavController
 import com.example.hydrateme.ui.theme.HydrateMeTheme
 import com.example.hydrateme.R
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.GenderScreen.GenderScreen
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.introduction_screen.IntroductionScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -27,19 +27,10 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colors.background)
                 ) {
-                    Box(contentAlignment = Alignment.Center) {
-                        GradientButton(
-                            text = "LES`T GO",
-                            icon = painterResource(id = androidx.loader.R.drawable.notification_action_background),
-                            modifier = Modifier
-                                .width(260.dp)
-                                .height(50.dp)
-                        ) {
 
-                        }
+                    GenderScreen(navController = rememberNavController())
 
-                    }
-                    }
+                }
 
 
             }

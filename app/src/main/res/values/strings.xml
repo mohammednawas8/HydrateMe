@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Hydrate Me</string>
+    <string name="let_me_help_you">Let me help you keep\nhydrated and healthy</string>
+    <string name="in_order_to">In order to provide tailored hydration advice, I need to get\nsome basic information, And I\'ll keep this secret.</string>
+    <string name="lets_go">LET\'S GO</string>
+    <string name="choose_gender">Choose your gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="next">Next</string>
 </resources>

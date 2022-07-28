@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,11 +12,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.hydrateme.ui.theme.Blue650Transparent
 import com.example.hydrateme.ui.theme.White
 
@@ -36,18 +35,18 @@ fun GradientButton(
     ) {
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clip(CircleShape)
             .background(gradient)
             .clickable { onClick() }
-            .then(modifier),
+            ,
         contentAlignment = Alignment.Center
     ) {
         if (icon != null) {
             Icon(
                 painter = icon,
                 contentDescription = text,
-                tint = Color.White,
+                tint = contentColor,
                 modifier = Modifier
                     .width(12.dp)
                     .height(24.dp)
@@ -56,7 +55,8 @@ fun GradientButton(
             Text(
                 text = text!!,
                 style = textStyle,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                color = contentColor
             )
         }
     }
@@ -71,7 +71,7 @@ fun ButtonPreview() {
             .width(260.dp)
             .height(90.dp),
         text = "LET'S GO",
-        icon = null
+        icon = null,
     ) {
 
     }
