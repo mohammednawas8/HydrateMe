@@ -21,23 +21,22 @@ class AppStartViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AppStartStates())
-    private val state: State<AppStartStates> = _state
+    val state: State<AppStartStates> = _state
 
-    private var _weightFlow = MutableSharedFlow<String>()
-    var weightFlow: SharedFlow<String> = _weightFlow
+
 
     fun onEvent(event: AppStartEvents) {
         when (event) {
             is AppStartEvents.GenderChange -> {
-                if (event.gender.isBlank()) {
-                    viewModelScope.launch {
-                        _weightFlow.emit("Please select your gender")
-                    }
-                } else
-                    _state.value = state.value.copy(
-                        gender = event.gender
-                    )
+                _state.value = state.value.copy(
+                    gender = event.gender
+                )
             }
+
+            is AppStartEvents.GenderNext -> {
+
+            }
+
             is AppStartEvents.WeightChange -> {
                 _state.value = state.value.copy(
                     weight = event.weight

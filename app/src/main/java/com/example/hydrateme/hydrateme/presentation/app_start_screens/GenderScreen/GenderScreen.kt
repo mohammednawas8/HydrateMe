@@ -1,17 +1,14 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.GenderScreen
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -21,39 +18,60 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hydrateme.R
-import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.BottomShadow
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.GenderScreen.componants.GenderPicker
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartEvents
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartViewModel
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.GradientButton
 import com.example.hydrateme.hydrateme.presentation.util.Gender
-import com.example.hydrateme.hydrateme.presentation.util.components.WaterDrip
+import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
+
+private val TAG = "GenderScreen"
 
 @Composable
 fun GenderScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: AppStartViewModel,
 ) {
-    var chosenGender by remember {
-        mutableStateOf("")
-    }
+    var chosenGender = viewModel.state.value.gender
 
     val maleScale = animateFloatAsState(
-        targetValue = if(chosenGender == Gender.Male.gender) 1.2f else 1f,
+        targetValue = if (chosenGender == Gender.Male.gender) 1.2f else 1f,
         tween(durationMillis = 1000)
     )
 
     val femaleScale = animateFloatAsState(
-        targetValue = if(chosenGender == Gender.Female.gender) 1.2f else 1f,
+        targetValue = if (chosenGender == Gender.Female.gender) 1.2f else 1f,
         tween(durationMillis = 1000)
     )
+
+    //Navigation state to make sure that the gender is not empty
+    val navigate = viewModel.navigate.value
+    if (navigate) {
+        navController.navigate(NavigationRoute.WeightScreen.route)
+    }
+
+    //Show a toast if the gender is not selected
+    val emptyGender = viewModel.genderFlow.collectAsState("").value
+    if (emptyGender.isNotBlank()) {
+        Toast.makeText(
+            LocalContext.current,
+            stringResource(id = R.string.gender_error),
+            Toast.LENGTH_SHORT).show()
+        Log.d(TAG, emptyGender)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = CenterHorizontally
         ) {
 
             Spacer(modifier = Modifier.height(80.dp))
@@ -93,72 +111,24 @@ fun GenderScreen(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(
-                    modifier = Modifier.clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource()}
-                    ){
-                        chosenGender = Gender.Male.gender
-                    }.scale(maleScale.value)
-                ) {
-                    WaterDrip(
-                        gender = Gender.Male,
-                        happy = chosenGender == Gender.Male.gender,
-                        modifier = Modifier.size(100.dp)
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
-                    BottomShadow(
-                        modifier = Modifier
-                            .height(16.dp)
-                            .width(80.dp)
-                    )
-                    Spacer(modifier = Modifier.height(15.dp))
 
-                    Text(
-                        text = stringResource(id = R.string.male),
-                        style = MaterialTheme.typography.h3,
-                        color = if (chosenGender == Gender.Male.gender)
-                            Color(0xFF1BAEEE)
-                        else
-                            Color(0xB31BAEEE),
-                        modifier = Modifier.align(CenterHorizontally)
-                    )
-                }
+                GenderPicker(gender = Gender.Male,
+                    onClick = {
+                        viewModel.onEvent(AppStartEvents.GenderChange(Gender.Male.gender))
+                    },
+                    isHappy = chosenGender == Gender.Male.gender,
+                    modifier = Modifier.scale(maleScale.value)
+                )
 
                 Spacer(modifier = Modifier.width(25.dp))
 
-                Column(
-                    modifier = Modifier.clickable(
-                        indication = null,
-                        interactionSource = remember { MutableInteractionSource()}
-                    ){
-                        chosenGender = Gender.Female.gender
-                    }.scale(femaleScale.value)
-                ) {
-                    WaterDrip(
-                        gender = Gender.Female,
-                        happy = chosenGender == Gender.Female.gender,
-                        modifier = Modifier.size(100.dp)
-                    )
-                    Spacer(modifier = Modifier.height(5.dp))
-                    BottomShadow(
-                        modifier = Modifier
-                            .height(16.dp)
-                            .width(80.dp)
-                    )
-
-                    Spacer(modifier = Modifier.height(15.dp))
-
-                    Text(
-                        text = stringResource(id = R.string.female),
-                        style = MaterialTheme.typography.h3,
-                        color = if (chosenGender == Gender.Female.gender)
-                            Color(0xFFFF4593)
-                        else
-                            Color(0x80FF4593),
-                        modifier = Modifier.align(CenterHorizontally)
-                    )
-                }
+                GenderPicker(gender = Gender.Female,
+                    onClick = {
+                        viewModel.onEvent(AppStartEvents.GenderChange(Gender.Female.gender))
+                    },
+                    isHappy = chosenGender == Gender.Female.gender,
+                    modifier = Modifier.scale(femaleScale.value)
+                )
             }
 
         }
@@ -186,7 +156,7 @@ fun GenderScreen(
                     .width(100.dp)
                     .height(50.dp)
             ) {
-                navController.navigateUp()
+                viewModel.onEvent(AppStartEvents.GenderNext)
             }
         }
 

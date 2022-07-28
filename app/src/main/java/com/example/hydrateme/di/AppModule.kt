@@ -24,12 +24,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabaseDao(application: Application): HydrateDao {
-        return Room.databaseBuilder(
-            application,
-            HydrateDatabase::class.java,
-            DATABASE_NAME
-        ).fallbackToDestructiveMigration()
-            .build().dao
+        return HydrateDatabase.getInstance(application).dao
     }
 
     @Provides
@@ -47,5 +42,7 @@ object AppModule {
         InsertHistoryUseCase(hydrateRepository),
         GetUserAndHistoryUseCase(hydrateRepository)
     )
+
+
 
 }

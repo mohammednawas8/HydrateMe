@@ -6,5 +6,6 @@ sealed class AppStartEvents {
     data class WeightUnit(val unit: String): AppStartEvents()
     data class WakeUpTime(val time: String): AppStartEvents()
     data class BedTime(val time: String): AppStartEvents()
+    object GenderNext: AppStartEvents()
     object Finish: AppStartEvents()
 }

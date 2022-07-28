@@ -24,10 +24,11 @@ fun BottomShadow(
         drawOval(
             brush = Brush.radialGradient(
                 colors = listOf(
-                    Color(0xFFDAD7D7),
+                    Color(0xFFDFDCDC),
                     Color(0x1AE6E6E6),
                 ),
-                radius = width * 0.6f
+                radius = 120f,
+                center = center
             ),
             topLeft = Offset(width * 0.12f, 0f),
             size = Size(width, height),
