@@ -1,5 +1,6 @@
-package com.example.hydrateme.hydrateme.presentation.app_start_screens.GenderScreen
+package com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
@@ -23,10 +24,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hydrateme.R
-import com.example.hydrateme.hydrateme.presentation.app_start_screens.GenderScreen.componants.GenderPicker
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen.componants.GenderPicker
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartEvents
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartViewModel
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.GradientButton
@@ -39,34 +39,20 @@ private val TAG = "GenderScreen"
 fun GenderScreen(
     navController: NavController,
     viewModel: AppStartViewModel,
+    errorMessage: String = stringResource(id = R.string.gender_error),
+    context: Context = LocalContext.current
 ) {
-    var chosenGender = viewModel.state.value.gender
+    val chosenGender = viewModel.userState.value.gender
 
     val maleScale = animateFloatAsState(
         targetValue = if (chosenGender == Gender.Male.gender) 1.2f else 1f,
-        tween(durationMillis = 1000)
+        tween(durationMillis = 500)
     )
 
     val femaleScale = animateFloatAsState(
         targetValue = if (chosenGender == Gender.Female.gender) 1.2f else 1f,
         tween(durationMillis = 1000)
     )
-
-    //Navigation state to make sure that the gender is not empty
-    val navigate = viewModel.navigate.value
-    if (navigate) {
-        navController.navigate(NavigationRoute.WeightScreen.route)
-    }
-
-    //Show a toast if the gender is not selected
-    val emptyGender = viewModel.genderFlow.collectAsState("").value
-    if (emptyGender.isNotBlank()) {
-        Toast.makeText(
-            LocalContext.current,
-            stringResource(id = R.string.gender_error),
-            Toast.LENGTH_SHORT).show()
-        Log.d(TAG, emptyGender)
-    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -112,7 +98,8 @@ fun GenderScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
 
-                GenderPicker(gender = Gender.Male,
+                GenderPicker(
+                    gender = Gender.Male,
                     onClick = {
                         viewModel.onEvent(AppStartEvents.GenderChange(Gender.Male.gender))
                     },
@@ -122,7 +109,8 @@ fun GenderScreen(
 
                 Spacer(modifier = Modifier.width(25.dp))
 
-                GenderPicker(gender = Gender.Female,
+                GenderPicker(
+                    gender = Gender.Female,
                     onClick = {
                         viewModel.onEvent(AppStartEvents.GenderChange(Gender.Female.gender))
                     },
@@ -156,7 +144,18 @@ fun GenderScreen(
                     .width(100.dp)
                     .height(50.dp)
             ) {
-                viewModel.onEvent(AppStartEvents.GenderNext)
+                //Here i just broke the rule of mvvm because it's over killing and it doesn't
+                //worth to have additional classes to achieve a simple functionality
+
+                if (chosenGender.isEmpty())
+                    Toast.makeText(
+                        context,
+                        errorMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                else
+                    navController.navigate(NavigationRoute.WeightScreen.route+"/${chosenGender}")
+
             }
         }
 

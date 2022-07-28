@@ -7,10 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen.GenderScreenStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,40 +19,51 @@ class AppStartViewModel @Inject constructor(
     private val useCases: UseCases,
 ) : ViewModel() {
 
-    private val _state = mutableStateOf(AppStartStates())
-    val state: State<AppStartStates> = _state
+    private val _userState = mutableStateOf(AppStartStates())
+    val userState: State<AppStartStates> = _userState
 
+    private val _navigate = mutableStateOf(GenderScreenStates(navigate = false, message = ""))
+     val navigate: State<GenderScreenStates> = _navigate
 
 
     fun onEvent(event: AppStartEvents) {
         when (event) {
             is AppStartEvents.GenderChange -> {
-                _state.value = state.value.copy(
+                _userState.value = userState.value.copy(
                     gender = event.gender
                 )
             }
 
             is AppStartEvents.GenderNext -> {
-
+                val result = useCases.validateGender(userState.value.gender)
+                if(result.successful)
+                    _navigate.value = navigate.value.copy(
+                        navigate = true
+                    )
+                else
+                    _navigate.value = navigate.value.copy(
+                        navigate = false,
+                        message = result.errorMessage.toString()
+                    )
             }
 
             is AppStartEvents.WeightChange -> {
-                _state.value = state.value.copy(
+                _userState.value = userState.value.copy(
                     weight = event.weight
                 )
             }
             is AppStartEvents.WeightUnit -> {
-                _state.value = state.value.copy(
+                _userState.value = userState.value.copy(
                     weightUnit = event.unit
                 )
             }
             is AppStartEvents.WakeUpTime -> {
-                _state.value = state.value.copy(
+                _userState.value = userState.value.copy(
                     wakeUpTime = event.time
                 )
             }
             is AppStartEvents.BedTime -> {
-                _state.value = state.value.copy(
+                _userState.value = userState.value.copy(
                     bedTime = event.time
                 )
             }
@@ -64,7 +74,7 @@ class AppStartViewModel @Inject constructor(
     }
 
     private fun saveUserInformation() = viewModelScope.launch {
-        val data = _state.value
+        val data = _userState.value
         val dailyGoal = getDailyGoal(data)
 
         val user = UserEntity(

@@ -7,10 +7,7 @@ import com.example.hydrateme.hydrateme.data.local.HydrateDatabase
 import com.example.hydrateme.hydrateme.data.local.HydrateDatabase.Companion.DATABASE_NAME
 import com.example.hydrateme.hydrateme.data.repository.HydrateRepositoryImpl
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
-import com.example.hydrateme.hydrateme.domain.use_case.GetUserAndHistoryUseCase
-import com.example.hydrateme.hydrateme.domain.use_case.InsertHistoryUseCase
-import com.example.hydrateme.hydrateme.domain.use_case.InsertUserUserCase
-import com.example.hydrateme.hydrateme.domain.use_case.UseCases
+import com.example.hydrateme.hydrateme.domain.use_case.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,7 +37,9 @@ object AppModule {
     ) = UseCases(
         InsertUserUserCase(hydrateRepository),
         InsertHistoryUseCase(hydrateRepository),
-        GetUserAndHistoryUseCase(hydrateRepository)
+        GetUserAndHistoryUseCase(hydrateRepository),
+        ValidateGender()
+
     )
 
 
