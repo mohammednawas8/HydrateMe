@@ -1,4 +1,4 @@
-package com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen.componants
+package com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_screen.componants
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

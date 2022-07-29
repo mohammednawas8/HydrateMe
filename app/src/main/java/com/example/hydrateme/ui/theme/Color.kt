@@ -21,7 +21,7 @@ val Blue650Transparent = Color(0x661AAAEB) // Button start gradient
 val Gray300 = Color(0XFFC4C4C4) // Water drip arm gradient
 val Gray500 = Color(0XFF909090) // Secondary texts
 val Pink = Color(0XFFFF4593)
-
+val LightGray = Color(0xFFEBEBEB)
 
 //Surface
 val White = Color(0xFFFFFFFF)

@@ -1,7 +1,6 @@
-package com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen
+package com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_screen
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -26,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.hydrateme.R
-import com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen.componants.GenderPicker
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_screen.componants.GenderPicker
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartEvents
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartViewModel
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.GradientButton
@@ -154,7 +153,7 @@ fun GenderScreen(
                         Toast.LENGTH_SHORT
                     ).show()
                 else
-                    navController.navigate(NavigationRoute.WeightScreen.route+"/${chosenGender}")
+                    navController.navigate(NavigationRoute.WeightScreen.route)
 
             }
         }

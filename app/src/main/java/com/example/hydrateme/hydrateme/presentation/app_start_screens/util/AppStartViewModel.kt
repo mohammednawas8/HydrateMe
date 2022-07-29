@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
-import com.example.hydrateme.hydrateme.presentation.app_start_screens.genderScreen.GenderScreenStates
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_screen.GenderScreenStates
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
