@@ -89,4 +89,8 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0-alpha03"
 
+    //Snapper behavior
+    implementation "dev.chrisbanes.snapper:snapper:0.2.2"
+
+
 }

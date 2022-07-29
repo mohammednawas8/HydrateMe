@@ -1,23 +1,16 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants
 
 
+import android.text.TextPaint
 import android.util.Log
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.FlingBehavior
-import androidx.compose.foundation.gestures.ScrollableDefaults
-import androidx.compose.foundation.gestures.detectVerticalDragGestures
-import androidx.compose.foundation.interaction.Interaction
-import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,18 +19,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hydrateme.ui.theme.Gray300
 import com.example.hydrateme.ui.theme.LightGray
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
+import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
 
 
+@OptIn(ExperimentalSnapperApi::class)
 @Composable
 fun ScrollPicker(
     modifier: Modifier = Modifier,
-    leftList: List<String>,
-    rightList: List<String>,
+    leftList: MutableList<String>,
+    rightList: MutableList<String>,
     highLightedColor: Color = MaterialTheme.colors.primary,
     unHighlightedColor: Color = LightGray,
     lineColor: Color = Gray300,
@@ -45,22 +44,19 @@ fun ScrollPicker(
     onLeftValueChange: (String) -> Unit,
     onRightValueChange: (String) -> Unit,
     leftInitialItemIndex: Int = 5,
+    rightInitialIndex: Int = 0,
+    time: Boolean
 ) {
 
-    var leftTop by remember {
-        mutableStateOf(0)
+    LaunchedEffect(key1 = true) {
+        leftList.add("")
+        leftList.add(0, "")
+        rightList.add("")
+        rightList.add(0, "")
     }
-    var leftMiddle by remember {
-        mutableStateOf(1)
-    }
-    var leftBottom by remember {
-        mutableStateOf(2)
-    }
-
-
 
     Row(
-        modifier = modifier
+        modifier = Modifier
             .drawWithContent {
                 drawContent()
                 val width = this.size.width
@@ -77,75 +73,98 @@ fun ScrollPicker(
                     end = Offset(width, height * 0.66f),
                     strokeWidth = lineStrokeWidth
                 )
-            },
+
+                if(time){
+                    drawCircle(
+                        color = highLightedColor,
+                        radius = 7f,
+                        center = Offset(center.x,center.y - 20f)
+                    )
+
+                    drawCircle(
+                        color = highLightedColor,
+                        radius = 7f,
+                        center = Offset(center.x,center.y + 20f)
+                    )
+                }
+            }
+            .height(160.dp)
+            .then(modifier),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
-        val scrollState = rememberLazyListState()
-        val scope = rememberCoroutineScope()
-
-        var value by remember {
-            mutableStateOf("")
+        val leftScrollState = rememberLazyListState()
+        var middleItemLeftList by remember {
+            mutableStateOf(leftInitialItemIndex)
         }
         //Left list
-        LazyColumn(modifier = Modifier
-            .background(Color.White)
-            .fillMaxHeight()
-            .weight(1f),
+        LazyColumn(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxHeight()
+                .weight(1f),
             verticalArrangement = Arrangement.spacedBy(25.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            state = scrollState,
+            state = leftScrollState,
+            flingBehavior = rememberSnapperFlingBehavior(leftScrollState)
 
         ) {
             itemsIndexed(leftList) { index, item ->
                 Text(
                     text = item,
                     style = MaterialTheme.typography.h3,
-                    color = unHighlightedColor,
+                    color = if (index == middleItemLeftList) highLightedColor else unHighlightedColor,
                     fontSize = 28.sp
                 )
-                LaunchedEffect(key1 = true) {
-                    scrollState.animateScrollToItem(
-                        leftInitialItemIndex,
-                        0)
-                }
-            }
-            val visibleItems = scrollState.layoutInfo.visibleItemsInfo
-            if (visibleItems.isNotEmpty()) {
-               val middleIndex =  visibleItems[1].index
-                value = leftList[middleIndex]
             }
         }
+        //The initial scroll animation
+        LaunchedEffect(key1 = true) {
+            leftScrollState.animateScrollToItem(
+                leftInitialItemIndex,
+                0
+            )
+        }
+        //Get the middle item
+        middleItemLeftList = leftScrollState.firstVisibleItemIndex + 1
+        onLeftValueChange(leftList[middleItemLeftList])
 
+
+        val rightScrollState = rememberLazyListState()
+        var middleItemRightList by remember {
+            mutableStateOf(rightInitialIndex)
+        }
         //Right list
-        Column(modifier = Modifier
-            .background(Color.White)
-            .fillMaxHeight()
-            .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(25.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+        LazyColumn(
+            modifier = Modifier
+                .background(Color.White)
+                .fillMaxHeight()
+                .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(if(time) 25.dp else 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            state = rightScrollState,
+            flingBehavior = rememberSnapperFlingBehavior(rightScrollState)
+
         ) {
-
-            Text(
-                text = leftList[0],
-                style = MaterialTheme.typography.h3,
-                color = unHighlightedColor,
-                fontSize = 28.sp
-            )
-
-            Text(
-                text = leftList[1],
-                style = MaterialTheme.typography.h3,
-                color = highLightedColor,
-                fontSize = 28.sp
-            )
-
-
+            itemsIndexed(rightList) { index, item ->
+                Text(
+                    text = item,
+                    style = MaterialTheme.typography.h3,
+                    color = if (index == middleItemRightList) highLightedColor else unHighlightedColor,
+                    fontSize = if(time) 28.sp else 20.sp
+                )
+            }
         }
-
-        Column {
-            Text(text =value )
+        //The initial scroll animation
+        LaunchedEffect(key1 = true) {
+            rightScrollState.animateScrollToItem(
+                rightInitialIndex,
+                0
+            )
         }
+        //Get the middle item
+        middleItemRightList = rightScrollState.firstVisibleItemIndex + 1
+        onRightValueChange(rightList[middleItemRightList])
     }
 }
 

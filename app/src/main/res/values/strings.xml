@@ -8,4 +8,7 @@
     <string name="female">Female</string>
     <string name="next">Next</string>
     <string name="gender_error">Please select you gender</string>
+    <string name="weight">How much do you weight</string>
+    <string name="kg">kg</string>
+    <string name="ib">ib</string>
 </resources>

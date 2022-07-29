@@ -20,6 +20,7 @@ import com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_scr
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.introduction_screen.IntroductionScreen
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartViewModel
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.ScrollPicker
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.weight_screen.WeightScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,46 +40,45 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colors.background)
                 ) {
+//
+//                    Box{
+//                        ScrollPicker(
+//                            leftList = mutableListOf("1","2","3","4","5"),
+//                            rightList = mutableListOf("1","2","3","4","5"),
+//                            onLeftValueChange = {},
+//                            onRightValueChange = {},
+//                            time = false,
+//                            modifier = Modifier.size(200.dp),
+//                            leftInitialItemIndex = 1
+//                        )
+//                    }
 
                     val navController = rememberNavController()
                     val appStartViewModel = viewModels<AppStartViewModel>().value
 
-                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                        ScrollPicker(leftList = listOf("","50","55","60","65","70","75","80",""),
-                            rightList = listOf("kg","ib",""),
-                            onLeftValueChange = {
+                    NavHost(
+                        navController = navController,
+                        startDestination = NavigationRoute.IntroductionScreen.route,
+                        modifier = Modifier.fillMaxSize()
+                    ){
 
-                            },
-                            onRightValueChange = {
+                        composable(NavigationRoute.IntroductionScreen.route){
+                            IntroductionScreen(navController = navController)
+                        }
+                        composable(NavigationRoute.GenderScreen.route){
+                            GenderScreen(navController = navController, viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.WeightScreen.route){
+                            WeightScreen(navController = navController, viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.WakeupScreen.route){
 
-                            },
-                            modifier = Modifier.height(160.dp).width(152.dp)
-                        )
+                        }
+                        composable(NavigationRoute.SleepScreen.route){
+
+                        }
+
                     }
-
-//                    NavHost(
-//                        navController = navController,
-//                        startDestination = NavigationRoute.IntroductionScreen.route,
-//                        modifier = Modifier.fillMaxSize()
-//                    ){
-//
-//                        composable(NavigationRoute.IntroductionScreen.route){
-//                            IntroductionScreen(navController = navController)
-//                        }
-//                        composable(NavigationRoute.GenderScreen.route){
-//                            GenderScreen(navController = navController,appStartViewModel)
-//                        }
-//                        composable(NavigationRoute.WeightScreen.route){
-//
-//                        }
-//                        composable(NavigationRoute.WakeupScreen.route){
-//
-//                        }
-//                        composable(NavigationRoute.SleepScreen.route){
-//
-//                        }
-//
-//                    }
                 }
             }
         }
