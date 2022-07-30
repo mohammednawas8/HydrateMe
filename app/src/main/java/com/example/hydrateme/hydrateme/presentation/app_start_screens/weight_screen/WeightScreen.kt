@@ -50,8 +50,8 @@ fun WeightScreen(
         onNextClick = {
             navController.navigate(NavigationRoute.WakeupScreen.route)
         },
-        leftInitial = 30,
-        rightInitial = 0
+        leftInitial = user.weight - 40,
+        rightInitial = if(user.weightUnit == kg) 0 else 1
     )
 
 }
