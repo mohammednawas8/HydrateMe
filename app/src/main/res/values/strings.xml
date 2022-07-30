@@ -11,4 +11,5 @@
     <string name="weight">How much do you weight</string>
     <string name="kg">kg</string>
     <string name="ib">ib</string>
+    <string name="wakeup_time">What time do you wake up</string>
 </resources>

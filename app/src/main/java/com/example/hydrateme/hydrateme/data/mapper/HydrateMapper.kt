@@ -24,13 +24,19 @@ fun History.toHistoryEntity(id: Int): HistoryEntity {
 
 fun UserEntity.toUser(): User {
     return User(
-        gender, weight, wakeTime, bedTime, dailyGoal, complete, unit, soundPath
+        gender, weight,
+        wakeUpHour ,wakeUpMinutes,
+        bedHour, bedMinutes ,
+        dailyGoal, complete, unit, soundPath
     )
 }
 
 fun User.toUserEntity(): UserEntity {
     return UserEntity(
-        gender, weight, wakeTime, bedTime, dailyGoal, complete, unit, soundPath
+        gender, weight,
+        wakeUpHour ,wakeUpMinutes,
+        bedHour, bedMinutes ,
+        dailyGoal, complete, unit, soundPath
     )
 }
 

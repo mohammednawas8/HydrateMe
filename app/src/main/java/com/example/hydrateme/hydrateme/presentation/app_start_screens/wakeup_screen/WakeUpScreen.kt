@@ -1,4 +1,4 @@
-package com.example.hydrateme.hydrateme.presentation.app_start_screens.weight_screen
+package com.example.hydrateme.hydrateme.presentation.app_start_screens.wakeup_screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,45 +13,44 @@ import com.example.hydrateme.hydrateme.presentation.util.Gender
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
 
 @Composable
-fun WeightScreen(
-    viewModel: AppStartViewModel,
-    navController: NavController
+fun WakeUpScreen(
+    navController: NavController,
+    viewModel: AppStartViewModel
 ) {
+
     val user = viewModel.userState.value
     val isMale = remember {
         user.gender == Gender.Male.gender
     }
 
     val leftList = remember {
-        (40..100).map { it.toString() }.toMutableList()
+        (0..24).map { String.format("%02d", it) }.toMutableList()
+    }
+    val rightList = remember {
+        (0..59).map { String.format("%02d", it) }.toMutableList()
     }
 
-    val kg = stringResource(id = R.string.kg)
-    val ib = stringResource(id = R.string.ib)
-    val rightList = remember {
-        mutableListOf(kg,ib)
-    }
     PickerScreens(
         gender = if (isMale) Gender.Male else Gender.Female,
-        image = painterResource(id = if (isMale) R.drawable.ic_blue_weight else R.drawable.ic_pink_weight),
-        text = stringResource(id = R.string.weight),
-        time = false,
+        image = painterResource(id = if (isMale) R.drawable.ic_blue_wakeup else R.drawable.ic_pink_wakeup),
+        text = stringResource(id = R.string.wakeup_time),
+        time = true,
         leftList = leftList,
         rightList = rightList,
         onLeftValueChange = {
-            viewModel.onEvent(AppStartEvents.WeightChange(it.toInt()))
+            viewModel.onEvent(AppStartEvents.WakeUpHourChange(it))
         },
         onRightValueChange = {
-            viewModel.onEvent(AppStartEvents.WeightUnitChange(it))
+            viewModel.onEvent(AppStartEvents.WakeUpMinutesChange(it))
+
         },
         onBackClick = {
             navController.navigateUp()
         },
         onNextClick = {
-            navController.navigate(NavigationRoute.WakeupScreen.route)
+            navController.navigate(NavigationRoute.SleepScreen.route)
         },
-        leftInitial = 30,
-        rightInitial = 0
+        leftInitial = user.wakeUpHour.toInt(),
+        rightInitial = user.wakeUpMinutes.toInt()
     )
-
 }

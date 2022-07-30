@@ -20,6 +20,7 @@ import com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_scr
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.introduction_screen.IntroductionScreen
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartViewModel
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.ScrollPicker
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.wakeup_screen.WakeUpScreen
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.weight_screen.WeightScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -40,18 +41,6 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MaterialTheme.colors.background)
                 ) {
-//
-//                    Box{
-//                        ScrollPicker(
-//                            leftList = mutableListOf("1","2","3","4","5"),
-//                            rightList = mutableListOf("1","2","3","4","5"),
-//                            onLeftValueChange = {},
-//                            onRightValueChange = {},
-//                            time = false,
-//                            modifier = Modifier.size(200.dp),
-//                            leftInitialItemIndex = 1
-//                        )
-//                    }
 
                     val navController = rememberNavController()
                     val appStartViewModel = viewModels<AppStartViewModel>().value
@@ -72,7 +61,7 @@ class MainActivity : ComponentActivity() {
                             WeightScreen(navController = navController, viewModel = appStartViewModel)
                         }
                         composable(NavigationRoute.WakeupScreen.route){
-
+                            WakeUpScreen(navController = navController, viewModel = appStartViewModel)
                         }
                         composable(NavigationRoute.SleepScreen.route){
 

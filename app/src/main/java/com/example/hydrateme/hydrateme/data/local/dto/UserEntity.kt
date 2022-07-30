@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey
 data class UserEntity(
     val gender: String,
     val weight: Int,
-    val wakeTime: String,
-    val bedTime: String,
+    val wakeUpHour: String,
+    val wakeUpMinutes: String,
+    val bedHour: String,
+    val bedMinutes: String,
     val dailyGoal: Int,
     val complete: Int,
     @Embedded val unit: Unit,
