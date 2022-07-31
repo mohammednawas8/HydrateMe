@@ -24,6 +24,7 @@ fun PickerScreens(
     gender: Gender,
     image: Painter,
     text: String,
+    sleepy: Boolean = false,
     time: Boolean,
     leftList: MutableList<String>,
     rightList: MutableList<String>,
@@ -72,7 +73,8 @@ fun PickerScreens(
                     WaterDrip(
                         gender = gender,
                         happy = true,
-                        modifier = Modifier.size(100.dp)
+                        modifier = Modifier.size(100.dp),
+                        sleepy = sleepy
                     )
                     Spacer(modifier = Modifier.height(5.dp))
                     BottomShadow(

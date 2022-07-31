@@ -18,36 +18,52 @@ fun WaterDrip(
     modifier: Modifier = Modifier,
     gender: Gender,
     happy: Boolean,
+    sleepy: Boolean = false,
 ) {
 
-    if (gender is Gender.Male) {
-        if (happy)
+    if (sleepy) {
+        if(gender is Gender.Male){
             Image(
-                painter = painterResource(id = R.drawable.blue_happy_drip),
+                painter = painterResource(id = R.drawable.blue_sleepy),
                 contentDescription = "Male drip",
                 modifier = modifier,
             )
-        else
+        }else{
             Image(
-                painter = painterResource(id = R.drawable.blue_sad_drip),
-                contentDescription = "Male drip",
-                modifier = modifier
+                painter = painterResource(id = R.drawable.pink_sleepy),
+                contentDescription = "Female drip",
+                modifier = modifier,
             )
+        }
     } else {
-        if (happy)
-            Image(
-                painter = painterResource(id = R.drawable.pink_happy_drip),
-                contentDescription = "Male drip",
-                modifier = modifier
-            )
-        else
-            Image(
-                painter = painterResource(id = R.drawable.pink_sad_drip),
-                contentDescription = "Male drip",
-                modifier = modifier
-            )
+        if (gender is Gender.Male) {
+            if (happy)
+                Image(
+                    painter = painterResource(id = R.drawable.blue_happy_drip),
+                    contentDescription = "Male drip",
+                    modifier = modifier,
+                )
+            else
+                Image(
+                    painter = painterResource(id = R.drawable.blue_sad_drip),
+                    contentDescription = "Male drip",
+                    modifier = modifier
+                )
+        } else {
+            if (happy)
+                Image(
+                    painter = painterResource(id = R.drawable.pink_happy_drip),
+                    contentDescription = "Male drip",
+                    modifier = modifier
+                )
+            else
+                Image(
+                    painter = painterResource(id = R.drawable.pink_sad_drip),
+                    contentDescription = "Male drip",
+                    modifier = modifier
+                )
+        }
     }
-
 }
 
 @Composable
@@ -80,6 +96,25 @@ fun PreviewPinkDrip() {
             gender = Gender.Female,
             happy = false,
             modifier = Modifier.size(100.dp)
+        )
+    }
+}
+
+@Composable
+@Preview
+fun PreviewSleepyDrip() {
+    Row {
+        WaterDrip(
+            gender = Gender.Male,
+            happy = true,
+            modifier = Modifier.size(100.dp),
+            sleepy = true
+        )
+        WaterDrip(
+            gender = Gender.Female,
+            happy = false,
+            modifier = Modifier.size(100.dp),
+            sleepy = true
         )
     }
 }

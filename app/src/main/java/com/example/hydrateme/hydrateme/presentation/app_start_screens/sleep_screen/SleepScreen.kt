@@ -33,6 +33,7 @@ fun SleepScreen(
         image = painterResource(id = if (isMale) R.drawable.ic_blue_sleep else R.drawable.ic_pink_sleep),
         text = "When do you go to bed",
         time = true,
+        sleepy = true,
         leftList = leftList,
         rightList = rightList,
         onLeftValueChange = {
