@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.weight_screen
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
@@ -23,7 +24,7 @@ fun WeightScreen(
     }
 
     val leftList = remember {
-        (40..100).map { it.toString() }.toMutableList()
+        (40..200).map { it.toString() }.toMutableList()
     }
 
     val kg = stringResource(id = R.string.kg)
@@ -31,6 +32,7 @@ fun WeightScreen(
     val rightList = remember {
         mutableListOf(kg,ib)
     }
+
     PickerScreens(
         gender = if (isMale) Gender.Male else Gender.Female,
         image = painterResource(id = if (isMale) R.drawable.ic_blue_weight else R.drawable.ic_pink_weight),
@@ -50,7 +52,8 @@ fun WeightScreen(
         onNextClick = {
             navController.navigate(NavigationRoute.WakeupScreen.route)
         },
-        leftInitial = leftList.indexOf(user.weight.toString()),
+        leftInitial = leftList.indexOf(user.weight.toString())
+        ,
         rightInitial = if(user.weightUnit == kg) 0 else 1
     )
 

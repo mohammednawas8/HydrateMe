@@ -6,6 +6,6 @@ data class AppStartStates(
     val weightUnit: String = "kg",
     val wakeUpHour: String = "06",
     val wakeUpMinutes: String = "00",
-    val bedHour: String = "10",
+    val bedHour: String = "22",
     val bedMinutes: String = "30",
 )

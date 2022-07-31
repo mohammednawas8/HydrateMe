@@ -29,6 +29,7 @@ import com.example.hydrateme.ui.theme.Gray300
 import com.example.hydrateme.ui.theme.LightGray
 import dev.chrisbanes.snapper.ExperimentalSnapperApi
 import dev.chrisbanes.snapper.rememberSnapperFlingBehavior
+import java.lang.Exception
 
 
 @OptIn(ExperimentalSnapperApi::class)
@@ -45,7 +46,7 @@ fun ScrollPicker(
     onRightValueChange: (String) -> Unit,
     leftInitialItemIndex: Int = 5,
     rightInitialIndex: Int = 0,
-    time: Boolean
+    time: Boolean,
 ) {
 
     LaunchedEffect(key1 = true) {
@@ -74,17 +75,17 @@ fun ScrollPicker(
                     strokeWidth = lineStrokeWidth
                 )
 
-                if(time){
+                if (time) {
                     drawCircle(
                         color = highLightedColor,
                         radius = 7f,
-                        center = Offset(center.x,center.y - 20f)
+                        center = Offset(center.x, center.y - 20f)
                     )
 
                     drawCircle(
                         color = highLightedColor,
                         radius = 7f,
-                        center = Offset(center.x,center.y + 20f)
+                        center = Offset(center.x, center.y + 20f)
                     )
                 }
             }
@@ -127,8 +128,9 @@ fun ScrollPicker(
         }
         //Get the middle item
         middleItemLeftList = leftScrollState.firstVisibleItemIndex + 1
-        onLeftValueChange(leftList[middleItemLeftList])
-
+        LaunchedEffect(key1 = middleItemLeftList) {
+            onLeftValueChange(leftList[middleItemLeftList])
+        }
 
         val rightScrollState = rememberLazyListState()
         var middleItemRightList by remember {
@@ -140,7 +142,7 @@ fun ScrollPicker(
                 .background(Color.White)
                 .fillMaxHeight()
                 .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(if(time) 25.dp else 40.dp),
+            verticalArrangement = Arrangement.spacedBy(if (time) 25.dp else 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             state = rightScrollState,
             flingBehavior = rememberSnapperFlingBehavior(rightScrollState)
@@ -151,7 +153,7 @@ fun ScrollPicker(
                     text = item,
                     style = MaterialTheme.typography.h3,
                     color = if (index == middleItemRightList) highLightedColor else unHighlightedColor,
-                    fontSize = if(time) 28.sp else 20.sp
+                    fontSize = if (time) 28.sp else 20.sp
                 )
             }
         }
@@ -164,7 +166,9 @@ fun ScrollPicker(
         }
         //Get the middle item
         middleItemRightList = rightScrollState.firstVisibleItemIndex + 1
-        onRightValueChange(rightList[middleItemRightList])
+        LaunchedEffect(key1 = middleItemRightList){
+            onRightValueChange(rightList[middleItemRightList])
+        }
     }
 }
 

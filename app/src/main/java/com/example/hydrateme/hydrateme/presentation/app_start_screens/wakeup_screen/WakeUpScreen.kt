@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.wakeup_screen
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
@@ -30,6 +31,7 @@ fun WakeUpScreen(
         (0..59).map { String.format("%02d", it) }.toMutableList()
     }
 
+
     PickerScreens(
         gender = if (isMale) Gender.Male else Gender.Female,
         image = painterResource(id = if (isMale) R.drawable.ic_blue_wakeup else R.drawable.ic_pink_wakeup),
@@ -42,7 +44,6 @@ fun WakeUpScreen(
         },
         onRightValueChange = {
             viewModel.onEvent(AppStartEvents.WakeUpMinutesChange(it))
-
         },
         onBackClick = {
             navController.navigateUp()
@@ -50,7 +51,7 @@ fun WakeUpScreen(
         onNextClick = {
             navController.navigate(NavigationRoute.SleepScreen.route)
         },
-        leftInitial = leftList.indexOf(user.wakeUpHour),
-        rightInitial = leftList.indexOf(user.wakeUpMinutes)
+        leftInitial = user.wakeUpHour.toInt(),
+        rightInitial = user.wakeUpMinutes.toInt()
     )
 }

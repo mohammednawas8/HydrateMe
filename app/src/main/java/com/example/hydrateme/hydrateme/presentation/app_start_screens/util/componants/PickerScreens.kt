@@ -61,7 +61,7 @@ fun PickerScreens(
             Spacer(modifier = Modifier.height(60.dp))
 
             Row(
-                horizontalArrangement = Arrangement.SpaceAround,
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -81,7 +81,9 @@ fun PickerScreens(
                             .width(100.dp.div(1.25f))
                     )
                 }
-
+                    
+                Spacer(modifier = Modifier.width(50.dp))
+                
                 ScrollPicker(
                     leftList = leftList,
                     rightList = rightList,
