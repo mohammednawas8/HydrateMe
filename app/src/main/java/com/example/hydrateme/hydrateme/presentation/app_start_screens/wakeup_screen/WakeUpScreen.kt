@@ -50,7 +50,7 @@ fun WakeUpScreen(
         onNextClick = {
             navController.navigate(NavigationRoute.SleepScreen.route)
         },
-        leftInitial = user.wakeUpHour.toInt(),
-        rightInitial = user.wakeUpMinutes.toInt()
+        leftInitial = leftList.indexOf(user.wakeUpHour),
+        rightInitial = leftList.indexOf(user.wakeUpMinutes)
     )
 }

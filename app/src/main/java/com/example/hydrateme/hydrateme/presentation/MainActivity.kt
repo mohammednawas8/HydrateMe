@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.hydrateme.ui.theme.HydrateMeTheme
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.gender_screen.GenderScreen
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.introduction_screen.IntroductionScreen
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.sleep_screen.SleepScreen
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppStartViewModel
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.ScrollPicker
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.wakeup_screen.WakeUpScreen
@@ -64,6 +65,9 @@ class MainActivity : ComponentActivity() {
                             WakeUpScreen(navController = navController, viewModel = appStartViewModel)
                         }
                         composable(NavigationRoute.SleepScreen.route){
+                            SleepScreen(navController = navController, viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.HomeScreen.route){
 
                         }
 
