@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -52,14 +53,18 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val appStartViewModel = viewModels<AppStartViewModel>().value
 
+
+
                     Box(modifier = Modifier
                         .fillMaxSize()
                         .background(Color.Gray)) {
                         WaterBottle(
-                            waterPercentage = 0.5f,
+                            waterPercentage = 0.6f,
                             modifier = Modifier
-                                .width(130.dp)
-                                .height(335.dp))
+                                .width(150.dp)
+                                .height(335.dp).padding(start = 10.dp),
+                            text = "1000"
+                        )
                     }
 
 
