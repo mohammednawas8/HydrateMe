@@ -1,6 +1,5 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.wakeup_screen
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource

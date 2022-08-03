@@ -4,5 +4,5 @@ data class UseCases(
     val insertUserUseCase: InsertUserUserCase,
     val insertHistoryUseCase: InsertHistoryUseCase,
     val getUserAndHistoryUseCase: GetUserAndHistoryUseCase,
-    val validateGender: ValidateGender
+    val getUserUseCase: GetUserUseCase
 )

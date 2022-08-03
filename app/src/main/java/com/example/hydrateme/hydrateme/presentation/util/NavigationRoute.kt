@@ -7,4 +7,8 @@ sealed class NavigationRoute(val route: String) {
     object WakeupScreen: NavigationRoute("Wakeup_screen")
     object SleepScreen: NavigationRoute("Sleep_screen")
     object HomeScreen: NavigationRoute("Home_screen")
+    object DrinkScreen: NavigationRoute("Drink_screen")
+    object StatisticsScreen: NavigationRoute("Statistics_screen")
+    object SettingsScreen: NavigationRoute("Settings_screen")
+
 }

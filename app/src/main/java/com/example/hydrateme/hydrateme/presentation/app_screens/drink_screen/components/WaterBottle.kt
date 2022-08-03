@@ -1,5 +1,6 @@
-package com.example.hydrateme.hydrateme.presentation.app_screens.components
+package com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.components
 
+import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
@@ -12,12 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,7 +33,6 @@ fun WaterBottle(
     text: String,
     @FloatRange waterPercentage: Float,
 ) {
-
     Box(modifier = modifier, contentAlignment = Alignment.BottomCenter) {
         val afterMathPercentage = remember {
             1 - waterPercentage
@@ -70,6 +67,7 @@ fun WaterBottle(
                 )
                 lineTo(width * 0.7f, height * 0.2f)
                 lineTo(width * 0.7f, height * 0.1f)
+                Log.d("TT","$waterPercentage")
 
                 close()
             }
@@ -152,21 +150,22 @@ fun WaterBottle(
         }
 
         Row(
-            modifier = Modifier.fillMaxSize().padding(top = 10.dp),
+            modifier = Modifier.fillMaxSize().padding(top = 60.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = text,
                 style = MaterialTheme.typography.h3,
-                color = if (waterPercentage >= 0.55f) Color.White else darkWavesColor,
-                fontSize = 40.sp
+                color = if (waterPercentage > 0.5f) Color.White else darkWavesColor,
+                fontSize = 40.sp,
             )
+
             Spacer(modifier = Modifier.width(5.dp))
             Text(
                 text = "ml",
                 style = MaterialTheme.typography.h3,
-                color = if (waterPercentage >= 0.55f) Color.White else darkWavesColor,
+                color = if (waterPercentage >= 0.5f) Color.White else darkWavesColor,
                 fontSize = 22.sp,
                 modifier = Modifier
                     .padding(top = 10.dp)

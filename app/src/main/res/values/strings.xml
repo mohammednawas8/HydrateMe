@@ -12,4 +12,9 @@
     <string name="kg">kg</string>
     <string name="ib">ib</string>
     <string name="wakeup_time">What time do you wake up</string>
+    <string name="daily_goal">Daily Goal</string>
+    <string name="complete">Complete</string>
+    <string name="history">HISTORY</string>
+    <string name="settings">SETTINGS</string>
+    <string name="drink">Drink</string>
 </resources>

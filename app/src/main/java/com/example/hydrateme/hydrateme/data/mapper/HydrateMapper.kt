@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.data.mapper
 
+import android.util.Log
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserAndHistoryOutput
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
@@ -23,6 +24,7 @@ fun History.toHistoryEntity(id: Int): HistoryEntity {
 }
 
 fun UserEntity.toUser(): User {
+    Log.d("TTT",this.toString())
     return User(
         gender, weight,
         wakeUpHour ,wakeUpMinutes,

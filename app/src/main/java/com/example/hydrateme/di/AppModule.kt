@@ -1,6 +1,7 @@
 package com.example.hydrateme.di
 
 import android.app.Application
+import android.content.res.Resources
 import androidx.room.Room
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
 import com.example.hydrateme.hydrateme.data.local.HydrateDatabase
@@ -38,10 +39,13 @@ object AppModule {
         InsertUserUserCase(hydrateRepository),
         InsertHistoryUseCase(hydrateRepository),
         GetUserAndHistoryUseCase(hydrateRepository),
-        ValidateGender()
-
+        GetUserUseCase(hydrateRepository)
     )
 
-
+    @Provides
+    @Singleton
+    fun provideResources(
+        application: Application
+    ): Resources = application.resources
 
 }

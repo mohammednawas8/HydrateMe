@@ -13,4 +13,6 @@ interface HydrateRepository {
 
     suspend fun getUserAndHistory(): Flow<UserAndHistory>
 
+    suspend fun getUser(): Flow<UserEntity>
+
 }

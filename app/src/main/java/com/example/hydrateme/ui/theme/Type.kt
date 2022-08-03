@@ -47,6 +47,13 @@ val Typography = Typography(
         fontFamily = Roboto
     ),
 
+    h2 = TextStyle(
+        color = Color(0xFF1BAEEE),
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Medium,
+        fontSize = 24.sp
+    )
+
 
     /* Other default text styles to override
     button = TextStyle(

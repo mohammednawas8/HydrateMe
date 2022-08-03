@@ -26,4 +26,8 @@ class HydrateRepositoryImpl(
             it.toUserAndHistory()
         }
     }
+
+    override suspend fun getUser(): Flow<UserEntity> {
+        return dao.getUser()
+    }
 }

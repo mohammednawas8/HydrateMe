@@ -20,4 +20,7 @@ interface HydrateDao {
 
     @Query("SELECT * FROM UserEntity")
     fun getUserAndHistory(): Flow<UserAndHistoryOutput>
+
+    @Query("SELECT * FROM UserEntity")
+    fun getUser(): Flow<UserEntity>
 }
