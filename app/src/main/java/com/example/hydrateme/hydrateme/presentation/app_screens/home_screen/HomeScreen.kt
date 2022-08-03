@@ -20,6 +20,9 @@ import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.comp
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.DrinkScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
+import com.example.hydrateme.ui.theme.Blue700
+import com.google.accompanist.systemuicontroller.SystemUiController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun HomeScreen(
@@ -27,6 +30,11 @@ fun HomeScreen(
 ) {
     var state = viewModel.state.value
     val homeNavController = rememberNavController()
+
+//    val systemUiController = rememberSystemUiController()
+//        systemUiController.setSystemBarsColor(
+//            color = Blue700
+//        )
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -47,8 +55,8 @@ fun HomeScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp, start = 16.dp, end = 16.dp)
-                    .height(70.dp)
+                    .padding(bottom = 16.dp, start = 20.dp, end = 20.dp)
+                    .height(60.dp)
                     .shadow(8.dp, RoundedCornerShape(20.dp)),
                 selectedItem = state.selectedItem
             )
@@ -75,8 +83,9 @@ fun HomeScreen(
             navController = homeNavController,
             startDestination = NavigationRoute.DrinkScreen.route,
             modifier = Modifier
-                .padding(bottom = bottomPadding + 40.dp)
-                .fillMaxSize()) {
+                .padding(bottom = bottomPadding + 55.dp)
+                .fillMaxSize()
+        ) {
             composable(NavigationRoute.DrinkScreen.route) {
                 DrinkScreen()
             }

@@ -26,14 +26,14 @@ fun HydrateBottomNavigation(
 
     BottomNavigation(
         modifier = modifier
-            .clip(RoundedCornerShape(20.dp))
-
+            .clip(RoundedCornerShape(22.dp)),
+        backgroundColor = MaterialTheme.colors.primary
     ) {
 
         Row(horizontalArrangement = Arrangement.SpaceAround,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxSize()) {
-            IconButton(onClick = onStatisticsClick, Modifier.size(20.dp)) {
+            IconButton(onClick = onStatisticsClick, Modifier.size(50.dp)) {
                 Icon(painter = painterResource(id = R.drawable.ic_statistics),
                     contentDescription = "Statistics",
                     Modifier.size(20.dp),
@@ -41,7 +41,7 @@ fun HydrateBottomNavigation(
                         0xFFC3DBE6)
                 )
             }
-            IconButton(onClick = onSettingsClick, Modifier.size(20.dp)) {
+            IconButton(onClick = onSettingsClick, Modifier.size(50.dp)) {
                 Icon(painter = painterResource(id = R.drawable.ic_settings),
                     contentDescription = "Settings",
                     Modifier.size(20.dp),

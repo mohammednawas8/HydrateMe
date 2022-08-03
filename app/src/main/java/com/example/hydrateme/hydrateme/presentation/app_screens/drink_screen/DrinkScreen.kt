@@ -6,16 +6,19 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,13 +41,14 @@ fun DrinkScreen(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(40.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(30.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(6f),
+                    .weight(1f),
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -52,7 +56,6 @@ fun DrinkScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(50.dp),
                 ) {
-                    Spacer(modifier = Modifier.height(20.dp))
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = stringResource(id = R.string.daily_goal),
@@ -77,6 +80,7 @@ fun DrinkScreen(
                         )
                     }
                 }
+
                 var isAnimated by remember {
                     mutableStateOf(false)
                 }
@@ -85,7 +89,7 @@ fun DrinkScreen(
                     waterPercentage = 0.3f,
                     modifier = Modifier
                         .width(130.dp)
-                        .height(335.dp)
+                        .height(365.dp)
                 )
                 LaunchedEffect(key1 = true) {
                     isAnimated = true
@@ -95,23 +99,34 @@ fun DrinkScreen(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
                     .width(240.dp)
-                    .height(50.dp)
-                    .clip(CircleShape),
-                colors = ButtonDefaults.buttonColors(contentColor = Color.White,
-                    backgroundColor = MaterialTheme.colors.primary),
-
+                    .height(50.dp),
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.White,
+                    backgroundColor = MaterialTheme.colors.primary
+                ),
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 15.dp,
+                    pressedElevation = 5.dp,
+                    disabledElevation = 0.dp
+                )
             ) {
-                Row(modifier = Modifier.fillMaxSize(),
+                Row(
+                    modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = buildAnnotatedString {
-                        withStyle(SpanStyle(fontSize = 24.sp)) {
-                        append("+ ")
-                        }
-                        withStyle(SpanStyle(fontSize = 20.sp)) {
-                            append(stringResource(id = R.string.drink))
-                        }
-                    }, fontFamily = OpenSans, color = Color.White)
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = buildAnnotatedString {
+                            withStyle(SpanStyle(fontSize = 24.sp)) {
+                                append("+ ")
+                            }
+                            withStyle(SpanStyle(fontSize = 20.sp)) {
+                                append(stringResource(id = R.string.drink))
+                            }
+                        }, fontFamily = OpenSans, color = Color.White,
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
         }
