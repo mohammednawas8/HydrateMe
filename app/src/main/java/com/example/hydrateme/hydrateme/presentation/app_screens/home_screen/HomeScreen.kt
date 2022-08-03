@@ -20,6 +20,7 @@ import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.comp
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.DrinkScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
+import com.example.hydrateme.ui.theme.Blue650
 import com.example.hydrateme.ui.theme.Blue700
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -68,7 +69,7 @@ fun HomeScreen(
                 viewModel.onEvent(HomeScreenEvents.AddSelected)
 //                TODO("Navigate to the drink screen")
 //                TODO("Change the appbar text")
-            }, backgroundColor = MaterialTheme.colors.primary) {
+            }, backgroundColor = Blue650) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
                     contentDescription = "Add",

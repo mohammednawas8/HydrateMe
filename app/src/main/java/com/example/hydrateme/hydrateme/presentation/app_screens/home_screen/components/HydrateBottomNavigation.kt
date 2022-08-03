@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.SelectedItem
+import com.example.hydrateme.ui.theme.Blue650
 
 @Composable
 fun HydrateBottomNavigation(
@@ -27,7 +28,7 @@ fun HydrateBottomNavigation(
     BottomNavigation(
         modifier = modifier
             .clip(RoundedCornerShape(22.dp)),
-        backgroundColor = MaterialTheme.colors.primary
+        backgroundColor = Blue650
     ) {
 
         Row(horizontalArrangement = Arrangement.SpaceAround,
