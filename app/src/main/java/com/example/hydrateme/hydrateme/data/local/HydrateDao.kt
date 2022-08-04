@@ -23,4 +23,7 @@ interface HydrateDao {
 
     @Query("SELECT * FROM UserEntity")
     fun getUser(): Flow<UserEntity>
+
+    @Query("UPDATE UserEntity SET complete = :totalAmount")
+    suspend fun updateComplete(totalAmount: Int)
 }

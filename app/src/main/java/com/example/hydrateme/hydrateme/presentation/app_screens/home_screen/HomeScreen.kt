@@ -48,11 +48,9 @@ fun HomeScreen(
                 onStatisticsClick = {
                     viewModel.onEvent(HomeScreenEvents.StatisticsSelected)
 //                    TODO("Navigate to the statistics screen")
-//                    TODO("Change the appbar text")
                 }, onSettingsClick = {
                     viewModel.onEvent(HomeScreenEvents.SettingsSelected)
 //                    TODO("Navigate to the settings screen")
-//                    TODO("Change the appbar text")
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -68,7 +66,6 @@ fun HomeScreen(
             FloatingActionButton(onClick = {
                 viewModel.onEvent(HomeScreenEvents.AddSelected)
 //                TODO("Navigate to the drink screen")
-//                TODO("Change the appbar text")
             }, backgroundColor = Blue650) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),

@@ -39,7 +39,8 @@ object AppModule {
         InsertUserUserCase(hydrateRepository),
         InsertHistoryUseCase(hydrateRepository),
         GetUserAndHistoryUseCase(hydrateRepository),
-        GetUserUseCase(hydrateRepository)
+        GetUserUseCase(hydrateRepository),
+        DrinkUseCase(hydrateRepository)
     )
 
     @Provides

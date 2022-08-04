@@ -15,4 +15,5 @@ interface HydrateRepository {
 
     suspend fun getUser(): Flow<UserEntity>
 
+    suspend fun drink(totalAmount: Int) // The total amount is the completed water amount
 }

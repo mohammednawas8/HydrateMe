@@ -30,4 +30,8 @@ class HydrateRepositoryImpl(
     override suspend fun getUser(): Flow<UserEntity> {
         return dao.getUser()
     }
+
+    override suspend fun drink(totalAmount: Int) {
+        dao.updateComplete(totalAmount)
+    }
 }

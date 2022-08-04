@@ -1,6 +1,8 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -81,22 +83,19 @@ fun DrinkScreen(
                     }
                 }
 
-                var isAnimated by remember {
-                    mutableStateOf(false)
-                }
                 WaterBottle(
-                    text = user.complete.toString(),
-                    waterPercentage = 0.3f,
+                    drinkAmount = user.complete,
+                    waterPercentage = if (user.waterPercentage == 0f) user.waterPercentage else user.waterPercentage,
                     modifier = Modifier
                         .width(130.dp)
-                        .height(365.dp)
+                        .height(365.dp),
+                    lightColor = true
                 )
-                LaunchedEffect(key1 = true) {
-                    isAnimated = true
-                }
             }
             Button(
-                onClick = { /*TODO*/ },
+                onClick = {
+                          viewModel.onEvent(DrinkScreenEvents.Drink(300))
+                },
                 modifier = Modifier
                     .width(240.dp)
                     .height(50.dp),

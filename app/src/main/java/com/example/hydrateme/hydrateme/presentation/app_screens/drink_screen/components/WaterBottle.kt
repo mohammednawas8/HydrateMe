@@ -2,12 +2,14 @@ package com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.co
 
 import android.util.Log
 import androidx.annotation.FloatRange
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.animateIntAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
@@ -30,18 +32,33 @@ fun WaterBottle(
     darkWavesColor: Color = Blue700,
     lightWavesColor: Color = Blue500,
     lightColor: Boolean = false,
-    text: String,
+    drinkAmount: Int,
     @FloatRange waterPercentage: Float,
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.BottomCenter) {
-        val afterMathPercentage = remember {
-            1 - waterPercentage
+
+        var animation by remember {
+            mutableStateOf(false)
         }
+
+        var text = animateIntAsState(targetValue = if (animation) drinkAmount else 0,
+            tween(durationMillis = 1000))
+
+        val afterMathPercentage =
+            animateFloatAsState(
+                targetValue = if (animation) 1 - waterPercentage else 1f,
+                tween(durationMillis = 1000)
+            ).value
+
+        LaunchedEffect(key1 = true) {
+            animation = true
+        }
+
         Canvas(modifier = Modifier.fillMaxSize()) {
             val width = size.width
             val height = size.height
 
-            val bottleBodtPath = Path().apply {
+            val bottlePath = Path().apply {
                 //Bottle body
                 moveTo(width * 0.3f, height * 0.1f)
                 lineTo(width * 0.3f, height * 0.2f)
@@ -67,19 +84,19 @@ fun WaterBottle(
                 )
                 lineTo(width * 0.7f, height * 0.2f)
                 lineTo(width * 0.7f, height * 0.1f)
-                Log.d("TT","$waterPercentage")
+                Log.d("TT", "$waterPercentage")
 
                 close()
             }
 
             drawPath(
-                path = bottleBodtPath,
+                path = bottlePath,
                 color = emptyBottleColor
             )
 
 //            Light Water Waves
             if (lightColor)
-                clipPath(path = bottleBodtPath) {
+                clipPath(path = bottlePath) {
                     val point0 = Offset(0f + 35f, height)
                     val point1 = Offset(0f + 35f, height * afterMathPercentage + 10f)
                     val point2 = Offset(width * 0.1f + 35f, height * afterMathPercentage)
@@ -109,7 +126,7 @@ fun WaterBottle(
                 }
 
             //Dark Water waves
-            clipPath(path = bottleBodtPath) {
+            clipPath(path = bottlePath) {
                 val point0 = Offset(0f, height)
                 val point1 = Offset(0f, height * afterMathPercentage + 10f)
                 val point2 = Offset(width * 0.1f, height * afterMathPercentage)
@@ -150,14 +167,16 @@ fun WaterBottle(
         }
 
         Row(
-            modifier = Modifier.fillMaxSize().padding(top = 60.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 60.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = text,
+                text = text.value.toString(),
                 style = MaterialTheme.typography.h3,
-                color = if (waterPercentage > 0.5f) Color.White else darkWavesColor,
+                color = if (waterPercentage >= 0.5f) Color.White else darkWavesColor,
                 fontSize = 40.sp,
             )
 
@@ -181,7 +200,7 @@ fun PreviewWatterBottle() {
         WaterBottle(waterPercentage = 0.8f, modifier = Modifier
             .width(136.dp)
             .height(330.dp),
-            text = "1000"
+            drinkAmount = 1000
         )
     }
 

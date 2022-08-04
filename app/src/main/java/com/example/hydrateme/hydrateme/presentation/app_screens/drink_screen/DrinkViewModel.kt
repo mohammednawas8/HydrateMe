@@ -34,6 +34,14 @@ class DrinkViewModel @Inject constructor(
         }
     }
 
-
+    fun onEvent(event: DrinkScreenEvents) {
+        when (event) {
+            is DrinkScreenEvents.Drink -> {
+                viewModelScope.launch {
+                    userCases.drinkUseCase(state.value.complete + event.drinkAmount)
+                }
+            }
+        }
+    }
 
 }
