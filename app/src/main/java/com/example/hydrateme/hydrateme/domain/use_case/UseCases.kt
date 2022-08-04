@@ -1,9 +1,10 @@
 package com.example.hydrateme.hydrateme.domain.use_case
 
 data class UseCases(
-    val insertUserUseCase: InsertUserUserCase,
+    val insertUseUseCase: InsertUserUserCase,
     val insertHistoryUseCase: InsertHistoryUseCase,
-    val getUserAndHistoryUseCase: GetUserAndHistoryUseCase,
-    val getUserUseCase: GetUserUseCase,
-    val drinkUseCase: DrinkUseCase
+    val getUseAndHistoryUseCase: GetUserAndHistoryUseCase,
+    val getUseUseCase: GetUserUseCase,
+    val drinkUseCase: DrinkUseCase,
+    val getTodayReportUseCase: GetTodayReportUserCase
 )

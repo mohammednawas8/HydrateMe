@@ -26,4 +26,16 @@ interface HydrateDao {
 
     @Query("UPDATE UserEntity SET complete = :totalAmount")
     suspend fun updateComplete(totalAmount: Int)
+
+    //Getting the history when time is greater or equal to today's
+    // time and less than tomorrow's time
+    @Query(
+        """
+        SELECT * FROM HistoryEntity
+        WHERE id = 1
+        AND time between :start and :end
+    """
+    )
+     fun getReport(start: Long, end: Long): Flow<List<HistoryEntity>>
+
 }

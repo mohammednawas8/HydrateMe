@@ -19,6 +19,7 @@ import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.comp
 import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.TopAppBar
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.DrinkScreen
+import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.StatisticsScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
 import com.example.hydrateme.ui.theme.Blue650
 import com.example.hydrateme.ui.theme.Blue700
@@ -47,10 +48,10 @@ fun HomeScreen(
             HydrateBottomNavigation(
                 onStatisticsClick = {
                     viewModel.onEvent(HomeScreenEvents.StatisticsSelected)
-//                    TODO("Navigate to the statistics screen")
+                    homeNavController.navigate(NavigationRoute.StatisticsScreen.route)
                 }, onSettingsClick = {
                     viewModel.onEvent(HomeScreenEvents.SettingsSelected)
-//                    TODO("Navigate to the settings screen")
+                    homeNavController.navigate(NavigationRoute.SettingsScreen.route)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -65,7 +66,7 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(HomeScreenEvents.AddSelected)
-//                TODO("Navigate to the drink screen")
+                homeNavController.navigate(NavigationRoute.DrinkScreen.route)
             }, backgroundColor = Blue650) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_add),
@@ -88,7 +89,7 @@ fun HomeScreen(
                 DrinkScreen()
             }
             composable(NavigationRoute.StatisticsScreen.route) {
-//                DrinkScreen()
+                StatisticsScreen()
             }
             composable(NavigationRoute.SettingsScreen.route) {
 //                DrinkScreen()

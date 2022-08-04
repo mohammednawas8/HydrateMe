@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -11,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DrinkViewModel @Inject constructor(
-    private val userCases: UseCases,
+    private val useCases: UseCases,
 ) : ViewModel() {
 
     private var _state = mutableStateOf(DrinkScreenStates())
@@ -23,7 +24,7 @@ class DrinkViewModel @Inject constructor(
 
     private fun getUser() {
         viewModelScope.launch {
-            userCases.getUserUseCase
+            useCases.getUseUseCase
                 .invoke().collect { user ->
                     _state.value = state.value.copy(
                         dailyGoal = user.dailyGoal,
@@ -38,7 +39,11 @@ class DrinkViewModel @Inject constructor(
         when (event) {
             is DrinkScreenEvents.Drink -> {
                 viewModelScope.launch {
-                    userCases.drinkUseCase(state.value.complete + event.drinkAmount)
+                    val drinkAmount = state.value.complete + event.drinkAmount
+                    useCases.drinkUseCase(drinkAmount)
+                    useCases.insertHistoryUseCase(
+                        HistoryEntity(System.currentTimeMillis(), drinkAmount,1)
+                    )
                 }
             }
         }

@@ -34,4 +34,11 @@ class HydrateRepositoryImpl(
     override suspend fun drink(totalAmount: Int) {
         dao.updateComplete(totalAmount)
     }
+
+    override suspend fun getReport(start: Long, end: Long): Flow<List<HistoryEntity>> {
+        return dao.getReport(
+            start = start,
+            end = end
+        )
+    }
 }

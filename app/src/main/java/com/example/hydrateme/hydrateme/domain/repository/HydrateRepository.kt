@@ -16,4 +16,6 @@ interface HydrateRepository {
     suspend fun getUser(): Flow<UserEntity>
 
     suspend fun drink(totalAmount: Int) // The total amount is the completed water amount
+
+    suspend fun getReport(start: Long, end: Long): Flow<List<HistoryEntity>>
 }

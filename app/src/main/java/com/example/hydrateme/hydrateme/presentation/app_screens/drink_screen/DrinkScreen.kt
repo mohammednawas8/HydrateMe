@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateFloatAsState
@@ -85,16 +86,16 @@ fun DrinkScreen(
 
                 WaterBottle(
                     drinkAmount = user.complete,
-                    waterPercentage = if (user.waterPercentage == 0f) user.waterPercentage else user.waterPercentage,
+                    waterPercentage = if (user.waterPercentage == 0f) 0.05f else user.waterPercentage,
                     modifier = Modifier
                         .width(130.dp)
                         .height(365.dp),
-                    lightColor = true
+                    lightColor = false
                 )
             }
             Button(
                 onClick = {
-                          viewModel.onEvent(DrinkScreenEvents.Drink(300))
+                          viewModel.onEvent(DrinkScreenEvents.Drink(200))
                 },
                 modifier = Modifier
                     .width(240.dp)

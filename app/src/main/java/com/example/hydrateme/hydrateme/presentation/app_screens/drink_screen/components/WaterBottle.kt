@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.example.hydrateme.hydrateme.presentation.util.fromToQuadBezier
 import com.example.hydrateme.ui.theme.Blue500
 import com.example.hydrateme.ui.theme.Blue700
+import kotlin.math.absoluteValue
 
 @Composable
 fun WaterBottle(
@@ -33,20 +34,25 @@ fun WaterBottle(
     lightWavesColor: Color = Blue500,
     lightColor: Boolean = false,
     drinkAmount: Int,
-    @FloatRange waterPercentage: Float,
+    @FloatRange(from = 0.0, to = 1.0) waterPercentage: Float,
 ) {
     Box(modifier = modifier, contentAlignment = Alignment.BottomCenter) {
-
         var animation by remember {
             mutableStateOf(false)
         }
 
-        var text = animateIntAsState(targetValue = if (animation) drinkAmount else 0,
-            tween(durationMillis = 1000))
-
+        var text = animateIntAsState(
+            targetValue = if (animation) drinkAmount else 0,
+            tween(durationMillis = 1000)
+        )
+        val isPercentageGreaterThan1 = waterPercentage > 1
         val afterMathPercentage =
             animateFloatAsState(
-                targetValue = if (animation) 1 - waterPercentage else 1f,
+                targetValue =
+                if (animation && !isPercentageGreaterThan1) 1 - waterPercentage
+                else if (isPercentageGreaterThan1) 0f
+                else 1f,
+
                 tween(durationMillis = 1000)
             ).value
 
@@ -197,9 +203,10 @@ fun WaterBottle(
 @Composable
 fun PreviewWatterBottle() {
     MaterialTheme {
-        WaterBottle(waterPercentage = 0.8f, modifier = Modifier
-            .width(136.dp)
-            .height(330.dp),
+        WaterBottle(
+            waterPercentage = 0.8f, modifier = Modifier
+                .width(136.dp)
+                .height(330.dp),
             drinkAmount = 1000
         )
     }
