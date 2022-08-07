@@ -3,5 +3,7 @@
 
     <style name="Theme.HydrateMe" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
     </style>
 </resources>
