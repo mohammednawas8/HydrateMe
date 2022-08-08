@@ -24,7 +24,9 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch {
             useCases.getTodayReportUseCase.invoke().collect {
                 _state.value = state.value.copy(
-                    dailyReport = it.map { it.toHistory()}
+                    dailyReport = it.map {
+                        it.toHistory().also { Log.d("TTT",it.drinkedAmount.toString()) }
+                    }
                 )
             }
         }

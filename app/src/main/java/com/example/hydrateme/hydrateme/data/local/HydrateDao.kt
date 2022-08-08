@@ -38,4 +38,7 @@ interface HydrateDao {
     )
      fun getReport(start: Long, end: Long): Flow<List<HistoryEntity>>
 
+     @Query("DELETE FROM HistoryEntity")
+     suspend fun deleteTable()
+
 }

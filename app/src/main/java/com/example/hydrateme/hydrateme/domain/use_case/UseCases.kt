@@ -7,5 +7,6 @@ data class UseCases(
     val getUseUseCase: GetUserUseCase,
     val drinkUseCase: DrinkUseCase,
     val getTodayReportUseCase: GetTodayReportUserCase,
-    val getLast10DaysReportUseCase: GetLast10DaysReportUseCase
+    val getLast10DaysReportUseCase: GetLast10DaysReportUseCase,
+    val deleteHistoryTable: DeleteHistoryTable
 )

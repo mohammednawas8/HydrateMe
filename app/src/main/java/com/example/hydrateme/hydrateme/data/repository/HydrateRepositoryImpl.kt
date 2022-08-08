@@ -41,4 +41,8 @@ class HydrateRepositoryImpl(
             end = end
         )
     }
+
+    override suspend fun deleteHistoryTable() {
+        dao.deleteTable()
+    }
 }

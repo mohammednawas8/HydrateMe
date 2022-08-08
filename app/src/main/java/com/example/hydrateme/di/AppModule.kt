@@ -42,7 +42,8 @@ object AppModule {
         GetUserUseCase(hydrateRepository),
         DrinkUseCase(hydrateRepository),
         GetTodayReportUserCase(hydrateRepository),
-        GetLast10DaysReportUseCase(hydrateRepository)
+        GetLast10DaysReportUseCase(hydrateRepository),
+        DeleteHistoryTable(hydrateRepository)
     )
 
     @Provides

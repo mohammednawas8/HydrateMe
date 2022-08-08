@@ -98,6 +98,7 @@ class AppStartViewModel @Inject constructor(
         )
 
         useCases.insertUseUseCase(user)
+        useCases.deleteHistoryTable()
     }
 
     private fun getDailyGoal(data: AppStartStates): Int {
