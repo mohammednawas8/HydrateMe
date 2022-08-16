@@ -1,30 +1,28 @@
 package com.example.hydrateme.hydrateme.data.mapper
 
 import android.util.Log
+import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
-import com.example.hydrateme.hydrateme.data.local.dto.UserAndHistoryOutput
+import com.example.hydrateme.hydrateme.data.local.dto.UserAndDaysOutput
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
+import com.example.hydrateme.hydrateme.domain.model.Day
 import com.example.hydrateme.hydrateme.domain.model.History
 import com.example.hydrateme.hydrateme.domain.model.User
-import com.example.hydrateme.hydrateme.domain.model.UserAndHistory
+import com.example.hydrateme.hydrateme.domain.model.UserAndDays
 
-fun HistoryEntity.toHistory(): History {
-    return History(
-        time,
-        drinkedAmount
+fun DayEntity.toDay(): Day {
+    return Day(
+        day
     )
 }
 
-fun History.toHistoryEntity(id: Int): HistoryEntity {
-    return HistoryEntity(
-        time,
-        drinkedAmount,
-        id
+fun Day.toDayEntity(id: Int): DayEntity {
+    return DayEntity(
+       day, id
     )
 }
 
 fun UserEntity.toUser(): User {
-    Log.d("TTT",this.toString())
     return User(
         gender, weight,
         wakeUpHour ,wakeUpMinutes,
@@ -42,10 +40,17 @@ fun User.toUserEntity(): UserEntity {
     )
 }
 
-fun UserAndHistoryOutput.toUserAndHistory(): UserAndHistory {
-    return UserAndHistory(
+fun UserAndDaysOutput.toUserAndDays(): UserAndDays {
+    return UserAndDays(
         userEntity.toUser(),
-        historyEntity.toHistory()
+        dayEntity.toDay()
+    )
+}
+
+fun HistoryEntity.toHistory(): History{
+    return History(
+        time,
+        drinkAmount
     )
 }
 

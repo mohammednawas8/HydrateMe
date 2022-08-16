@@ -4,9 +4,11 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
-import com.example.hydrateme.hydrateme.data.local.dto.UserAndHistoryOutput
+import com.example.hydrateme.hydrateme.data.local.dto.UserAndDaysOutput
+import com.example.hydrateme.hydrateme.domain.model.Day
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,11 +17,11 @@ interface HydrateDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(userEntity: UserEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertHistory(historyEntity: HistoryEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertDay(dayEntity: DayEntity)
 
     @Query("SELECT * FROM UserEntity")
-    fun getUserAndHistory(): Flow<UserAndHistoryOutput>
+    fun getUserAndDays(): Flow<UserAndDaysOutput>
 
     @Query("SELECT * FROM UserEntity")
     fun getUser(): Flow<UserEntity>
@@ -27,18 +29,18 @@ interface HydrateDao {
     @Query("UPDATE UserEntity SET complete = :totalAmount")
     suspend fun updateComplete(totalAmount: Int)
 
-    //Getting the history when time is greater or equal to today's
-    // time and less than tomorrow's time
-    @Query(
-        """
-        SELECT * FROM HistoryEntity
-        WHERE id = 1
-        AND time between :start and :end
-    """
-    )
-     fun getReport(start: Long, end: Long): Flow<List<HistoryEntity>>
+     @Query("DELETE FROM DayEntity")
+     suspend fun clearDayTable()
 
-     @Query("DELETE FROM HistoryEntity")
-     suspend fun deleteTable()
+    @Query("DELETE FROM HistoryEntity")
+    suspend fun clearHistoryTable()
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertHistoryRecord(history: HistoryEntity)
+
+    @Query("SELECT * FROM DayEntity ORDER BY day DESC LIMIT 1")
+    fun getLastDay(): Flow<DayEntity?>
+
+    @Query("SELECT * FROM HistoryEntity WHERE day = :day")
+    fun getHistoryByTheDay(day: Long): Flow<List<HistoryEntity>>
 }

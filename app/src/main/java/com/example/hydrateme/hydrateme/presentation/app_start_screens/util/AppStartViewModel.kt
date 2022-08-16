@@ -5,13 +5,17 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
+import com.example.hydrateme.hydrateme.presentation.util.yyyyMMddToMillis
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 private val TAG = "AppStartViewModel"
@@ -98,7 +102,14 @@ class AppStartViewModel @Inject constructor(
         )
 
         useCases.insertUseUseCase(user)
-        useCases.deleteHistoryTable()
+        useCases.clearDaysTable()
+        useCases.clearHistoryTable()
+        addNewDay()
+    }
+
+    private suspend fun addNewDay() {
+        val insertedDay = useCases.insertDayUseCase()
+        Log.d(TAG,"Inserted day $insertedDay")
     }
 
     private fun getDailyGoal(data: AppStartStates): Int {

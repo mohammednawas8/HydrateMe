@@ -1,12 +1,18 @@
 package com.example.hydrateme.hydrateme.domain.use_case
 
+import com.example.hydrateme.hydrateme.domain.use_case.util.InsertHistoryRecord
+
 data class UseCases(
     val insertUseUseCase: InsertUserUserCase,
-    val insertHistoryUseCase: InsertHistoryUseCase,
-    val getUseAndHistoryUseCase: GetUserAndHistoryUseCase,
-    val getUseUseCase: GetUserUseCase,
+    val insertDayUseCase: InsertDayUseCase,
+    val getUseAndDaysUseCase: GetUserAndDaysUseCase,
+    val getUserUseCase: GetUserUseCase,
     val drinkUseCase: DrinkUseCase,
     val getTodayReportUseCase: GetTodayReportUserCase,
     val getLast10DaysReportUseCase: GetLast10DaysReportUseCase,
-    val deleteHistoryTable: DeleteHistoryTable
+    val clearDaysTable: ClearDaysTable,
+    val clearHistoryTable: ClearHistoryTable,
+    val insertHistoryRecord: InsertHistoryRecord,
+    val getLastDayUseCase: GetLastDayUseCase,
+    val getHistoryByDayUseCase: GetHistoryByDayUseCase
 )

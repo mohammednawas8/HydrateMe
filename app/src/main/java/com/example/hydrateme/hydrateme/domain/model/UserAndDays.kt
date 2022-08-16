@@ -1,6 +1,6 @@
 package com.example.hydrateme.hydrateme.domain.model
 
-data class UserAndHistory(
+data class UserAndDays(
     val user: User,
-    val history: History
+    val day: Day
 )

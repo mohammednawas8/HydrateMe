@@ -2,6 +2,7 @@ package com.example.hydrateme.hydrateme.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -26,6 +27,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 @AndroidEntryPoint
@@ -39,46 +42,47 @@ class MainActivity : ComponentActivity() {
             systemUiController.setSystemBarsColor(color = Color.White)
             HydrateMeTheme {
 
+
                 Surface(
                     modifier = Modifier
                         .fillMaxSize(),
                     color = White
                 ) {
 
-                    HomeScreen()
+//                    HomeScreen()
 
-//                    val navController = rememberNavController()
-//                    val appStartViewModel by viewModels<AppStartViewModel>()
-//                    NavHost(
-//                        navController = navController,
-//                        startDestination = NavigationRoute.IntroductionScreen.route,
-//                        modifier = Modifier.fillMaxSize()
-//                    ) {
-//
-//                        composable(NavigationRoute.IntroductionScreen.route) {
-//                            IntroductionScreen(navController = navController)
-//                        }
-//                        composable(NavigationRoute.GenderScreen.route) {
-//                            GenderScreen(navController = navController,
-//                                viewModel = appStartViewModel)
-//                        }
-//                        composable(NavigationRoute.WeightScreen.route) {
-//                            WeightScreen(navController = navController,
-//                                viewModel = appStartViewModel)
-//                        }
-//                        composable(NavigationRoute.WakeupScreen.route) {
-//                            WakeUpScreen(navController = navController,
-//                                viewModel = appStartViewModel)
-//                        }
-//                        composable(NavigationRoute.SleepScreen.route) {
-//                            SleepScreen(navController = navController,
-//                                viewModel = appStartViewModel)
-//                        }
-//                        composable(NavigationRoute.HomeScreen.route) {
-//                            HomeScreen()
-//                        }
-//
-//                    }
+                    val navController = rememberNavController()
+                    val appStartViewModel by viewModels<AppStartViewModel>()
+                    NavHost(
+                        navController = navController,
+                        startDestination = NavigationRoute.IntroductionScreen.route,
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+
+                        composable(NavigationRoute.IntroductionScreen.route) {
+                            IntroductionScreen(navController = navController)
+                        }
+                        composable(NavigationRoute.GenderScreen.route) {
+                            GenderScreen(navController = navController,
+                                viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.WeightScreen.route) {
+                            WeightScreen(navController = navController,
+                                viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.WakeupScreen.route) {
+                            WakeUpScreen(navController = navController,
+                                viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.SleepScreen.route) {
+                            SleepScreen(navController = navController,
+                                viewModel = appStartViewModel)
+                        }
+                        composable(NavigationRoute.HomeScreen.route) {
+                            HomeScreen()
+                        }
+
+                    }
                 }
             }
         }

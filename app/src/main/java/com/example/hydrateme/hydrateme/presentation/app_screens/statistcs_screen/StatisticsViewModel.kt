@@ -5,7 +5,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hydrateme.hydrateme.data.mapper.toHistory
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,15 +20,15 @@ class StatisticsViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch {
-            useCases.getTodayReportUseCase.invoke().collect {
-                _state.value = state.value.copy(
-                    dailyReport = it.map {
-                        it.toHistory().also { Log.d("TTT",it.drinkedAmount.toString()) }
-                    }
-                )
-            }
-        }
+//        viewModelScope.launch {
+//            useCases.getTodayReportUseCase.invoke().collect {
+//                _state.value = state.value.copy(
+//                    dailyReport = it.map {
+//                        it.toHistory().also { Log.d("TTT",it.drinkedAmount.toString()) }
+//                    }
+//                )
+//            }
+//        }
 
     }
 

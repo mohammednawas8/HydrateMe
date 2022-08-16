@@ -47,7 +47,6 @@ fun DrinkScreen(
             verticalArrangement = Arrangement.spacedBy(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

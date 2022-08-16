@@ -2,13 +2,12 @@ package com.example.hydrateme.di
 
 import android.app.Application
 import android.content.res.Resources
-import androidx.room.Room
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
 import com.example.hydrateme.hydrateme.data.local.HydrateDatabase
-import com.example.hydrateme.hydrateme.data.local.HydrateDatabase.Companion.DATABASE_NAME
 import com.example.hydrateme.hydrateme.data.repository.HydrateRepositoryImpl
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
 import com.example.hydrateme.hydrateme.domain.use_case.*
+import com.example.hydrateme.hydrateme.domain.use_case.util.InsertHistoryRecord
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,19 +36,23 @@ object AppModule {
         hydrateRepository: HydrateRepository,
     ) = UseCases(
         InsertUserUserCase(hydrateRepository),
-        InsertHistoryUseCase(hydrateRepository),
-        GetUserAndHistoryUseCase(hydrateRepository),
+        InsertDayUseCase(hydrateRepository),
+        GetUserAndDaysUseCase(hydrateRepository),
         GetUserUseCase(hydrateRepository),
         DrinkUseCase(hydrateRepository),
         GetTodayReportUserCase(hydrateRepository),
         GetLast10DaysReportUseCase(hydrateRepository),
-        DeleteHistoryTable(hydrateRepository)
+        ClearDaysTable(hydrateRepository),
+        ClearHistoryTable(hydrateRepository),
+        InsertHistoryRecord(hydrateRepository),
+        GetLastDayUseCase(hydrateRepository),
+        GetHistoryByDayUseCase(hydrateRepository)
     )
 
     @Provides
     @Singleton
     fun provideResources(
-        application: Application
+        application: Application,
     ): Resources = application.resources
 
 }

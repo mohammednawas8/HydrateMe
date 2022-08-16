@@ -1,0 +1,14 @@
+package com.example.hydrateme.hydrateme.data.local.dto
+
+import androidx.room.Embedded
+import androidx.room.Relation
+
+data class DayWithHistory(
+    @Embedded
+    val day: DayEntity,
+    @Relation(
+        entityColumn = "day",
+        parentColumn = "day"
+    )
+    val historyEntity: List<HistoryEntity>,
+)

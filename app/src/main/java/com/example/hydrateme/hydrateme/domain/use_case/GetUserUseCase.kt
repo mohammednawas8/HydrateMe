@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.domain.use_case
 
+import android.util.Log
 import com.example.hydrateme.hydrateme.data.mapper.toUser
 import com.example.hydrateme.hydrateme.domain.model.User
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository

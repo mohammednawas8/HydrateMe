@@ -4,9 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class HistoryEntity(
-    @PrimaryKey
-    val time: Long,
-    val drinkAmount: Int,
-    val day: Long
+data class DayEntity(
+    @PrimaryKey val day: Long,
+    val id: Int
 )
