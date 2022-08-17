@@ -1,6 +1,5 @@
 package com.example.hydrateme.hydrateme.data.mapper
 
-import android.util.Log
 import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserAndDaysOutput
@@ -8,7 +7,7 @@ import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.model.Day
 import com.example.hydrateme.hydrateme.domain.model.History
 import com.example.hydrateme.hydrateme.domain.model.User
-import com.example.hydrateme.hydrateme.domain.model.UserAndDays
+import com.example.hydrateme.hydrateme.domain.model.Report
 
 fun DayEntity.toDay(): Day {
     return Day(
@@ -40,14 +39,14 @@ fun User.toUserEntity(): UserEntity {
     )
 }
 
-fun UserAndDaysOutput.toUserAndDays(): UserAndDays {
-    return UserAndDays(
+fun UserAndDaysOutput.toUserAndDays(): Report {
+    return Report(
         userEntity.toUser(),
         dayEntity.toDay()
     )
 }
 
-fun HistoryEntity.toHistory(): History{
+fun HistoryEntity.toHistory(): History {
     return History(
         time,
         drinkAmount

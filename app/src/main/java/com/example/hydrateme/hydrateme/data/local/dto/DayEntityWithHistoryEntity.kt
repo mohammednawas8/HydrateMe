@@ -3,7 +3,7 @@ package com.example.hydrateme.hydrateme.data.local.dto
 import androidx.room.Embedded
 import androidx.room.Relation
 
-data class DayWithHistory(
+data class DayEntityWithHistoryEntity(
     @Embedded
     val day: DayEntity,
     @Relation(

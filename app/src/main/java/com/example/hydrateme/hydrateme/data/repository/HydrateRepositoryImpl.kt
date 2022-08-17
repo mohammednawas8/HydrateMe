@@ -7,9 +7,10 @@ import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.data.mapper.toDay
 import com.example.hydrateme.hydrateme.data.mapper.toHistory
 import com.example.hydrateme.hydrateme.data.mapper.toUserAndDays
+import com.example.hydrateme.hydrateme.domain.DayWithHistory
 import com.example.hydrateme.hydrateme.domain.model.Day
 import com.example.hydrateme.hydrateme.domain.model.History
-import com.example.hydrateme.hydrateme.domain.model.UserAndDays
+import com.example.hydrateme.hydrateme.domain.model.Report
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -27,7 +28,7 @@ class HydrateRepositoryImpl(
         dao.insertDay(day)
     }
 
-    override suspend fun getUserAndDays(): Flow<UserAndDays> {
+    override suspend fun getUserAndDays(): Flow<Report> {
         return dao.getUserAndDays().map {
             it.toUserAndDays()
         }
@@ -41,9 +42,6 @@ class HydrateRepositoryImpl(
         dao.updateComplete(totalAmount)
     }
 
-    override suspend fun getReport(start: Long, end: Long): Flow<List<DayEntity>> {
-        return flow { }
-    }
 
     override suspend fun clearDayTable() {
         dao.clearDayTable()
@@ -73,5 +71,16 @@ class HydrateRepositoryImpl(
 
     override suspend fun getCompletedAmount(day: Long): Flow<List<Int>> {
         return dao.getCompletedAmount(day)
+    }
+
+    override suspend fun getReport(dayDuration: Int): Flow<DayWithHistory> {
+        return dao.getReport(dayDuration).map {
+            DayWithHistory(
+                it.day.toDay(),
+                it.historyEntity.map {
+                    it.toHistory()
+                }
+            )
+        }
     }
 }

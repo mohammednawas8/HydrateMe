@@ -4,10 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
-import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
-import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
-import com.example.hydrateme.hydrateme.data.local.dto.UserAndDaysOutput
+import com.example.hydrateme.hydrateme.data.local.dto.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -46,4 +43,6 @@ interface HydrateDao {
     @Query("SELECT drinkAmount FROM HistoryEntity WHERE day =:day")
     fun getCompletedAmount(day: Long): Flow<List<Int>>
 
+    @Query("SELECT * FROM DayEntity ORDER BY day DESC LIMIT :durationInDays")
+    fun getReport(durationInDays: Int): Flow<DayEntityWithHistoryEntity>
 }
