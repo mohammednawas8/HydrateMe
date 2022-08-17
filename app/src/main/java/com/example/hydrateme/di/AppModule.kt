@@ -46,7 +46,8 @@ object AppModule {
         ClearHistoryTable(hydrateRepository),
         InsertHistoryRecord(hydrateRepository),
         GetLastDayUseCase(hydrateRepository),
-        GetHistoryByDayUseCase(hydrateRepository)
+        GetHistoryByDayUseCase(hydrateRepository),
+        GetCompletedAmount(hydrateRepository)
     )
 
     @Provides

@@ -49,40 +49,40 @@ class MainActivity : ComponentActivity() {
                     color = White
                 ) {
 
-//                    HomeScreen()
+                    HomeScreen()
 
-                    val navController = rememberNavController()
-                    val appStartViewModel by viewModels<AppStartViewModel>()
-                    NavHost(
-                        navController = navController,
-                        startDestination = NavigationRoute.IntroductionScreen.route,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-
-                        composable(NavigationRoute.IntroductionScreen.route) {
-                            IntroductionScreen(navController = navController)
-                        }
-                        composable(NavigationRoute.GenderScreen.route) {
-                            GenderScreen(navController = navController,
-                                viewModel = appStartViewModel)
-                        }
-                        composable(NavigationRoute.WeightScreen.route) {
-                            WeightScreen(navController = navController,
-                                viewModel = appStartViewModel)
-                        }
-                        composable(NavigationRoute.WakeupScreen.route) {
-                            WakeUpScreen(navController = navController,
-                                viewModel = appStartViewModel)
-                        }
-                        composable(NavigationRoute.SleepScreen.route) {
-                            SleepScreen(navController = navController,
-                                viewModel = appStartViewModel)
-                        }
-                        composable(NavigationRoute.HomeScreen.route) {
-                            HomeScreen()
-                        }
-
-                    }
+//                    val navController = rememberNavController()
+//                    val appStartViewModel by viewModels<AppStartViewModel>()
+//                    NavHost(
+//                        navController = navController,
+//                        startDestination = NavigationRoute.IntroductionScreen.route,
+//                        modifier = Modifier.fillMaxSize()
+//                    ) {
+//
+//                        composable(NavigationRoute.IntroductionScreen.route) {
+//                            IntroductionScreen(navController = navController)
+//                        }
+//                        composable(NavigationRoute.GenderScreen.route) {
+//                            GenderScreen(navController = navController,
+//                                viewModel = appStartViewModel)
+//                        }
+//                        composable(NavigationRoute.WeightScreen.route) {
+//                            WeightScreen(navController = navController,
+//                                viewModel = appStartViewModel)
+//                        }
+//                        composable(NavigationRoute.WakeupScreen.route) {
+//                            WakeUpScreen(navController = navController,
+//                                viewModel = appStartViewModel)
+//                        }
+//                        composable(NavigationRoute.SleepScreen.route) {
+//                            SleepScreen(navController = navController,
+//                                viewModel = appStartViewModel)
+//                        }
+//                        composable(NavigationRoute.HomeScreen.route) {
+//                            HomeScreen()
+//                        }
+//
+//                    }
                 }
             }
         }

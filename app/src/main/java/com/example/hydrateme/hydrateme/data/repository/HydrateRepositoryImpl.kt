@@ -1,6 +1,5 @@
 package com.example.hydrateme.hydrateme.data.repository
 
-import android.util.Log
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
 import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
@@ -12,7 +11,6 @@ import com.example.hydrateme.hydrateme.domain.model.Day
 import com.example.hydrateme.hydrateme.domain.model.History
 import com.example.hydrateme.hydrateme.domain.model.UserAndDays
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -71,5 +69,9 @@ class HydrateRepositoryImpl(
                 it.toHistory()
             }
         }
+    }
+
+    override suspend fun getCompletedAmount(day: Long): Flow<List<Int>> {
+        return dao.getCompletedAmount(day)
     }
 }

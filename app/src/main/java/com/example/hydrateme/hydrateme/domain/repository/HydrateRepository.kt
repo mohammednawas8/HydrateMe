@@ -31,4 +31,6 @@ interface HydrateRepository {
     suspend fun getLastDay(): Flow<Day?>
 
     suspend fun getHistoryByTheDay(day: Long): Flow<List<History>>
+
+   suspend fun getCompletedAmount(day: Long): Flow<List<Int>>
 }

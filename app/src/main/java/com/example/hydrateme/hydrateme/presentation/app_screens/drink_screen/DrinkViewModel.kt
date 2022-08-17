@@ -10,6 +10,7 @@ import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import com.example.hydrateme.hydrateme.presentation.util.yyyyMMddToMillis
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -37,6 +38,7 @@ class DrinkViewModel @Inject constructor(
             val day = async { useCases.insertDayUseCase() }
             day.await()
             getUser()
+
             //Bring the last day was added in the Day table to be able to insert new history record under that day
             // المشكلة انو لما اجيب اخر يوم خصوصا بعد حفظ معلومات جديد
             // حليتها عن طريق اني اخلي اللي راجع nullable ورجعتو بفلو
@@ -47,10 +49,23 @@ class DrinkViewModel @Inject constructor(
 
     private fun getLastDay() {
         viewModelScope.launch {
-            useCases.getLastDayUseCase.invoke().collect{
+            useCases.getLastDayUseCase.invoke().collect {
                 it?.let {
                     day = it.day
+                    getCompletedAmount()
                 }
+            }
+        }
+    }
+
+    private fun getCompletedAmount() {
+        viewModelScope.launch(Dispatchers.IO) {
+            useCases.getCompletedAmount(day!!).collect {
+                Log.d("percentage","${it.toFloat() / state.value.dailyGoal.toFloat()}")
+                _state.value = state.value.copy(
+                    complete = it,
+                    waterPercentage = it.toFloat() / state.value.dailyGoal.toFloat()
+                )
             }
         }
     }
@@ -60,9 +75,7 @@ class DrinkViewModel @Inject constructor(
             useCases.getUserUseCase
                 .invoke().collect { user ->
                     _state.value = state.value.copy(
-                        dailyGoal = user.dailyGoal,
-                        complete = user.complete,
-                        waterPercentage = user.complete.toFloat() / user.dailyGoal.toFloat()
+                        dailyGoal = user.dailyGoal
                     )
                 }
         }

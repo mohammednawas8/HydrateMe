@@ -14,5 +14,6 @@ data class UseCases(
     val clearHistoryTable: ClearHistoryTable,
     val insertHistoryRecord: InsertHistoryRecord,
     val getLastDayUseCase: GetLastDayUseCase,
-    val getHistoryByDayUseCase: GetHistoryByDayUseCase
+    val getHistoryByDayUseCase: GetHistoryByDayUseCase,
+    val getCompletedAmount: GetCompletedAmount
 )

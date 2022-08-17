@@ -8,7 +8,6 @@ import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserAndDaysOutput
-import com.example.hydrateme.hydrateme.domain.model.Day
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,8 +28,8 @@ interface HydrateDao {
     @Query("UPDATE UserEntity SET complete = :totalAmount")
     suspend fun updateComplete(totalAmount: Int)
 
-     @Query("DELETE FROM DayEntity")
-     suspend fun clearDayTable()
+    @Query("DELETE FROM DayEntity")
+    suspend fun clearDayTable()
 
     @Query("DELETE FROM HistoryEntity")
     suspend fun clearHistoryTable()
@@ -43,4 +42,8 @@ interface HydrateDao {
 
     @Query("SELECT * FROM HistoryEntity WHERE day = :day")
     fun getHistoryByTheDay(day: Long): Flow<List<HistoryEntity>>
+
+    @Query("SELECT drinkAmount FROM HistoryEntity WHERE day =:day")
+    fun getCompletedAmount(day: Long): Flow<List<Int>>
+
 }
