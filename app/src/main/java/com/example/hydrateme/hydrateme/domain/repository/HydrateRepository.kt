@@ -3,10 +3,10 @@ package com.example.hydrateme.hydrateme.domain.repository
 import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
-import com.example.hydrateme.hydrateme.domain.DayWithHistory
 import com.example.hydrateme.hydrateme.domain.model.Day
 import com.example.hydrateme.hydrateme.domain.model.History
 import com.example.hydrateme.hydrateme.domain.model.Report
+import com.example.hydrateme.hydrateme.domain.model.UserAndDays
 import kotlinx.coroutines.flow.Flow
 
 interface HydrateRepository {
@@ -15,7 +15,7 @@ interface HydrateRepository {
 
     suspend fun insertDay(day: DayEntity)
 
-    suspend fun getUserAndDays(): Flow<Report>
+    suspend fun getUserAndDays(): Flow<UserAndDays>
 
     suspend fun getUser(): Flow<UserEntity>
 
@@ -29,9 +29,9 @@ interface HydrateRepository {
 
     suspend fun getLastDay(): Flow<Day?>
 
-    suspend fun getHistoryByTheDay(day: Long): Flow<List<History>>
+    suspend fun getCompletedAmount(day: Long): Flow<List<Int>>
 
-   suspend fun getCompletedAmount(day: Long): Flow<List<Int>>
+    fun getTodayReport(daysDuration: Int): Flow<List<History>>
 
-   suspend fun getReport(dayDuration: Int): Flow<Report>
+    fun get10DaysReport(): Flow<List<History>>
 }

@@ -49,7 +49,7 @@ class MainActivity : ComponentActivity() {
                     color = White
                 ) {
 
-                    HomeScreen()
+//                    HomeScreen()
 
 //                    val navController = rememberNavController()
 //                    val appStartViewModel by viewModels<AppStartViewModel>()

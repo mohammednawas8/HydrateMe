@@ -40,13 +40,12 @@ object AppModule {
         GetUserAndDaysUseCase(hydrateRepository),
         GetUserUseCase(hydrateRepository),
         DrinkUseCase(hydrateRepository),
-        GetTodayReportUseCase(hydrateRepository),
         GetLast10DaysReportUseCase(hydrateRepository),
         ClearDaysTable(hydrateRepository),
         ClearHistoryTable(hydrateRepository),
         InsertHistoryRecord(hydrateRepository),
         GetLastDayUseCase(hydrateRepository),
-        GetHistoryByDayUseCase(hydrateRepository),
+        GetReportByDayUseCase(hydrateRepository),
         GetCompletedAmount(hydrateRepository)
     )
 

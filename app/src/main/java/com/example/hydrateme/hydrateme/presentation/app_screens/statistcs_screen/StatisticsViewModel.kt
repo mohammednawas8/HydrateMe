@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    useCases: UseCases
+    private val useCases: UseCases,
 ) : ViewModel() {
 
     private val _state = mutableStateOf(StatisticsScreenStates())
@@ -20,22 +20,21 @@ class StatisticsViewModel @Inject constructor(
 
 
     init {
-//        viewModelScope.launch {
-//            useCases.getTodayReportUseCase.invoke().collect {
-//                _state.value = state.value.copy(
-//                    dailyReport = it.map {
-//                        it.toHistory().also { Log.d("TTT",it.drinkedAmount.toString()) }
-//                    }
-//                )
-//            }
-//        }
-
+        viewModelScope.launch {
+                useCases.getTodayReportUseCase(1).collect {
+                    _state.value = state.value.copy(
+                        dailyReport = it
+                    )
+                }
+        }
+        get10DaysReport()
     }
+
 
     fun onEvent(event: StatisticsScreenEvents) {
         when (event) {
             is StatisticsScreenEvents.Last10DaysReport -> {
-
+                get10DaysReport()
             }
             is StatisticsScreenEvents.Last10WeeksReport -> {
 
@@ -49,5 +48,13 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-
+    private fun get10DaysReport() {
+        viewModelScope.launch {
+            useCases.getLast10DaysReportUseCase.invoke().collect {
+                it.forEach {
+                    Log.d("Test",it.toString())
+                }
+            }
+        }
+    }
 }
