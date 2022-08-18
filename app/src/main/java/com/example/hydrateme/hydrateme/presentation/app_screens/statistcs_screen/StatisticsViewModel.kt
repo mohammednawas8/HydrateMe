@@ -21,13 +21,14 @@ class StatisticsViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-                useCases.getTodayReportUseCase(1).collect {
-                    _state.value = state.value.copy(
-                        dailyReport = it
-                    )
-                }
+            useCases.getTodayReportUseCase(1).collect {
+                _state.value = state.value.copy(
+                    dailyReport = it
+                )
+            }
         }
         get10DaysReport()
+        get10WeeksReport()
     }
 
 
@@ -37,13 +38,35 @@ class StatisticsViewModel @Inject constructor(
                 get10DaysReport()
             }
             is StatisticsScreenEvents.Last10WeeksReport -> {
-
+                get10WeeksReport()
             }
             is StatisticsScreenEvents.Last10MonthsReport -> {
-
+                get10MonthsReport()
             }
             is StatisticsScreenEvents.Last10YearsReport -> {
+                get10YearsReport()
+            }
+        }
+    }
 
+    private fun get10YearsReport() {
+        viewModelScope.launch {
+            useCases.getLast10YearsReportUseCase.invoke().collect {
+            }
+        }
+    }
+
+    private fun get10MonthsReport() {
+        viewModelScope.launch {
+            useCases.getLast10MonthsReportUseCase.invoke().collect {
+//                Log.d("Test", it.toString())
+            }
+        }
+    }
+
+    private fun get10WeeksReport() {
+        viewModelScope.launch {
+            useCases.getLast10WeeksReportUseCase.invoke().collect {
             }
         }
     }
@@ -51,9 +74,9 @@ class StatisticsViewModel @Inject constructor(
     private fun get10DaysReport() {
         viewModelScope.launch {
             useCases.getLast10DaysReportUseCase.invoke().collect {
-                it.forEach {
-                    Log.d("Test",it.toString())
-                }
+                _state.value = state.value.copy(
+                    periodReport = it
+                )
             }
         }
     }

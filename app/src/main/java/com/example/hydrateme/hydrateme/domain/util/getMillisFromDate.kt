@@ -1,4 +1,4 @@
-package com.example.hydrateme.hydrateme.domain.use_case.util
+package com.example.hydrateme.hydrateme.domain.util
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

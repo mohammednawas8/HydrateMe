@@ -34,4 +34,10 @@ interface HydrateRepository {
     fun getTodayReport(daysDuration: Int): Flow<List<History>>
 
     fun get10DaysReport(): Flow<List<History>>
+
+    fun get10WeeksReport(): Flow<List<History>>
+
+    fun get10MonthsReport(): Flow<List<History>>
+
+    fun get10YearsReport(): Flow<List<History>>
 }

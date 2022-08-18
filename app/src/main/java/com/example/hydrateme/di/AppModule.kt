@@ -7,7 +7,7 @@ import com.example.hydrateme.hydrateme.data.local.HydrateDatabase
 import com.example.hydrateme.hydrateme.data.repository.HydrateRepositoryImpl
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
 import com.example.hydrateme.hydrateme.domain.use_case.*
-import com.example.hydrateme.hydrateme.domain.use_case.util.InsertHistoryRecord
+import com.example.hydrateme.hydrateme.domain.util.InsertHistoryRecord
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,7 +46,10 @@ object AppModule {
         InsertHistoryRecord(hydrateRepository),
         GetLastDayUseCase(hydrateRepository),
         GetReportByDayUseCase(hydrateRepository),
-        GetCompletedAmount(hydrateRepository)
+        GetCompletedAmount(hydrateRepository),
+        GetLast10WeeksReportUseCase(hydrateRepository),
+        GetLast10MonthsReportUseCase(hydrateRepository),
+        GetLast10YearsReportUseCase(hydrateRepository),
     )
 
     @Provides
