@@ -38,6 +38,10 @@ fun HomeScreen(
 //            color = Blue700
 //        )
 
+    var showBottomBar by remember {
+        mutableStateOf(true)
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = MaterialTheme.colors.background,
@@ -45,36 +49,38 @@ fun HomeScreen(
             TopAppBar(text = state.title)
         },
         bottomBar = {
-            HydrateBottomNavigation(
-                onStatisticsClick = {
-                    viewModel.onEvent(HomeScreenEvents.StatisticsSelected)
-                    homeNavController.navigate(NavigationRoute.StatisticsScreen.route)
-                }, onSettingsClick = {
-                    viewModel.onEvent(HomeScreenEvents.SettingsSelected)
-                    homeNavController.navigate(NavigationRoute.SettingsScreen.route)
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp, start = 20.dp, end = 20.dp)
-                    .height(60.dp)
-                    .shadow(8.dp, RoundedCornerShape(20.dp)),
-                selectedItem = state.selectedItem
-            )
+            if (showBottomBar)
+                HydrateBottomNavigation(
+                    onStatisticsClick = {
+                        viewModel.onEvent(HomeScreenEvents.StatisticsSelected)
+                        homeNavController.navigate(NavigationRoute.StatisticsScreen.route)
+                    }, onSettingsClick = {
+                        viewModel.onEvent(HomeScreenEvents.SettingsSelected)
+                        homeNavController.navigate(NavigationRoute.SettingsScreen.route)
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 16.dp, start = 20.dp, end = 20.dp)
+                        .height(60.dp)
+                        .shadow(8.dp, RoundedCornerShape(20.dp)),
+                    selectedItem = state.selectedItem
+                )
         },
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                viewModel.onEvent(HomeScreenEvents.AddSelected)
-                homeNavController.navigate(NavigationRoute.DrinkScreen.route)
-            }, backgroundColor = Blue650) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_add),
-                    contentDescription = "Add",
-                    tint = if (state.selectedItem is SelectedItem.ADD) Color.White else Color(
-                        0xFFC3DBE6)
-                )
-            }
+            if (showBottomBar)
+                FloatingActionButton(onClick = {
+                    viewModel.onEvent(HomeScreenEvents.AddSelected)
+                    homeNavController.navigate(NavigationRoute.DrinkScreen.route)
+                }, backgroundColor = Blue650) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_add),
+                        contentDescription = "Add",
+                        tint = if (state.selectedItem is SelectedItem.ADD) Color.White else Color(
+                            0xFFC3DBE6)
+                    )
+                }
         }
     ) {
         val bottomPadding = it.calculateBottomPadding()
@@ -82,16 +88,19 @@ fun HomeScreen(
             navController = homeNavController,
             startDestination = NavigationRoute.DrinkScreen.route,
             modifier = Modifier
-                .padding(bottom = bottomPadding + 55.dp)
+                .padding(bottom = if (showBottomBar) bottomPadding + 55.dp else 0.dp)
                 .fillMaxSize()
         ) {
             composable(NavigationRoute.DrinkScreen.route) {
+                showBottomBar = true
                 DrinkScreen()
             }
             composable(NavigationRoute.StatisticsScreen.route) {
+                showBottomBar = false
                 StatisticsScreen()
             }
             composable(NavigationRoute.SettingsScreen.route) {
+                showBottomBar = false
 //                DrinkScreen()
             }
         }

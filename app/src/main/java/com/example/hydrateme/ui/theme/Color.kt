@@ -15,12 +15,16 @@ val Blue700 = Color(0XFF1BADEE) // Water drip hand
 
 //Secondary
 val Blue500 = Color(0XFF39CCFF) // Water drip hand
+val Blue400 = Color(0XFF71D4FF) // Report item text
+val Blue750 = Color(0XFF1BAEEE) // Report row background
 
 val Blue650 = Color(0XFF1BAEEF) // Water drip finger and texts and button end gradient
 val Blue650Transparent = Color(0x661AAAEB) // Button start gradient
 val Gray300 = Color(0XFFC4C4C4) // Water drip arm gradient
 val Gray500 = Color(0XFF909090) // Secondary texts
 val Gray200 = Color(0XFFC0C0C0) // Secondary texts
+val Gray400 = Color(0XFFA0A0A0) // Today's record
+val Gray150 = Color(0XFFD2D2D2) // Lines
 val Pink = Color(0XFFFF4593)
 val LightGray = Color(0xFFEBEBEB)
 
