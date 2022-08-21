@@ -1,23 +1,12 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen
 
-import android.util.Log
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -31,7 +20,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.components.WaterBottle
-import com.example.hydrateme.hydrateme.presentation.app_screens.util.componants.WavesAndText
+import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.SelectedItem
+import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.HydrateBottomNavigation
+import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.WavesTopAppBar
+import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
 import com.example.hydrateme.ui.theme.Gray200
 import com.example.hydrateme.ui.theme.HydrateMeTheme
 import com.example.hydrateme.ui.theme.OpenSans
@@ -39,14 +31,19 @@ import com.example.hydrateme.ui.theme.OpenSans
 @Composable
 fun DrinkScreen(
     viewModel: DrinkViewModel = hiltViewModel(),
+    navController: NavController
 ) {
-    val user = viewModel.state.value
+
+    val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(30.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
+
         ) {
+            WavesTopAppBar(text = state.date,false) {}
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -64,7 +61,7 @@ fun DrinkScreen(
                             style = MaterialTheme.typography.h2
                         )
                         Text(
-                            text = user.dailyGoal.toString(),
+                            text = state.dailyGoal.toString(),
                             style = MaterialTheme.typography.h2,
                             color = Gray200
                         )
@@ -76,7 +73,7 @@ fun DrinkScreen(
                             style = MaterialTheme.typography.h2
                         )
                         Text(
-                            text = "${user.complete} ml",
+                            text = "${state.complete} ml",
                             style = MaterialTheme.typography.h2,
                             color = Gray200
                         )
@@ -84,17 +81,17 @@ fun DrinkScreen(
                 }
 
                 WaterBottle(
-                    drinkAmount = user.complete,
-                    waterPercentage = if (user.waterPercentage == 0f) 0.05f else user.waterPercentage,
+                    drinkAmount = state.complete,
+                    waterPercentage = if (state.waterPercentage == 0f) 0.05f else state.waterPercentage,
                     modifier = Modifier
                         .width(130.dp)
-                        .height(365.dp),
+                        .height(385.dp),
                     lightColor = false
                 )
             }
             Button(
                 onClick = {
-                          viewModel.onEvent(DrinkScreenEvents.Drink(200))
+                    viewModel.onEvent(DrinkScreenEvents.Drink(200))
                 },
                 modifier = Modifier
                     .width(240.dp)
@@ -128,7 +125,17 @@ fun DrinkScreen(
                     )
                 }
             }
+            HydrateBottomNavigation(onStatisticsClick = {
+                navController.navigate(NavigationRoute.StatisticsScreen.route)
+            },
+                onSettingsClick = {
+                    navController.navigate(NavigationRoute.SettingsScreen.route)
+                },
+                selectedItem = SelectedItem.ADD,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)
+            )
         }
+
     }
 }
 
@@ -136,6 +143,6 @@ fun DrinkScreen(
 @Preview
 fun PreviewDrinkScreen() {
     HydrateMeTheme {
-        DrinkScreen()
+        DrinkScreen(navController = rememberNavController())
     }
 }

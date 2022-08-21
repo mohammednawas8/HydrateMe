@@ -1,31 +1,20 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.home_screen
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.HydrateBottomNavigation
-import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.TopAppBar
-import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.DrinkScreen
 import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.StatisticsScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
-import com.example.hydrateme.ui.theme.Blue650
-import com.example.hydrateme.ui.theme.Blue700
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
@@ -33,71 +22,24 @@ fun HomeScreen(
     var state = viewModel.state.value
     val homeNavController = rememberNavController()
 
-//    val systemUiController = rememberSystemUiController()
-//        systemUiController.setSystemBarsColor(
-//            color = Blue700
-//        )
-
     var showBottomBar by remember {
         mutableStateOf(true)
     }
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        backgroundColor = MaterialTheme.colors.background,
-        topBar = {
-            TopAppBar(text = state.title)
-        },
-        bottomBar = {
-            if (showBottomBar)
-                HydrateBottomNavigation(
-                    onStatisticsClick = {
-                        viewModel.onEvent(HomeScreenEvents.StatisticsSelected)
-                        homeNavController.navigate(NavigationRoute.StatisticsScreen.route)
-                    }, onSettingsClick = {
-                        viewModel.onEvent(HomeScreenEvents.SettingsSelected)
-                        homeNavController.navigate(NavigationRoute.SettingsScreen.route)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp, start = 20.dp, end = 20.dp)
-                        .height(60.dp)
-                        .shadow(8.dp, RoundedCornerShape(20.dp)),
-                    selectedItem = state.selectedItem
-                )
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
-        floatingActionButton = {
-            if (showBottomBar)
-                FloatingActionButton(onClick = {
-                    viewModel.onEvent(HomeScreenEvents.AddSelected)
-                    homeNavController.navigate(NavigationRoute.DrinkScreen.route)
-                }, backgroundColor = Blue650) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_add),
-                        contentDescription = "Add",
-                        tint = if (state.selectedItem is SelectedItem.ADD) Color.White else Color(
-                            0xFFC3DBE6)
-                    )
-                }
-        }
-    ) {
-        val bottomPadding = it.calculateBottomPadding()
+    Column(modifier = Modifier.background(MaterialTheme.colors.background)) {
         NavHost(
             navController = homeNavController,
             startDestination = NavigationRoute.DrinkScreen.route,
             modifier = Modifier
-                .padding(bottom = if (showBottomBar) bottomPadding + 55.dp else 0.dp)
                 .fillMaxSize()
         ) {
             composable(NavigationRoute.DrinkScreen.route) {
                 showBottomBar = true
-                DrinkScreen()
+                DrinkScreen(navController = homeNavController)
             }
             composable(NavigationRoute.StatisticsScreen.route) {
                 showBottomBar = false
-                StatisticsScreen()
+                StatisticsScreen(navController = homeNavController)
             }
             composable(NavigationRoute.SettingsScreen.route) {
                 showBottomBar = false
@@ -106,4 +48,5 @@ fun HomeScreen(
         }
     }
 }
+
 

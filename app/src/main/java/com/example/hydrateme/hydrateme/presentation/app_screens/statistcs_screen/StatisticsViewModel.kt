@@ -8,6 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,12 +26,18 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch {
             useCases.getTodayReportUseCase(1).collect {
                 _state.value = state.value.copy(
-                    dailyReport = it
+                    dailyReport = it.asReversed().map {
+                        val hour = String.format("%02d",SimpleDateFormat("k").format(Date(it.time)).toInt())
+                        val minuit = String.format("%02d",SimpleDateFormat("m").format(Date(it.time)).toInt())
+                        TodayItem(
+                            it.drinkAmount,
+                            "ml",
+                            "${hour}:$minuit"
+                        )
+                    }
                 )
             }
         }
-        get10DaysReport()
-        get10WeeksReport()
     }
 
 

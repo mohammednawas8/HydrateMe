@@ -66,14 +66,8 @@ class HydrateRepositoryImpl(
 
     override fun getTodayReport(daysDuration: Int): Flow<List<History>> {
         return dao.getReportByDay(daysDuration).map {
-            it.map {
-                if (it.historyEntity.isNotEmpty())
-                    it.historyEntity.first().toHistory()
-                else
-                    History(
-                        0,
-                        0
-                    )
+            it.first().historyEntity.map {
+                it.toHistory()
             }
         }
     }
