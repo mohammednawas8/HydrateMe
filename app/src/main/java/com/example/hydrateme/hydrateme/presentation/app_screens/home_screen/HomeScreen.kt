@@ -29,7 +29,7 @@ fun HomeScreen(
     Column(modifier = Modifier.background(MaterialTheme.colors.background)) {
         NavHost(
             navController = homeNavController,
-            startDestination = NavigationRoute.DrinkScreen.route,
+                startDestination = NavigationRoute.DrinkScreen.route,
             modifier = Modifier
                 .fillMaxSize()
         ) {

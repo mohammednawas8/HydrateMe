@@ -83,6 +83,12 @@ class HydrateRepositoryImpl(
                 }
                 History(time, sum)
             }
+        }.map {
+            val complementTo10: MutableList<History> = it.toMutableList()
+            while (complementTo10.size < 10){
+                complementTo10.add(History(0,0))
+            }
+            complementTo10
         }
     }
 

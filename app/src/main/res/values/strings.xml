@@ -18,4 +18,5 @@
     <string name="settings">SETTINGS</string>
     <string name="drink">Drink</string>
     <string name="today_record">Today\'s record</string>
+    <string name="no_report">No report to show</string>
 </resources>

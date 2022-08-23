@@ -1,11 +1,12 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen
 
-import com.example.hydrateme.hydrateme.domain.model.Day
 import com.example.hydrateme.hydrateme.domain.model.History
 
 data class StatisticsScreenStates(
-    val periodReport: List<History> = emptyList(),
-    val dailyReport: List<TodayItem> = emptyList()
+    var periodReport: List<History> = emptyList(),
+    var dailyReport: List<TodayItem> = emptyList(),
+    val unit: String= "ml",
+    val period: String = "Day"
 )
 
 

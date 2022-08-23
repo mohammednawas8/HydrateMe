@@ -13,8 +13,9 @@ import androidx.compose.ui.unit.dp
 import com.example.hydrateme.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.hydrateme.hydrateme.domain.model.History
 import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.WavesTopAppBar
-import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.components.GraphCard
+import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.components.ChartCard
 import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.components.PeriodReportRow
 import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.components.TodaySection
 
@@ -35,7 +36,7 @@ fun StatisticsScreen(
         PeriodicReportRow()
 
         Spacer(modifier = Modifier.height(20.dp))
-        GraphCard(history = emptyList())
+        ChartCard(state.periodReport,state.unit,state.period)
 
         Spacer(modifier = Modifier.height(20.dp))
         TodaySection(state.dailyReport)

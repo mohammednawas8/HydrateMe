@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.TodayItem
 import com.example.hydrateme.ui.theme.Gray150
+import com.example.hydrateme.ui.theme.Gray300
 import com.example.hydrateme.ui.theme.Gray400
 
 @Composable
@@ -58,6 +59,17 @@ fun TodaySection(
                     item = item)
             }
         }
+
+        if (items.isEmpty()) {
+            Box(modifier = Modifier.fillMaxWidth().height(80.dp)){
+                Text(text = stringResource(id = R.string.no_report),
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    fontSize = 22.sp,
+                    style = MaterialTheme.typography.h2,
+                    color = Gray300)
+            }
+
+        }
     }
 }
 
@@ -68,7 +80,9 @@ fun TodayItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier.fillMaxWidth().padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
