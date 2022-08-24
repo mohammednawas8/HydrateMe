@@ -1,8 +1,14 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen
 
 sealed class StatisticsScreenEvents {
-    object Last10DaysReport: StatisticsScreenEvents()
-    object Last10WeeksReport: StatisticsScreenEvents()
-    object Last10MonthsReport: StatisticsScreenEvents()
-    object Last10YearsReport: StatisticsScreenEvents()
+    data class PeriodReport(val period: String) : StatisticsScreenEvents()
+}
+
+ class Period {
+     companion object{
+         const val DAYS = "D"
+         const val WEEKS = "W"
+         const val MONTHS = "M"
+         const val YEARS = "Y"
+     }
 }

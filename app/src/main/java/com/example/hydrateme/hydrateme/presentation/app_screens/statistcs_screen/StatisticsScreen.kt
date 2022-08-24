@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +23,7 @@ import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen
 @Composable
 fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
     val state = viewModel.state.value
 
@@ -33,10 +34,12 @@ fun StatisticsScreen(
             navController.navigateUp()
         }
         Spacer(modifier = Modifier.height(20.dp))
-        PeriodicReportRow()
+        PeriodicReportRow(){
+            viewModel.onEvent(StatisticsScreenEvents.PeriodReport(it))
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
-        ChartCard(state.periodReport,state.unit,state.period)
+        ChartCard(history = state.periodReport, state.unit, state.period)
 
         Spacer(modifier = Modifier.height(20.dp))
         TodaySection(state.dailyReport)
@@ -46,10 +49,12 @@ fun StatisticsScreen(
 }
 
 @Composable
-private fun PeriodicReportRow() {
+private fun PeriodicReportRow(
+    onClick:(String) -> Unit
+) {
     Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
         PeriodReportRow(modifier = Modifier.shadow(24.dp, RoundedCornerShape(15.dp))) {
-
+            onClick(it)
         }
     }
 }

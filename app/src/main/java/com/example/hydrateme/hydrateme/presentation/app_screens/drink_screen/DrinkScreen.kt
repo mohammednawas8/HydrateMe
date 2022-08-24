@@ -31,18 +31,18 @@ import com.example.hydrateme.ui.theme.OpenSans
 @Composable
 fun DrinkScreen(
     viewModel: DrinkViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
 ) {
 
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(30.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
 
-        ) {
-            WavesTopAppBar(text = state.date,false) {}
+            ) {
+            WavesTopAppBar(text = state.date, false) {}
 
             Row(
                 modifier = Modifier
@@ -52,8 +52,9 @@ fun DrinkScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(
+                    modifier = Modifier.padding(top = 30.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(50.dp),
+                    verticalArrangement = Arrangement.spacedBy(70.dp),
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(

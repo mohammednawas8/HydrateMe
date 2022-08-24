@@ -8,10 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
@@ -35,28 +32,30 @@ fun ChartCard(
     period: String,
 ) {
 
+    Log.d("test",history.size.toString())
 
-    val maximumValue by remember {
+    val maximumValue by derivedStateOf {
         if (history.isEmpty())
             mutableStateOf(500)
-        else
+        else {
             mutableStateOf(history.maxOf { it.drinkAmount })
-    }
+        }
+    }.value
 
-    Log.d("test",maximumValue.toString())
 
-    val decreaseSize by remember {
+    val decreaseSize by derivedStateOf {
         mutableStateOf(maximumValue / 5)
-    }
+    }.value
 
 
-    val amountList = remember {
+    val amountList = derivedStateOf{
         val list = mutableListOf<Int>()
         for (i in maximumValue downTo 0 step decreaseSize) {
             list.add(i)
         }
         list
-    }
+    }.value
+
     Card(
         modifier = Modifier
             .fillMaxWidth()

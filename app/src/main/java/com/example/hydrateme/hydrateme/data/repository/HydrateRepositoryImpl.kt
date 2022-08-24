@@ -89,6 +89,7 @@ class HydrateRepositoryImpl(
                 complementTo10.add(History(0,0))
             }
             complementTo10
+
         }
     }
 

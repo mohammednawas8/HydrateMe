@@ -38,7 +38,7 @@ fun TodaySection(
     ) {
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
 
             Text(

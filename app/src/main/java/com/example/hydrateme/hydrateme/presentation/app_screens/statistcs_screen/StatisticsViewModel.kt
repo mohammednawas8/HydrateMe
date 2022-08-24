@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -44,24 +45,33 @@ class StatisticsViewModel @Inject constructor(
 
     fun onEvent(event: StatisticsScreenEvents) {
         when (event) {
-            is StatisticsScreenEvents.Last10DaysReport -> {
-                get10DaysReport()
-            }
-            is StatisticsScreenEvents.Last10WeeksReport -> {
-                get10WeeksReport()
-            }
-            is StatisticsScreenEvents.Last10MonthsReport -> {
-                get10MonthsReport()
-            }
-            is StatisticsScreenEvents.Last10YearsReport -> {
-                get10YearsReport()
+            is StatisticsScreenEvents.PeriodReport -> {
+                when (event.period) {
+                    Period.DAYS -> {
+                        get10DaysReport()
+                    }
+                    Period.WEEKS -> {
+                        get10WeeksReport()
+                    }
+                    Period.MONTHS -> {
+                        get10MonthsReport()
+                    }
+                    Period.YEARS -> {
+                        get10YearsReport()
+                    }
+                }
             }
         }
     }
 
     private fun get10YearsReport() {
         viewModelScope.launch {
-            useCases.getLast10YearsReportUseCase.invoke().collect {
+            useCases.getLast10YearsReportUseCase.invoke().collect { _10YearsHistory ->
+                _state.value = state.value.copy(
+                    periodReport = _10YearsHistory.map {
+                        it
+                    }
+                )
             }
         }
     }
@@ -69,6 +79,13 @@ class StatisticsViewModel @Inject constructor(
     private fun get10MonthsReport() {
         viewModelScope.launch {
             useCases.getLast10MonthsReportUseCase.invoke().collect {
+                useCases.getLast10MonthsReportUseCase.invoke().collect { _10MonthsHistory ->
+                    _state.value = state.value.copy(
+                        periodReport = _10MonthsHistory.map {
+                            it
+                        }
+                    )
+                }
             }
         }
     }
@@ -76,6 +93,13 @@ class StatisticsViewModel @Inject constructor(
     private fun get10WeeksReport() {
         viewModelScope.launch {
             useCases.getLast10WeeksReportUseCase.invoke().collect {
+                useCases.getLast10WeeksReportUseCase.invoke().collect { _10WeeksHistory ->
+                    _state.value = state.value.copy(
+                        periodReport = _10WeeksHistory.map {
+                            it
+                        }
+                    )
+                }
             }
         }
     }
