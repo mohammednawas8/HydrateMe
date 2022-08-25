@@ -107,7 +107,7 @@ fun ScrollPicker(
             verticalArrangement = Arrangement.spacedBy(25.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             state = leftScrollState,
-            flingBehavior = rememberSnapperFlingBehavior(leftScrollState)
+            flingBehavior = rememberSnapperFlingBehavior(leftScrollState),
 
         ) {
             itemsIndexed(leftList) { index, item ->

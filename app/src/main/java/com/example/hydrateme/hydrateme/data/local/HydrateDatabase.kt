@@ -10,7 +10,7 @@ import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 
 @Database(
     entities = [UserEntity::class, DayEntity::class,HistoryEntity::class],
-    version = 4
+    version = 5
 )
 abstract class HydrateDatabase : RoomDatabase() {
 

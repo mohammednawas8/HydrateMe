@@ -19,7 +19,7 @@ fun UserEntity.toUser(): User {
     return User(
         gender, weight,
         wakeUpHour ,wakeUpMinutes,
-        bedHour, bedMinutes ,
+        cupSize,bedHour, bedMinutes ,
         dailyGoal, complete, unit, soundPath
     )
 }
@@ -28,7 +28,7 @@ fun User.toUserEntity(): UserEntity {
     return UserEntity(
         gender, weight,
         wakeUpHour ,wakeUpMinutes,
-        bedHour, bedMinutes ,
+        cupSize,bedHour, bedMinutes ,
         dailyGoal, complete, unit, soundPath
     )
 }

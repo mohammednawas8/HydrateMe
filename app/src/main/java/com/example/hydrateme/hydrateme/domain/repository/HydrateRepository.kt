@@ -40,4 +40,6 @@ interface HydrateRepository {
     fun get10MonthsReport(): Flow<List<History>>
 
     fun get10YearsReport(): Flow<List<History>>
+
+    suspend fun updateCupSize(cupSize: Int)
 }

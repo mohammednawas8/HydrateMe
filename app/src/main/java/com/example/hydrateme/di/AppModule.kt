@@ -50,6 +50,7 @@ object AppModule {
         GetLast10WeeksReportUseCase(hydrateRepository),
         GetLast10MonthsReportUseCase(hydrateRepository),
         GetLast10YearsReportUseCase(hydrateRepository),
+        UpdateCupSizeUseCase(hydrateRepository)
     )
 
     @Provides

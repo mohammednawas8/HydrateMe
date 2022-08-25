@@ -19,4 +19,7 @@
     <string name="drink">Drink</string>
     <string name="today_record">Today\'s record</string>
     <string name="no_report">No report to show</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="cup_size">Cup size</string>
 </resources>

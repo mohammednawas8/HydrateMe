@@ -7,6 +7,7 @@ data class User(
     val weight: Int,
     val wakeUpHour: String,
     val wakeUpMinutes: String,
+    val cupSize: Int,
     val bedHour: String,
     val bedMinutes: String,
     val dailyGoal: Int,

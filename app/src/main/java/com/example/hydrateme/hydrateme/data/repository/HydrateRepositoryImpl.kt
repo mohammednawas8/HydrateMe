@@ -207,4 +207,8 @@ class HydrateRepositoryImpl(
             years
         }
     }
+
+    override suspend fun updateCupSize(cupSize: Int) {
+        dao.updateCupSize(cupSize)
+    }
 }

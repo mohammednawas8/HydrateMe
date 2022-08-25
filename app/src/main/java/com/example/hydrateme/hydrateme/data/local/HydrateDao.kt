@@ -43,4 +43,7 @@ interface HydrateDao {
     @Transaction
     @Query("SELECT * FROM DayEntity ORDER BY day DESC LIMIT :dayDuration")
     fun getReportByDay(dayDuration: Int): Flow<List<DayEntityWithHistoryEntity>>
+
+    @Query("UPDATE UserEntity SET cupSize = :cupSize")
+    suspend fun updateCupSize(cupSize: Int)
 }

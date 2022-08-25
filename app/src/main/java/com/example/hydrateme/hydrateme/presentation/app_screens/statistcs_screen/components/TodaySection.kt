@@ -103,9 +103,9 @@ fun TodayItem(
 
         Text(
             text = item.time,
-            style = MaterialTheme.typography.h2,
             fontSize = 12.sp,
-            color = Color.Black
+            color = Color.DarkGray,
+            fontWeight = FontWeight.Light
         )
     }
 }

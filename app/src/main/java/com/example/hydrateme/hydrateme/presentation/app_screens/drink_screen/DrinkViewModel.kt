@@ -75,8 +75,10 @@ class DrinkViewModel @Inject constructor(
             useCases.getUserUseCase
                 .invoke().collect { user ->
                     _state.value = state.value.copy(
-                        dailyGoal = user.dailyGoal
+                        dailyGoal = user.dailyGoal,
+                        cupSize = user.cupSize
                     )
+                    Log.d("test",user.toString())
                 }
         }
     }
@@ -85,11 +87,23 @@ class DrinkViewModel @Inject constructor(
         when (event) {
             is DrinkScreenEvents.Drink -> {
                 viewModelScope.launch {
-                    launch { drink(event.drinkAmount) }
-                    launch { insertHistoryRecord(event.drinkAmount) }
+//                    launch { drink(state.value.cupSize) }
+                    launch { insertHistoryRecord(state.value.cupSize) }
+                }
+            }
+            is DrinkScreenEvents.ChangeCupSize -> {
+                viewModelScope.launch {
+                    updateCupSize(event.cupItem.amount)
                 }
             }
         }
+    }
+
+    private suspend fun updateCupSize(amount: Int) {
+        _state.value = state.value.copy(
+            cupSize = amount
+        )
+        useCases.updateCupSizeUseCase(amount)
     }
 
     private suspend fun insertHistoryRecord(drinkAmount: Int) {

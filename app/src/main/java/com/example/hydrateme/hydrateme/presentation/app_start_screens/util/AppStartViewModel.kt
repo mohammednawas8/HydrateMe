@@ -89,6 +89,7 @@ class AppStartViewModel @Inject constructor(
             data.weight,
             data.wakeUpHour,
             data.wakeUpMinutes,
+            200,
             data.bedHour,
             data.bedMinutes,
             dailyGoal,

@@ -1,5 +1,8 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen
 
+import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -19,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.hydrateme.R
+import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.components.CupPickerDialog
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.components.WaterBottle
 import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.SelectedItem
 import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.HydrateBottomNavigation
@@ -35,7 +39,9 @@ fun DrinkScreen(
 ) {
 
     val state = viewModel.state.value
-
+    var showCupPicker by remember {
+        mutableStateOf(false)
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(30.dp),
@@ -86,13 +92,19 @@ fun DrinkScreen(
                     waterPercentage = if (state.waterPercentage == 0f) 0.05f else state.waterPercentage,
                     modifier = Modifier
                         .width(130.dp)
-                        .height(385.dp),
-                    lightColor = false
+                        .height(385.dp)
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = null
+                        ) {
+                            showCupPicker = true
+                        },
+                    lightColor = false,
                 )
             }
             Button(
                 onClick = {
-                    viewModel.onEvent(DrinkScreenEvents.Drink(200))
+                    viewModel.onEvent(DrinkScreenEvents.Drink)
                 },
                 modifier = Modifier
                     .width(240.dp)
@@ -135,6 +147,13 @@ fun DrinkScreen(
                 selectedItem = SelectedItem.ADD,
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp)
             )
+        }
+
+        if (showCupPicker){
+            CupPickerDialog(cupList = cupList, onDismissRequest = {showCupPicker = false}) {
+                viewModel.onEvent(DrinkScreenEvents.ChangeCupSize(it))
+                showCupPicker = false
+            }
         }
 
     }

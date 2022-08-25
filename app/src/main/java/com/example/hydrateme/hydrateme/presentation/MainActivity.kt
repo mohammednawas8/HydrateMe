@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     HomeScreen()
-
+//
 //                    val navController = rememberNavController()
 //                    val appStartViewModel by viewModels<AppStartViewModel>()
 //                    NavHost(

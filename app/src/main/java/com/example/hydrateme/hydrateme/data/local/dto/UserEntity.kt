@@ -10,6 +10,7 @@ data class UserEntity(
     val weight: Int,
     val wakeUpHour: String,
     val wakeUpMinutes: String,
+    val cupSize: Int = 200,
     val bedHour: String,
     val bedMinutes: String,
     val dailyGoal: Int,
