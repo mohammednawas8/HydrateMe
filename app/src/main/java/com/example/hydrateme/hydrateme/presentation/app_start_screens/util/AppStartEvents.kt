@@ -1,5 +1,7 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.util
 
+import android.app.PendingIntent
+
 sealed class AppStartEvents {
     data class GenderChange(val gender: String): AppStartEvents()
     data class WeightChange(val weight: Int): AppStartEvents()
@@ -8,5 +10,5 @@ sealed class AppStartEvents {
     data class WakeUpMinutesChange(val minutes: String): AppStartEvents()
     data class BedHourChange(val hour: String): AppStartEvents()
     data class BedMinutesChange(val minutes: String): AppStartEvents()
-    object Finish: AppStartEvents()
+    data class Finish(val pendingIntent: PendingIntent): AppStartEvents()
 }

@@ -1,6 +1,8 @@
 package com.example.hydrateme.di
 
+import android.app.AlarmManager
 import android.app.Application
+import android.content.Context.ALARM_SERVICE
 import android.content.res.Resources
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
 import com.example.hydrateme.hydrateme.data.local.HydrateDatabase
@@ -50,7 +52,8 @@ object AppModule {
         GetLast10WeeksReportUseCase(hydrateRepository),
         GetLast10MonthsReportUseCase(hydrateRepository),
         GetLast10YearsReportUseCase(hydrateRepository),
-        UpdateCupSizeUseCase(hydrateRepository)
+        UpdateCupSizeUseCase(hydrateRepository),
+        SetInsertDayAlarmUseCase()
     )
 
     @Provides
@@ -59,4 +62,9 @@ object AppModule {
         application: Application,
     ): Resources = application.resources
 
+    @Provides
+    @Singleton
+    fun provideAlarmManger(
+        application: Application
+    ) = application.getSystemService(ALARM_SERVICE) as AlarmManager
 }

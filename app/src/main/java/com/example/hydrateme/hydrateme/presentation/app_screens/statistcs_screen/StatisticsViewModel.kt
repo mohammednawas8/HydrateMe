@@ -70,7 +70,8 @@ class StatisticsViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     periodReport = _10YearsHistory.map {
                         it
-                    }
+                    },
+                    period = "Year"
                 )
             }
         }
@@ -83,7 +84,8 @@ class StatisticsViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         periodReport = _10MonthsHistory.map {
                             it
-                        }
+                        },
+                        period = "Month"
                     )
                 }
             }
@@ -97,7 +99,9 @@ class StatisticsViewModel @Inject constructor(
                     _state.value = state.value.copy(
                         periodReport = _10WeeksHistory.map {
                             it
-                        }
+                        },
+                        period = "Week"
+
                     )
                 }
             }
@@ -110,7 +114,8 @@ class StatisticsViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     periodReport = _10daysHistory.map {
                         it
-                    }
+                    },
+                    period = "Day"
                 )
 
             }

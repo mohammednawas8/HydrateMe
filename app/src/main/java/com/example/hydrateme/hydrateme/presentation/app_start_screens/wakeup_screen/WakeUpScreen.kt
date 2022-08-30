@@ -11,6 +11,8 @@ import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.AppSt
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.util.componants.PickerScreens
 import com.example.hydrateme.hydrateme.presentation.util.Gender
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
+import java.util.*
+import kotlin.math.absoluteValue
 
 @Composable
 fun WakeUpScreen(
@@ -24,10 +26,10 @@ fun WakeUpScreen(
     }
 
     val leftList = remember {
-        (0..24).map { String.format("%02d", it) }.toMutableList()
+        (0..24).map { String.format(Locale.ENGLISH,"%02d", it) }.toMutableList()
     }
     val rightList = remember {
-        (0..59).map { String.format("%02d", it) }.toMutableList()
+        (0..59).map { String.format(Locale.ENGLISH,"%02d", it) }.toMutableList()
     }
 
 
@@ -53,4 +55,5 @@ fun WakeUpScreen(
         leftInitial = user.wakeUpHour.toInt(),
         rightInitial = user.wakeUpMinutes.toInt()
     )
+
 }

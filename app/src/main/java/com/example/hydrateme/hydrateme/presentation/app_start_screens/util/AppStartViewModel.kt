@@ -1,20 +1,19 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.util
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
-import com.example.hydrateme.hydrateme.presentation.util.yyyyMMddToMillis
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -22,6 +21,7 @@ private val TAG = "AppStartViewModel"
 @HiltViewModel
 class AppStartViewModel @Inject constructor(
     private val useCases: UseCases,
+    private val alarmManager: AlarmManager
 ) : ViewModel() {
 
     private val _userState = mutableStateOf(AppStartStates())
@@ -74,13 +74,15 @@ class AppStartViewModel @Inject constructor(
                 Log.d(TAG,"Bed minutes change ${event.minutes}")
             }
             is AppStartEvents.Finish -> viewModelScope.launch {
-                withContext(Dispatchers.Default) { saveUserInformation() }
+                withContext(Dispatchers.Default) { saveUserInformation(event.pendingIntent) }
                 Log.d(TAG,"User saved")
             }
         }
     }
 
-    private fun saveUserInformation() = viewModelScope.launch {
+    private fun saveUserInformation(
+        pendingIntent: PendingIntent
+    ) = viewModelScope.launch {
         val data = _userState.value
         val dailyGoal = getDailyGoal(data)
 
@@ -102,10 +104,24 @@ class AppStartViewModel @Inject constructor(
             1
         )
 
-        useCases.insertUseUseCase(user)
-        useCases.clearDaysTable()
-        useCases.clearHistoryTable()
-        addNewDay()
+        launch { useCases.insertUseUseCase(user) }
+        launch { useCases.clearDaysTable() }
+        launch { useCases.clearHistoryTable() }
+        launch { addNewDay() }
+        launch { setAddNewDayAlarm(pendingIntent) }
+    }
+
+    private fun setAddNewDayAlarm(pendingIntent: PendingIntent) {
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY,2)
+        }
+
+        useCases.setInsertDayAlarmUseCase.invoke(
+            alarmManager,
+            pendingIntent,
+            calendar.timeInMillis
+        )
     }
 
     private suspend fun addNewDay() {
