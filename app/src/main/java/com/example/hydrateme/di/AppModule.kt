@@ -2,17 +2,21 @@ package com.example.hydrateme.di
 
 import android.app.AlarmManager
 import android.app.Application
+import android.content.Context
 import android.content.Context.ALARM_SERVICE
 import android.content.res.Resources
+import com.example.hydrateme.hydrateme.data.alarm_manger.ReminderMangerImpl
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
 import com.example.hydrateme.hydrateme.data.local.HydrateDatabase
 import com.example.hydrateme.hydrateme.data.repository.HydrateRepositoryImpl
+import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
 import com.example.hydrateme.hydrateme.domain.use_case.*
 import com.example.hydrateme.hydrateme.domain.util.InsertHistoryRecord
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -29,7 +33,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideHydrateRepository(
-        dao: HydrateDao,
+        dao: HydrateDao
     ): HydrateRepository = HydrateRepositoryImpl(dao)
 
     @Provides
@@ -53,7 +57,8 @@ object AppModule {
         GetLast10MonthsReportUseCase(hydrateRepository),
         GetLast10YearsReportUseCase(hydrateRepository),
         UpdateCupSizeUseCase(hydrateRepository),
-        SetInsertDayAlarmUseCase()
+        SetInsertDayAlarmUseCase(),
+        SaveReminderAlarmsUseCase(hydrateRepository)
     )
 
     @Provides
@@ -67,4 +72,14 @@ object AppModule {
     fun provideAlarmManger(
         application: Application
     ) = application.getSystemService(ALARM_SERVICE) as AlarmManager
+
+    @Provides
+    @Singleton
+    fun provideReminderManger(
+        @ApplicationContext context: Context,
+        alarmManger:AlarmManager,
+        dao: HydrateDao
+    ): ReminderManger = ReminderMangerImpl(
+        alarmManger, context,dao
+    )
 }

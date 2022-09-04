@@ -22,4 +22,7 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="cup_size">Cup size</string>
+    <string name="drink_notification_channel">Drink water reminder</string>
+    <string name="drink_notification_title">Water reminder</string>
+    <string name="drink_notification_text">It is the time to drink some water click here now to drink</string>
 </resources>

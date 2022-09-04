@@ -4,13 +4,11 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
-import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
-import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
+import com.example.hydrateme.hydrateme.data.local.dto.*
 
 @Database(
-    entities = [UserEntity::class, DayEntity::class,HistoryEntity::class],
-    version = 5
+    entities = [UserEntity::class, DayEntity::class, HistoryEntity::class, AlarmEntity::class, AlarmDayEntity::class],
+    version = 6
 )
 abstract class HydrateDatabase : RoomDatabase() {
 

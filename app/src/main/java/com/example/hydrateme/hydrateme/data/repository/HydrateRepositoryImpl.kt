@@ -1,26 +1,19 @@
 package com.example.hydrateme.hydrateme.data.repository
 
-import android.util.Log
+import android.app.AlarmManager
+import android.content.Context
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
 import com.example.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.example.hydrateme.hydrateme.data.local.dto.HistoryEntity
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
-import com.example.hydrateme.hydrateme.data.mapper.toDay
-import com.example.hydrateme.hydrateme.data.mapper.toHistory
-import com.example.hydrateme.hydrateme.data.mapper.toReport
-import com.example.hydrateme.hydrateme.data.mapper.toUserAndDays
-import com.example.hydrateme.hydrateme.domain.model.Day
-import com.example.hydrateme.hydrateme.domain.model.History
-import com.example.hydrateme.hydrateme.domain.model.Report
-import com.example.hydrateme.hydrateme.domain.model.UserAndDays
+import com.example.hydrateme.hydrateme.data.mapper.*
+import com.example.hydrateme.hydrateme.domain.model.*
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 
 class HydrateRepositoryImpl(
-    val dao: HydrateDao,
+    private val dao: HydrateDao
 ) : HydrateRepository {
 
     override suspend fun insertUser(user: UserEntity) {
@@ -85,8 +78,8 @@ class HydrateRepositoryImpl(
             }
         }.map {
             val complementTo10: MutableList<History> = it.toMutableList()
-            while (complementTo10.size < 10){
-                complementTo10.add(History(0,0))
+            while (complementTo10.size < 10) {
+                complementTo10.add(History(0, 0))
             }
             complementTo10
 
@@ -211,4 +204,24 @@ class HydrateRepositoryImpl(
     override suspend fun updateCupSize(cupSize: Int) {
         dao.updateCupSize(cupSize)
     }
+
+    override suspend fun insertAlarm(alarm: Alarm, alarmId: Int) {
+        dao.insertAlarm(alarm.toAlarmEntity(1,alarmId))
+    }
+
+    override suspend fun insertAlarms(alarms: List<Alarm>) {
+//        dao.insertAlarms(alarms.map { it.toAlarmEntity(1) })
+    }
+
+    override suspend fun getAlarms(userId: Int): List<Alarm> {
+        return dao.getAlarms(userId).map {
+            it.toAlarm()
+        }
+    }
+
+    override suspend fun insertAlarmDay(alarmDay: AlarmDay, alarmId: Int) {
+        dao.insertAlarmDay(alarmDay.toAlarmDayEntity(alarmId))
+    }
+
+
 }

@@ -55,5 +55,28 @@ fun DayEntityWithHistoryEntity.toReport(): Report{
     )
 }
 
+fun AlarmEntity.toAlarm(): Alarm {
+    return Alarm(
+        hour, minute, emptyList(), isEnabled
+    )
+}
+
+fun AlarmDay.toAlarmDayEntity(alarmId: Int) : AlarmDayEntity {
+    return AlarmDayEntity(
+        dayTimestamp,
+        0 //Auto generate by room
+    )
+}
+
+fun Alarm.toAlarmEntity(userId: Int, alarmId: Int): AlarmEntity{
+    return AlarmEntity(
+        hour,
+        true,
+        minute,
+        userId,
+        alarmId
+    )
+}
+
 
 

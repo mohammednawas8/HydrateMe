@@ -2,6 +2,9 @@ package com.example.hydrateme.hydrateme.domain.use_case
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 
 
 class SetInsertDayAlarmUseCase {
@@ -11,7 +14,7 @@ class SetInsertDayAlarmUseCase {
         pendingIntent: PendingIntent,
         time: Long
     ){
-        alarmManager.setInexactRepeating(
+        alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             time,
             AlarmManager.INTERVAL_DAY,

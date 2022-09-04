@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,6 @@ class InsertDayReceiver : BroadcastReceiver() {
                 Log.d(TAG,"Added New Day")
             }
         }
-
     }
 
     companion object {

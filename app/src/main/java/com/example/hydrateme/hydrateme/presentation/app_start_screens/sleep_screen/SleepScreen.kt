@@ -2,7 +2,9 @@ package com.example.hydrateme.hydrateme.presentation.app_start_screens.sleep_scr
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Intent
+import android.os.Build
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.example.hydrateme.R
+import com.example.hydrateme.hydrateme.data.broadcast_receiver.InsertDayReceiver
 import com.example.hydrateme.hydrateme.data.broadcast_receiver.InsertDayReceiver.Companion.ADD_DAY_RECEIVER
 import com.example.hydrateme.hydrateme.data.broadcast_receiver.InsertDayReceiver.Companion.ADD_DAY_REQUEST_CODE
 import com.example.hydrateme.hydrateme.presentation.MainActivity
@@ -57,11 +60,13 @@ fun SleepScreen(
             navController.navigateUp()
         },
         onNextClick = {
-            val pendingIntent = Intent(context,MainActivity::class.java).let {
-                it.action = ADD_DAY_RECEIVER
-                PendingIntent.getBroadcast(context, ADD_DAY_REQUEST_CODE,it,0)
+            val intent = Intent(context,InsertDayReceiver::class.java)
+            intent.action = ADD_DAY_RECEIVER
+            val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.getBroadcast(context,ADD_DAY_REQUEST_CODE,intent,FLAG_IMMUTABLE)
+            } else {
+                PendingIntent.getBroadcast(context,ADD_DAY_REQUEST_CODE,intent,0)
             }
-
             viewModel.onEvent(AppStartEvents.Finish(pendingIntent))
             navController.navigate(NavigationRoute.HomeScreen.route)
         },

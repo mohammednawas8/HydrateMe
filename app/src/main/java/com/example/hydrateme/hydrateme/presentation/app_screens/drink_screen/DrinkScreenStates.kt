@@ -6,7 +6,7 @@ import java.util.*
 data class DrinkScreenStates(
     val dailyGoal: Int = 0,
     val complete: Int = 0,
-    val waterPercentage: Float = 0.0f,
+    val waterPercentage: Float = 0.05f,
     val cupSize: Int = 200,
     val date: String = SimpleDateFormat("E, MMMM dd", Locale.ENGLISH).format(Date())
 )

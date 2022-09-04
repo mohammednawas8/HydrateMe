@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hydrateme.hydrateme.domain.model.History
 import com.example.hydrateme.ui.theme.*
+import java.util.*
 
 @Composable
 fun ChartCard(
@@ -113,7 +114,7 @@ fun ChartCard(
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Bold)
                         (1..10).forEach {
-                            Text(text = String.format("%02d", it),
+                            Text(text = String.format(Locale.ENGLISH,"%02d", it),
                                 color = Gray150,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold)

@@ -9,19 +9,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
+import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
 private val TAG = "AppStartViewModel"
+
 @HiltViewModel
 class AppStartViewModel @Inject constructor(
     private val useCases: UseCases,
-    private val alarmManager: AlarmManager
+    private val alarmManager: AlarmManager,
+    private val reminderManger: ReminderManger
 ) : ViewModel() {
 
     private val _userState = mutableStateOf(AppStartStates())
@@ -34,54 +38,54 @@ class AppStartViewModel @Inject constructor(
                 _userState.value = userState.value.copy(
                     gender = event.gender
                 )
-                Log.d(TAG,"Gender Change ${event.gender}")
+                Log.d(TAG, "Gender Change ${event.gender}")
             }
 
             is AppStartEvents.WeightChange -> {
                 _userState.value = userState.value.copy(
                     weight = event.weight
                 )
-                Log.d(TAG,"Weight Change ${event.weight}")
+                Log.d(TAG, "Weight Change ${event.weight}")
             }
             is AppStartEvents.WeightUnitChange -> {
                 _userState.value = userState.value.copy(
                     weightUnit = event.unit
                 )
-                Log.d(TAG,"Weight Unit ${event.unit}")
+                Log.d(TAG, "Weight Unit ${event.unit}")
             }
             is AppStartEvents.WakeUpHourChange -> {
                 _userState.value = userState.value.copy(
                     wakeUpHour = event.hour
                 )
-                Log.d(TAG,"Wake up hour change ${event.hour}")
+                Log.d(TAG, "Wake up hour change ${event.hour}")
             }
             is AppStartEvents.WakeUpMinutesChange -> {
                 _userState.value = userState.value.copy(
                     wakeUpMinutes = event.minutes
                 )
-                Log.d(TAG,"Wake up minutes change ${event.minutes}")
+                Log.d(TAG, "Wake up minutes change ${event.minutes}")
             }
             is AppStartEvents.BedHourChange -> {
                 _userState.value = userState.value.copy(
                     bedHour = event.hour
                 )
-                Log.d(TAG,"Bed hour change ${event.hour}")
+                Log.d(TAG, "Bed hour change ${event.hour}")
             }
             is AppStartEvents.BedMinutesChange -> {
                 _userState.value = userState.value.copy(
                     bedMinutes = event.minutes
                 )
-                Log.d(TAG,"Bed minutes change ${event.minutes}")
+                Log.d(TAG, "Bed minutes change ${event.minutes}")
             }
             is AppStartEvents.Finish -> viewModelScope.launch {
                 withContext(Dispatchers.Default) { saveUserInformation(event.pendingIntent) }
-                Log.d(TAG,"User saved")
+                Log.d(TAG, "User saved")
             }
         }
     }
 
     private fun saveUserInformation(
-        pendingIntent: PendingIntent
+        pendingIntent: PendingIntent,
     ) = viewModelScope.launch {
         val data = _userState.value
         val dailyGoal = getDailyGoal(data)
@@ -109,14 +113,31 @@ class AppStartViewModel @Inject constructor(
         launch { useCases.clearHistoryTable() }
         launch { addNewDay() }
         launch { setAddNewDayAlarm(pendingIntent) }
+        val alarmsDeferred = async { saveReminderAlarms(
+            "${data.wakeUpHour}:${data.wakeUpMinutes}",
+            "${data.bedHour}:${data.bedMinutes}",
+            200,
+            dailyGoal
+        )
+        }
+        alarmsDeferred.await()
+        reminderManger.setDrinkReminders()
+    }
+
+    private suspend fun saveReminderAlarms(
+        wakeUpTime: String,
+        sleepTime: String,
+        drinkAmount: Int,
+        target: Int,
+    ) {
+        useCases.saveReminderAlarms.invoke(wakeUpTime, sleepTime, drinkAmount, target)
     }
 
     private fun setAddNewDayAlarm(pendingIntent: PendingIntent) {
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY,2)
+            set(Calendar.HOUR_OF_DAY, 2)
         }
-
         useCases.setInsertDayAlarmUseCase.invoke(
             alarmManager,
             pendingIntent,
@@ -126,7 +147,7 @@ class AppStartViewModel @Inject constructor(
 
     private suspend fun addNewDay() {
         val insertedDay = useCases.insertDayUseCase()
-        Log.d(TAG,"Inserted day $insertedDay")
+        Log.d(TAG, "Inserted day $insertedDay")
     }
 
     private fun getDailyGoal(data: AppStartStates): Int {

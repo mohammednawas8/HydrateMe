@@ -13,6 +13,19 @@ interface HydrateDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDay(dayEntity: DayEntity)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAlarm(alarmEntity: AlarmEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAlarms(alarmEntity: List<AlarmEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAlarmDay(alarmDayEntity: AlarmDayEntity)
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAlarmDays(alarmDayEntity: List<AlarmDayEntity>)
+
     @Query("SELECT * FROM UserEntity")
     fun getUserAndDays(): Flow<UserAndDaysOutput>
 
@@ -46,4 +59,7 @@ interface HydrateDao {
 
     @Query("UPDATE UserEntity SET cupSize = :cupSize")
     suspend fun updateCupSize(cupSize: Int)
+
+    @Query("SELECT * FROM AlarmEntity WHERE userId =:userId")
+    suspend fun getAlarms(userId: Int): List<AlarmEntity>
 }

@@ -19,5 +19,6 @@ data class UseCases(
     val getLast10MonthsReportUseCase: GetLast10MonthsReportUseCase,
     val getLast10YearsReportUseCase: GetLast10YearsReportUseCase,
     val updateCupSizeUseCase: UpdateCupSizeUseCase,
-    val setInsertDayAlarmUseCase: SetInsertDayAlarmUseCase
+    val setInsertDayAlarmUseCase: SetInsertDayAlarmUseCase,
+    val saveReminderAlarms: SaveReminderAlarmsUseCase
 )
