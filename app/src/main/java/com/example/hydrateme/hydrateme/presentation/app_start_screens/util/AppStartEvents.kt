@@ -10,5 +10,5 @@ sealed class AppStartEvents {
     data class WakeUpMinutesChange(val minutes: String): AppStartEvents()
     data class BedHourChange(val hour: String): AppStartEvents()
     data class BedMinutesChange(val minutes: String): AppStartEvents()
-    data class Finish(val pendingIntent: PendingIntent): AppStartEvents()
+    object Finish: AppStartEvents()
 }

@@ -3,6 +3,8 @@
     package="com.example.hydrateme">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".HydrateApplication"
         android:allowBackup="true"
@@ -31,6 +33,16 @@
         <receiver android:name=".hydrateme.data.broadcast_receiver.DrinkWaterReminderReceiver"
             android:enabled="true"
             android:exported="true"/>
+
+        <receiver android:name=".hydrateme.data.broadcast_receiver.RescheduleAlarmsReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+<!--                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>-->
+<!--                <action android:name="android.intent.action.PACKAGE_REPLACED"/>-->
+            </intent-filter>
+        </receiver>
 
     </application>
 

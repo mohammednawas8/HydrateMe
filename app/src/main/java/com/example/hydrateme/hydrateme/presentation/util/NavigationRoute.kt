@@ -10,5 +10,6 @@ sealed class NavigationRoute(val route: String) {
     object DrinkScreen: NavigationRoute("Drink_screen")
     object StatisticsScreen: NavigationRoute("Statistics_screen")
     object SettingsScreen: NavigationRoute("Settings_screen")
+    object SplashScreen: NavigationRoute("splash_screen")
 
 }

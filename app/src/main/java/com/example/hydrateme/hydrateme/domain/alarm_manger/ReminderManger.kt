@@ -9,4 +9,6 @@ interface ReminderManger {
     fun updateDrinkReminder()
 
     fun setNextDayReminders(time: Long, alarmId: Int)
+
+    fun setInsertDayAlarm()
 }

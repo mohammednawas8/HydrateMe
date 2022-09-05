@@ -4,6 +4,8 @@ import android.app.AlarmManager
 import android.app.Application
 import android.content.Context
 import android.content.Context.ALARM_SERVICE
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.content.res.Resources
 import com.example.hydrateme.hydrateme.data.alarm_manger.ReminderMangerImpl
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
@@ -13,6 +15,7 @@ import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.repository.HydrateRepository
 import com.example.hydrateme.hydrateme.domain.use_case.*
 import com.example.hydrateme.hydrateme.domain.util.InsertHistoryRecord
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.splash_screen.SplashViewModel.Companion.SPLASH_SCREEN
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -82,4 +85,10 @@ object AppModule {
     ): ReminderManger = ReminderMangerImpl(
         alarmManger, context,dao
     )
+
+    @Provides
+    @Singleton
+    fun provideSplashSharedPreferences(
+        application: Application
+    ): SharedPreferences = application.getSharedPreferences(SPLASH_SCREEN, MODE_PRIVATE)
 }

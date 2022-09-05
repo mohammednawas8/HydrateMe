@@ -60,15 +60,11 @@ fun SleepScreen(
             navController.navigateUp()
         },
         onNextClick = {
-            val intent = Intent(context,InsertDayReceiver::class.java)
-            intent.action = ADD_DAY_RECEIVER
-            val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                PendingIntent.getBroadcast(context,ADD_DAY_REQUEST_CODE,intent,FLAG_IMMUTABLE)
-            } else {
-                PendingIntent.getBroadcast(context,ADD_DAY_REQUEST_CODE,intent,0)
+
+            viewModel.onEvent(AppStartEvents.Finish)
+            navController.navigate(NavigationRoute.HomeScreen.route){
+                popUpTo(0)
             }
-            viewModel.onEvent(AppStartEvents.Finish(pendingIntent))
-            navController.navigate(NavigationRoute.HomeScreen.route)
         },
         leftInitial = user.bedHour.toInt(),
         rightInitial = user.bedMinutes.toInt()

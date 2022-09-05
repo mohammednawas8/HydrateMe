@@ -1,7 +1,9 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.util
 
-import android.app.AlarmManager
-import android.app.PendingIntent
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -11,12 +13,12 @@ import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
+import com.example.hydrateme.hydrateme.presentation.app_start_screens.splash_screen.SplashViewModel.Companion.IS_DATABASE_EMPTY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 private val TAG = "AppStartViewModel"
@@ -24,12 +26,22 @@ private val TAG = "AppStartViewModel"
 @HiltViewModel
 class AppStartViewModel @Inject constructor(
     private val useCases: UseCases,
-    private val alarmManager: AlarmManager,
-    private val reminderManger: ReminderManger
+    private val reminderManger: ReminderManger,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _userState = mutableStateOf(AppStartStates())
     val userState: State<AppStartStates> = _userState
+//
+//    init {
+//        subscribeToBroadcastReceivers()
+//    }
+//
+//    private fun subscribeToBroadcastReceivers() {
+//        val filter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION).apply {
+//            addAction(Intent.ACTION_BOOT_COMPLETED)
+//        }
+//    }
 
 
     fun onEvent(event: AppStartEvents) {
@@ -78,14 +90,22 @@ class AppStartViewModel @Inject constructor(
                 Log.d(TAG, "Bed minutes change ${event.minutes}")
             }
             is AppStartEvents.Finish -> viewModelScope.launch {
-                withContext(Dispatchers.Default) { saveUserInformation(event.pendingIntent) }
+                withContext(Dispatchers.Default) { finishSettings() }
                 Log.d(TAG, "User saved")
             }
         }
     }
 
-    private fun saveUserInformation(
-        pendingIntent: PendingIntent,
+    private fun finishSettings() {
+        saveUserInformationAndAlarms()
+        updateSharedPreferences()
+    }
+
+    private fun updateSharedPreferences() {
+        sharedPreferences.edit().putBoolean(IS_DATABASE_EMPTY,false).apply()
+    }
+
+    private fun saveUserInformationAndAlarms(
     ) = viewModelScope.launch {
         val data = _userState.value
         val dailyGoal = getDailyGoal(data)
@@ -112,7 +132,7 @@ class AppStartViewModel @Inject constructor(
         launch { useCases.clearDaysTable() }
         launch { useCases.clearHistoryTable() }
         launch { addNewDay() }
-        launch { setAddNewDayAlarm(pendingIntent) }
+        launch { reminderManger.setInsertDayAlarm() }
         val alarmsDeferred = async { saveReminderAlarms(
             "${data.wakeUpHour}:${data.wakeUpMinutes}",
             "${data.bedHour}:${data.bedMinutes}",
@@ -131,18 +151,6 @@ class AppStartViewModel @Inject constructor(
         target: Int,
     ) {
         useCases.saveReminderAlarms.invoke(wakeUpTime, sleepTime, drinkAmount, target)
-    }
-
-    private fun setAddNewDayAlarm(pendingIntent: PendingIntent) {
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 2)
-        }
-        useCases.setInsertDayAlarmUseCase.invoke(
-            alarmManager,
-            pendingIntent,
-            calendar.timeInMillis
-        )
     }
 
     private suspend fun addNewDay() {
