@@ -12,6 +12,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.hydrateme.HydrateApplication.Companion.DRINK_CHANNEL
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.data.alarm_manger.ReminderMangerImpl.Companion.ALARM_ID
+import com.example.hydrateme.hydrateme.data.alarm_manger.ReminderMangerImpl.Companion.ALARM_PASSED
 import com.example.hydrateme.hydrateme.data.alarm_manger.ReminderMangerImpl.Companion.NEXT_ALARM
 import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.presentation.MainActivity
@@ -23,16 +24,22 @@ private val TAG = "DrinkReminderReceiver"
 
 @AndroidEntryPoint
 class DrinkWaterReminderReceiver : BroadcastReceiver() {
-    @Inject lateinit var alarmManger: ReminderManger
+    @Inject
+    lateinit var reminderManger: ReminderManger
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == REMINDER_RECEIVER_ACTION) {
-            val nextDayAlarm = intent.getLongExtra(NEXT_ALARM,-1)
-            val alarmId = intent.getIntExtra(ALARM_ID,-1)
-            showDrinkNotification(context)
-//            if(nextDayAlarm != -1L && alarmId != -1){
-//                alarmManger.setNextDayReminders(nextDayAlarm, alarmId)
-//                Log.d(TAG,"Next alarm on $nextDayAlarm")
-//            }
+            val isReminderPassed = intent.getBooleanExtra(ALARM_PASSED, false)
+
+            if (!isReminderPassed) {
+                showDrinkNotification(context)
+                Log.d(TAG, "Drink alarm")
+            } else
+                Log.d(TAG, "Passed Alarm")
+
+//            val nextDayAlarm = intent.getLongExtra(NEXT_ALARM, -1)
+//            val alarmId = intent.getIntExtra(ALARM_ID, -1)
+//            if (nextDayAlarm != -1L && alarmId != -1)
+//                reminderManger.setNextDayReminders(nextDayAlarm, alarmId)
         }
     }
 
