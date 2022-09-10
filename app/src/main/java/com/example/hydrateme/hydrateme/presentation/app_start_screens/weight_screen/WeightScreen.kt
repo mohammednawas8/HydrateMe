@@ -1,6 +1,5 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.weight_screen
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.res.painterResource
@@ -36,7 +35,7 @@ fun WeightScreen(
     PickerScreens(
         gender = if (isMale) Gender.Male else Gender.Female,
         image = painterResource(id = if (isMale) R.drawable.ic_blue_weight else R.drawable.ic_pink_weight),
-        text = stringResource(id = R.string.weight),
+        text = stringResource(id = R.string.weight_text),
         time = false,
         leftList = leftList,
         rightList = rightList,

@@ -26,7 +26,7 @@ fun WakeUpScreen(
     }
 
     val leftList = remember {
-        (0..24).map { String.format(Locale.ENGLISH,"%02d", it) }.toMutableList()
+        (1..24).map { String.format(Locale.ENGLISH,"%02d", it) }.toMutableList()
     }
     val rightList = remember {
         (0..59).map { String.format(Locale.ENGLISH,"%02d", it) }.toMutableList()

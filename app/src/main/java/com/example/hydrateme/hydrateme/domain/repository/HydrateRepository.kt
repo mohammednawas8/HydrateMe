@@ -22,6 +22,8 @@ interface HydrateRepository {
 
     suspend fun clearHistoryTable()
 
+    suspend fun clearAlarmsTable()
+
     suspend fun insertHistory(historyEntity: HistoryEntity)
 
     suspend fun getLastDay(): Flow<Day?>
@@ -47,4 +49,7 @@ interface HydrateRepository {
     suspend fun getAlarms(userId: Int): List<Alarm>
 
     suspend fun insertAlarmDay(alarmDay: AlarmDay,alarmId: Int)
+
+    suspend fun getAlarmsAsFlow(): Flow<List<Alarm>>
+
 }

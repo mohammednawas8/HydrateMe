@@ -41,6 +41,9 @@ interface HydrateDao {
     @Query("DELETE FROM HistoryEntity")
     suspend fun clearHistoryTable()
 
+    @Query("DELETE FROM AlarmEntity")
+    suspend fun clearAlarmsTable()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHistoryRecord(history: HistoryEntity)
 
@@ -62,4 +65,29 @@ interface HydrateDao {
 
     @Query("SELECT * FROM AlarmEntity WHERE userId =:userId")
     suspend fun getAlarms(userId: Int): List<AlarmEntity>
+
+    @Query("SELECT * FROM AlarmEntity")
+    fun getAlarmsAsFlow(): Flow<List<AlarmEntity>>
+
+//    @Query ("UPDATE UserEntity set gender = :gender")
+//    fun updateGender(gender: String)
+//
+//    @Query ("UPDATE UserEntity set weight = :weight")
+//    fun updateWeight(weight: Int)
+//
+//    @Query ("UPDATE UserEntity set weightUnit = :weightUnit")
+//    fun updateWeightUnit(weightUnit: String)
+//
+//    @Query ("UPDATE UserEntity set wakeUpHour = :wakeupHour")
+//    fun updateWakeupHour(wakeupHour: String)
+//
+//    @Query ("UPDATE UserEntity set wakeUpMinutes = :wakeupMinutes")
+//    fun updateWakeupMinutes(wakeupMinutes: String)
+//
+//    @Query ("UPDATE UserEntity set bedHour = :bedHour")
+//    fun updateBedHour(bedHour: String)
+//
+//    @Query ("UPDATE UserEntity set bedMinutes = :bedMinutes")
+//    fun updateBedMinutes(bedMinutes: String)
+
 }

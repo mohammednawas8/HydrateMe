@@ -17,7 +17,7 @@ data class UserEntity(
     val complete: Int,
     @Embedded val unit: Unit,
     val soundPath: String,
-    @PrimaryKey val id: Int? = null,
+    @PrimaryKey val id: Int,
 )
 
 data class Unit(

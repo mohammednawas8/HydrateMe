@@ -64,7 +64,7 @@ class DrinkViewModel @Inject constructor(
                 Log.d("percentage","${it.toFloat() / state.value.dailyGoal.toFloat()}")
                 _state.value = state.value.copy(
                     complete = it,
-                    waterPercentage = it.toFloat() / state.value.dailyGoal.toFloat()
+                    waterPercentage = if (it.toFloat() == 0f) 0.05f else it.toFloat() / state.value.dailyGoal.toFloat()
                 )
             }
         }

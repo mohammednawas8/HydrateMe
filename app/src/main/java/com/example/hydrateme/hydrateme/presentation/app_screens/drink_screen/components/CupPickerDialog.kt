@@ -24,6 +24,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.example.hydrateme.ui.theme.HydrateMeTheme
 import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.CupItem
+import com.example.hydrateme.hydrateme.presentation.util.components.DialogTextButtons
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -63,23 +64,8 @@ fun CupPickerDialog(
                     }
                 }
 
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween) {
-                    TextButton(
-                        onClick = onDismissRequest,
-                    ) {
-                        Text(text = stringResource(id = R.string.cancel))
-                    }
-                    TextButton(
-                        onClick = { onSaveClick(cupList[if (selectedCup == -1) 2 else selectedCup]) },
-                    ) {
-                        Text(text = stringResource(id = R.string.save),
-                            color = MaterialTheme.colors.primary
-                        )
-                    }
-                }
+                DialogTextButtons(onCancelClick = { onDismissRequest() },
+                    onSaveClick = { onSaveClick(cupList[if (selectedCup == -1) 2 else selectedCup]) })
             }
         }
     }

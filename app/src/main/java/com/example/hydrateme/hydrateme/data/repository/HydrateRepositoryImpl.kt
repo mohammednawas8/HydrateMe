@@ -47,6 +47,10 @@ class HydrateRepositoryImpl(
         dao.clearHistoryTable()
     }
 
+    override suspend fun clearAlarmsTable() {
+        dao.clearAlarmsTable()
+    }
+
     override suspend fun insertHistory(historyEntity: HistoryEntity) {
         dao.insertHistoryRecord(historyEntity)
     }
@@ -99,7 +103,7 @@ class HydrateRepositoryImpl(
 
     override fun get10WeeksReport(): Flow<List<History>> {
         return dao.getReportByDay(10 * 7).map {
-            val weeks = mutableListOf<History>() //Output list
+            var weeks = mutableListOf<History>() //Output list
             val size = it.size
             var weekStep = 0 //The shift amount here we will shift by 7 indices because it's a week
             while (weekStep + 7 <= size) {
@@ -127,6 +131,7 @@ class HydrateRepositoryImpl(
                 weeks.add(History(day, sum))
                 sum = 0
             }
+            weeks.reverse()
             //To make sure that our report has 10 weeks, if the report < 10 days, add empty history
             while (weeks.size < 10) {
                 weeks.add(History(0, 0))
@@ -160,7 +165,7 @@ class HydrateRepositoryImpl(
                 }
                 months.add(History(day, sum))
             }
-
+            months.reverse()
             while (months.size < 10) {
                 months.add(History(0, 0))
             }
@@ -194,6 +199,7 @@ class HydrateRepositoryImpl(
                 years.add(History(day, sum))
                 sum = 0
             }
+            years.reverse()
             while (years.size < 10) {
                 years.add(History(0, 0))
             }
@@ -223,5 +229,7 @@ class HydrateRepositoryImpl(
         dao.insertAlarmDay(alarmDay.toAlarmDayEntity(alarmId))
     }
 
-
+    override suspend fun getAlarmsAsFlow(): Flow<List<Alarm>> {
+        return dao.getAlarmsAsFlow().map { it.map { it.toAlarm() } }
+    }
 }

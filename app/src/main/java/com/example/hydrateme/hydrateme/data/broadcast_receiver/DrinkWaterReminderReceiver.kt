@@ -29,17 +29,17 @@ class DrinkWaterReminderReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == REMINDER_RECEIVER_ACTION) {
             val isReminderPassed = intent.getBooleanExtra(ALARM_PASSED, false)
-
             if (!isReminderPassed) {
                 showDrinkNotification(context)
+                val nextDayAlarm = intent.getLongExtra(NEXT_ALARM, -1)
+                val alarmId = intent.getIntExtra(ALARM_ID, -1)
+                if (nextDayAlarm != -1L && alarmId != -1)
+                    reminderManger.setNextDayReminders(nextDayAlarm, alarmId)
                 Log.d(TAG, "Drink alarm")
             } else
                 Log.d(TAG, "Passed Alarm")
 
-//            val nextDayAlarm = intent.getLongExtra(NEXT_ALARM, -1)
-//            val alarmId = intent.getIntExtra(ALARM_ID, -1)
-//            if (nextDayAlarm != -1L && alarmId != -1)
-//                reminderManger.setNextDayReminders(nextDayAlarm, alarmId)
+
         }
     }
 
@@ -63,7 +63,7 @@ class DrinkWaterReminderReceiver : BroadcastReceiver() {
                 R.drawable.notification_larg_image))
             .build()
 
-        NotificationManagerCompat.from(context).notify(Random.nextInt(), notification)
+        NotificationManagerCompat.from(context).notify(100, notification)
     }
 
     companion object {

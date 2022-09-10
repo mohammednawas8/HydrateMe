@@ -90,7 +90,6 @@ fun WaterBottle(
                 )
                 lineTo(width * 0.7f, height * 0.2f)
                 lineTo(width * 0.7f, height * 0.1f)
-                Log.d("TT", "$waterPercentage")
 
                 close()
             }

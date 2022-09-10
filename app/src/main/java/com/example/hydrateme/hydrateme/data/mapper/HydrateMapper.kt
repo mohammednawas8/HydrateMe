@@ -11,15 +11,19 @@ fun DayEntity.toDay(): Day {
 
 fun Day.toDayEntity(id: Int): DayEntity {
     return DayEntity(
-       day, id
+        day, id
     )
 }
 
 fun UserEntity.toUser(): User {
+    val wakeUpHour = String.format("%02d", wakeUpHour.toInt())
+    val wakeUpMinutes = String.format("%02d", wakeUpMinutes.toInt())
+    val bedHour = String.format("%02d", bedHour.toInt())
+    val bedMinutes = String.format("%02d", bedMinutes.toInt())
     return User(
         gender, weight,
-        wakeUpHour ,wakeUpMinutes,
-        cupSize,bedHour, bedMinutes ,
+        wakeUpHour, wakeUpMinutes,
+        cupSize, bedHour, bedMinutes,
         dailyGoal, complete, unit, soundPath
     )
 }
@@ -27,9 +31,9 @@ fun UserEntity.toUser(): User {
 fun User.toUserEntity(): UserEntity {
     return UserEntity(
         gender, weight,
-        wakeUpHour ,wakeUpMinutes,
-        cupSize,bedHour, bedMinutes ,
-        dailyGoal, complete, unit, soundPath
+        wakeUpHour, wakeUpMinutes,
+        cupSize, bedHour, bedMinutes,
+        dailyGoal, complete, unit, soundPath, 0
     )
 }
 
@@ -47,7 +51,7 @@ fun HistoryEntity.toHistory(): History {
     )
 }
 
-fun DayEntityWithHistoryEntity.toReport(): Report{
+fun DayEntityWithHistoryEntity.toReport(): Report {
     return Report(
         day = day.toDay(),
         history = historyEntity.map { it.toHistory() }
@@ -61,14 +65,14 @@ fun AlarmEntity.toAlarm(): Alarm {
     )
 }
 
-fun AlarmDay.toAlarmDayEntity(alarmId: Int) : AlarmDayEntity {
+fun AlarmDay.toAlarmDayEntity(alarmId: Int): AlarmDayEntity {
     return AlarmDayEntity(
         dayTimestamp,
         0 //Auto generate by room
     )
 }
 
-fun Alarm.toAlarmEntity(userId: Int, alarmId: Int): AlarmEntity{
+fun Alarm.toAlarmEntity(userId: Int, alarmId: Int): AlarmEntity {
     return AlarmEntity(
         hour,
         true,

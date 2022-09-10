@@ -43,6 +43,7 @@ object AppModule {
     @Singleton
     fun provideUseCases(
         hydrateRepository: HydrateRepository,
+        reminderManger: ReminderManger
     ) = UseCases(
         InsertUserUserCase(hydrateRepository),
         InsertDayUseCase(hydrateRepository),
@@ -61,7 +62,10 @@ object AppModule {
         GetLast10YearsReportUseCase(hydrateRepository),
         UpdateCupSizeUseCase(hydrateRepository),
         SetInsertDayAlarmUseCase(),
-        SaveReminderAlarmsUseCase(hydrateRepository)
+        SaveReminderAlarmsUseCase(hydrateRepository),
+        ClearAlarmsTableUseCase(hydrateRepository),
+        ResetUserDataUseCase(hydrateRepository,reminderManger),
+        GetAlarmsUseCase(hydrateRepository)
     )
 
     @Provides

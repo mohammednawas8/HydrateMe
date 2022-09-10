@@ -8,7 +8,7 @@
     <string name="female">Female</string>
     <string name="next">Next</string>
     <string name="gender_error">Please select you gender</string>
-    <string name="weight">How much do you weight</string>
+    <string name="weight_text">How much do you weight</string>
     <string name="kg">kg</string>
     <string name="ib">ib</string>
     <string name="wakeup_time">What time do you wake up</string>
@@ -25,4 +25,21 @@
     <string name="drink_notification_channel">Drink water reminder</string>
     <string name="drink_notification_title">Water reminder</string>
     <string name="drink_notification_text">It is the time to drink some water click here now to drink</string>
+    <string name="language">Language</string>
+    <string name="general">General</string>
+    <string name="reminder_settings">Reminder Settings</string>
+    <string name="others">Others</string>
+    <string name="gender">Gender</string>
+    <string name="bed_time">Bedtime</string>
+    <string name="weight">Weight</string>
+    <string name="wakeup">Wake-up time</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="reminder_schedule">Reminder Schedule</string>
+    <string name="reminder_sound">Reminder sound</string>
+    <string name="reset_data">Reset data</string>
+    <string name="feedback">Feedback</string>
+    <string name="share">Share</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="more">More</string>
+    <string name="other">Other</string>
 </resources>

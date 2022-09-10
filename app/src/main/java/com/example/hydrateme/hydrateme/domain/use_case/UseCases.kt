@@ -3,7 +3,7 @@ package com.example.hydrateme.hydrateme.domain.use_case
 import com.example.hydrateme.hydrateme.domain.util.InsertHistoryRecord
 
 data class UseCases(
-    val insertUseUseCase: InsertUserUserCase,
+    val insertUserUseCase: InsertUserUserCase,
     val insertDayUseCase: InsertDayUseCase,
     val getUseAndDaysUseCase: GetUserAndDaysUseCase,
     val getUserUseCase: GetUserUseCase,
@@ -20,5 +20,8 @@ data class UseCases(
     val getLast10YearsReportUseCase: GetLast10YearsReportUseCase,
     val updateCupSizeUseCase: UpdateCupSizeUseCase,
     val setInsertDayAlarmUseCase: SetInsertDayAlarmUseCase,
-    val saveReminderAlarms: SaveReminderAlarmsUseCase
+    val saveReminderAlarms: SaveReminderAlarmsUseCase,
+    val clearAlarmsTableUseCase: ClearAlarmsTableUseCase,
+    val resetUserDataUseCase: ResetUserDataUseCase,
+    val getAlarms: GetAlarmsUseCase
 )

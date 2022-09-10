@@ -1,9 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_start_screens.util
 
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -125,10 +122,10 @@ class AppStartViewModel @Inject constructor(
                 "ml"
             ),
             "",
-            1
+            0
         )
 
-        launch { useCases.insertUseUseCase(user) }
+        launch { useCases.insertUserUseCase(user) }
         launch { useCases.clearDaysTable() }
         launch { useCases.clearHistoryTable() }
         launch { addNewDay() }
@@ -159,7 +156,7 @@ class AppStartViewModel @Inject constructor(
     }
 
     private fun getDailyGoal(data: AppStartStates): Int {
-        return data.weight * 30
+        return data.weight * 30 + 100
     }
 
 }
