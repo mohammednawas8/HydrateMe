@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.reminder_schedule_screen.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Switch

@@ -211,8 +211,8 @@ class HydrateRepositoryImpl(
         dao.updateCupSize(cupSize)
     }
 
-    override suspend fun insertAlarm(alarm: Alarm, alarmId: Int) {
-        dao.insertAlarm(alarm.toAlarmEntity(1,alarmId))
+    override suspend fun insertAlarm(alarm: Alarm) {
+        dao.insertAlarm(alarm.toAlarmEntity(0, alarm.id))
     }
 
     override suspend fun insertAlarms(alarms: List<Alarm>) {

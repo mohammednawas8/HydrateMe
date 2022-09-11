@@ -50,9 +50,6 @@ interface HydrateDao {
     @Query("SELECT * FROM DayEntity ORDER BY day DESC LIMIT 1")
     fun getLastDay(): Flow<DayEntity?>
 
-//    @Query("SELECT * FROM HistoryEntity WHERE day = :day")
-//    fun getHistoryByTheDay(day: Long): Flow<List<HistoryEntity>>
-
     @Query("SELECT drinkAmount FROM HistoryEntity WHERE day =:day")
     fun getCompletedAmount(day: Long): Flow<List<Int>>
 
@@ -69,25 +66,5 @@ interface HydrateDao {
     @Query("SELECT * FROM AlarmEntity")
     fun getAlarmsAsFlow(): Flow<List<AlarmEntity>>
 
-//    @Query ("UPDATE UserEntity set gender = :gender")
-//    fun updateGender(gender: String)
-//
-//    @Query ("UPDATE UserEntity set weight = :weight")
-//    fun updateWeight(weight: Int)
-//
-//    @Query ("UPDATE UserEntity set weightUnit = :weightUnit")
-//    fun updateWeightUnit(weightUnit: String)
-//
-//    @Query ("UPDATE UserEntity set wakeUpHour = :wakeupHour")
-//    fun updateWakeupHour(wakeupHour: String)
-//
-//    @Query ("UPDATE UserEntity set wakeUpMinutes = :wakeupMinutes")
-//    fun updateWakeupMinutes(wakeupMinutes: String)
-//
-//    @Query ("UPDATE UserEntity set bedHour = :bedHour")
-//    fun updateBedHour(bedHour: String)
-//
-//    @Query ("UPDATE UserEntity set bedMinutes = :bedMinutes")
-//    fun updateBedMinutes(bedMinutes: String)
 
 }

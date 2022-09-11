@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.model.Alarm
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,39 +17,52 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ReminderScheduleViewModel @Inject constructor(
-    private val useCases: UseCases
-): ViewModel() {
+    private val useCases: UseCases,
+    private val reminderManger: ReminderManger,
+) : ViewModel() {
     private val _state = mutableStateOf<List<Alarm>>(emptyList())
     val state: State<List<Alarm>> = _state
 
     init {
         viewModelScope.launch {
             useCases.getAlarms.invoke().collectLatest {
-                _state.value = it.map { it }
+                _state.value = it.map { it }.sortedBy { it.hour }
             }
         }
     }
 
-    fun onEvent(event: ReminderScheduleScreenEvents){
-        when(event){
-            is ReminderScheduleScreenEvents.SwitchChange ->{
-                if(event.isChecked){
-                    setAlarm(event.alarm)
-                }else{
-                   cancelAlarm(event.alarm)
+    fun onEvent(event: ReminderScheduleScreenEvents) {
+        when (event) {
+            is ReminderScheduleScreenEvents.SwitchChange -> {
+                if (event.isChecked) {
+                    viewModelScope.launch {
+                        setAlarm(event.alarm)
+                    }
+                } else {
+                    viewModelScope.launch {
+                        cancelAlarm(event.alarm)
+                    }
                 }
             }
-            is ReminderScheduleScreenEvents.SetAlarm ->{
-
+            is ReminderScheduleScreenEvents.SetAlarm -> {
+                viewModelScope.launch {
+                    setAlarm(Alarm(state.value.maxOf { it.id + 1 },
+                        event.hour,
+                        event.min,
+                        emptyList(),
+                        true))
+                }
             }
         }
     }
 
-    private fun cancelAlarm(alarm: Alarm) {
-
+    private suspend fun cancelAlarm(alarm: Alarm) {
+        reminderManger.cancelDrinkReminder(alarm)
+        useCases.insertAlarmUseCase.invoke(alarm.copy(isEnabled = false))
     }
 
-    private fun setAlarm(alarm: Alarm) {
-
+    private suspend fun setAlarm(alarm: Alarm) {
+        useCases.insertAlarmUseCase.invoke(alarm.copy(isEnabled = true))
+        reminderManger.setDrinkReminders()
     }
 }

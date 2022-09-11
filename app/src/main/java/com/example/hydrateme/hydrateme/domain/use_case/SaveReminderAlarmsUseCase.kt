@@ -24,11 +24,11 @@ class SaveReminderAlarmsUseCase(
         val weekDaysCalender = getWeekDaysCalender()
         alarms.forEachIndexed { index, alarm ->
             hydrateRepository.insertAlarm(Alarm(
+                alarm.id,
                 alarm.hour,
                 alarm.minute,
                 getWeekDaysCalender().map { it.timeInMillis },
-                true),
-                index
+                true)
             )
             weekDaysCalender.forEach {
                 hydrateRepository.insertAlarmDay(AlarmDay(it.timeInMillis), index)
@@ -92,10 +92,10 @@ class SaveReminderAlarmsUseCase(
         val daysTimeStamp = getWeekDaysCalender().map { it.timeInMillis }
 
         //convert the alarms list into Alarm objects.
-        return alarms.map {
-            val hour = it / 60
-            val minutes = it % 60
-            Alarm(if (hour > 24) hour - 24 else hour, minutes, daysTimeStamp, true)
+        return alarms.mapIndexed { index, item->
+            val hour = item / 60
+            val minutes = item % 60
+            Alarm(index,if (hour > 24) hour - 24 else hour, minutes, daysTimeStamp, true)
         }
     }
 

@@ -65,7 +65,8 @@ object AppModule {
         SaveReminderAlarmsUseCase(hydrateRepository),
         ClearAlarmsTableUseCase(hydrateRepository),
         ResetUserDataUseCase(hydrateRepository,reminderManger),
-        GetAlarmsUseCase(hydrateRepository)
+        GetAlarmsUseCase(hydrateRepository),
+        InsertAlarmUseCase(hydrateRepository)
     )
 
     @Provides

@@ -12,6 +12,7 @@ import com.example.hydrateme.hydrateme.data.broadcast_receiver.DrinkWaterReminde
 import com.example.hydrateme.hydrateme.data.broadcast_receiver.DrinkWaterReminderReceiver.Companion.REMINDER_RECEIVER_ACTION
 import com.example.hydrateme.hydrateme.data.broadcast_receiver.InsertDayReceiver
 import com.example.hydrateme.hydrateme.data.local.HydrateDao
+import com.example.hydrateme.hydrateme.data.mapper.toAlarmEntity
 import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.model.Alarm
 import kotlinx.coroutines.CoroutineScope
@@ -39,7 +40,7 @@ class ReminderMangerImpl(
     // Delayed alarms are not triggered
     override fun setDrinkReminders() {
         CoroutineScope(Dispatchers.IO).launch {
-            val alarmsList = dao.getAlarms(1)
+            val alarmsList = dao.getAlarms(0)
             alarmsList.forEach { alarmEntity ->
                 val calendar = Calendar.getInstance().apply {
                     timeInMillis = System.currentTimeMillis()
@@ -71,29 +72,33 @@ class ReminderMangerImpl(
                             FLAG_UPDATE_CURRENT)
                     }
 
-                //The problem in setExact was in the pendingIntent flag
-                alarmManger.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    calendar.timeInMillis,
-                    pendingIntent
-                ).also { Log.d(TAG, "Alarm set at ${alarmEntity.hour}:${alarmEntity.minute}") }
-            }
+                    alarmManger.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    ).also { Log.d(TAG, "Alarm set at ${alarmEntity.hour}:${alarmEntity.minute}") }
+                }
         }
     }
 
     override fun cancelDrinkReminder(alarm: Alarm) {
-//        val intent = Intent(context, DrinkWaterReminderReceiver::class.java)
-//        val pendingIntent =
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                PendingIntent.getBroadcast(context,
-//                    alarm.id,
-//                    intent,
-//                    FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
-//            } else {
-//                PendingIntent.getBroadcast(context, alarm.id, intent, FLAG_UPDATE_CURRENT)
-//            }
-//        alarmManger.cancel(pendingIntent)
-//        Log.d(TAG,"Alarm ${alarm.id} at ${alarm.hour}:${alarm.minute} is canceled")
+        val intent = Intent(context, DrinkWaterReminderReceiver::class.java).apply {
+            putExtra(NEXT_ALARM, 0L)
+            putExtra(ALARM_ID, 0)
+            action = REMINDER_RECEIVER_ACTION
+        }
+
+        val pendingIntent =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.getBroadcast(context,
+                    alarm.id,
+                    intent,
+                    FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
+            } else {
+                PendingIntent.getBroadcast(context, alarm.id, intent, FLAG_UPDATE_CURRENT)
+            }
+        alarmManger.cancel(pendingIntent)
+        Log.d(TAG,"Alarm ${alarm.id} at ${alarm.hour}:${alarm.minute} is canceled")
     }
 
     override fun updateDrinkReminder(alarm: Alarm) {
@@ -154,23 +159,20 @@ class ReminderMangerImpl(
     }
 
     override suspend fun cancelAllReminders() {
-            val alarms = dao.getAlarms(0)
-            alarms.forEach {
-                val intent = Intent(context, DrinkWaterReminderReceiver::class.java)
-                val pendingIntent =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        PendingIntent.getBroadcast(context,
-                            it.alarmId,
-                            intent,
-                            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
-                    } else {
-                        PendingIntent.getBroadcast(context, it.alarmId, intent, FLAG_UPDATE_CURRENT)
-                    }
-                alarmManger.cancel(pendingIntent)
-                Log.d(TAG,"Alarm ${it.alarmId} at ${it.hour}:${it.minute} is canceled")
-            }
+        val alarms = dao.getAlarms(0)
+        alarms.forEach {
+            val intent = Intent(context, DrinkWaterReminderReceiver::class.java)
+            val pendingIntent =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.getBroadcast(context,
+                        it.alarmId,
+                        intent,
+                        FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
+                } else {
+                    PendingIntent.getBroadcast(context, it.alarmId, intent, FLAG_UPDATE_CURRENT)
+                }
+            alarmManger.cancel(pendingIntent)
+            Log.d(TAG, "Alarm ${it.alarmId} at ${it.hour}:${it.minute} is canceled")
         }
-
-
-
+    }
 }

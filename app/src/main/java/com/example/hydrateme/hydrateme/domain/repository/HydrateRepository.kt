@@ -42,7 +42,7 @@ interface HydrateRepository {
 
     suspend fun updateCupSize(cupSize: Int)
 
-    suspend fun insertAlarm(alarm: Alarm,alarmId: Int)
+    suspend fun insertAlarm(alarm: Alarm)
 
     suspend fun insertAlarms(alarms: List<Alarm>)
 
