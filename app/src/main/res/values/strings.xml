@@ -44,7 +44,8 @@
     <string name="other">Other</string>
     <string name="confirm">Confirm</string>
     <string name="reset_data_text">This will delete all your information including your reports and reminders.</string>
-    <string name="privacy_policy_text">We created apps with respect users\' privacy. Our apps does not collect any data or information from the phone and user. But to make apps work properly, sometimes we request some permistions for:</string>
-    <string name="privacy_policy_text2">With Hydrate Me app: This permission is not only used to access your phone tone as reminder tone.</string>
-    <string name="internet_permission">Access WIFI just for showing ads inside the app.</string>
+    <string name="privacy_policy_text">We created apps with respect users\' privacy. Our apps does not collect any data or information from the phone and user. But to make apps work properly, we need to get the following information:</string>
+    <string name="privacy_policy_text2">With Hydrate Me app: All your information are saved locally and we don\'t share them.</string>
+    <string name="gender_weight">Gender and Weight: To help us finding your Daily goal.</string>
+    <string name="wakeup_bed">Wakeup time and Bed time: To determine when you should receive the drink reminders.</string>
 </resources>
