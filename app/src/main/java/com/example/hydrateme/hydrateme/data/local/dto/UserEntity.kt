@@ -16,8 +16,8 @@ data class UserEntity(
     val dailyGoal: Int,
     val complete: Int,
     @Embedded val unit: Unit,
-    val soundPath: String,
-    @PrimaryKey val id: Int,
+    val soundPath: Int,
+    @PrimaryKey val id: Int? = 0,
 )
 
 data class Unit(

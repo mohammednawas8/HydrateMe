@@ -2,9 +2,9 @@ package com.example.hydrateme.di
 
 import android.app.AlarmManager
 import android.app.Application
+import android.app.NotificationManager
 import android.content.Context
-import android.content.Context.ALARM_SERVICE
-import android.content.Context.MODE_PRIVATE
+import android.content.Context.*
 import android.content.SharedPreferences
 import android.content.res.Resources
 import com.example.hydrateme.hydrateme.data.alarm_manger.ReminderMangerImpl
@@ -36,14 +36,14 @@ object AppModule {
     @Provides
     @Singleton
     fun provideHydrateRepository(
-        dao: HydrateDao
+        dao: HydrateDao,
     ): HydrateRepository = HydrateRepositoryImpl(dao)
 
     @Provides
     @Singleton
     fun provideUseCases(
         hydrateRepository: HydrateRepository,
-        reminderManger: ReminderManger
+        reminderManger: ReminderManger,
     ) = UseCases(
         InsertUserUserCase(hydrateRepository),
         InsertDayUseCase(hydrateRepository),
@@ -64,9 +64,11 @@ object AppModule {
         SetInsertDayAlarmUseCase(),
         SaveReminderAlarmsUseCase(hydrateRepository),
         ClearAlarmsTableUseCase(hydrateRepository),
-        ResetUserDataUseCase(hydrateRepository,reminderManger),
+        ResetUserDataUseCase(hydrateRepository, reminderManger),
         GetAlarmsUseCase(hydrateRepository),
-        InsertAlarmUseCase(hydrateRepository)
+        InsertAlarmUseCase(hydrateRepository),
+        ClearUserTable(hydrateRepository),
+        GetNotificationSoundUseCase(hydrateRepository)
     )
 
     @Provides
@@ -78,22 +80,35 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAlarmManger(
-        application: Application
+        application: Application,
     ) = application.getSystemService(ALARM_SERVICE) as AlarmManager
 
     @Provides
     @Singleton
     fun provideReminderManger(
         @ApplicationContext context: Context,
-        alarmManger:AlarmManager,
-        dao: HydrateDao
+        alarmManger: AlarmManager,
+        dao: HydrateDao,
     ): ReminderManger = ReminderMangerImpl(
-        alarmManger, context,dao
+        alarmManger, context, dao
     )
 
     @Provides
     @Singleton
     fun provideSplashSharedPreferences(
-        application: Application
+        application: Application,
     ): SharedPreferences = application.getSharedPreferences(SPLASH_SCREEN, MODE_PRIVATE)
+
+
+    @Provides
+    @Singleton
+    fun providePackageName(
+        application: Application,
+    ): String = application.packageName
+
+    @Provides
+    @Singleton
+    fun provideNotificationManger(
+        application: Application,
+    ): NotificationManager = application.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 }

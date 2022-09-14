@@ -11,7 +11,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.hydrateme.hydrateme.presentation.app_screens.drink_screen.DrinkScreen
+import com.example.hydrateme.hydrateme.presentation.app_screens.privacy_policy.PrivacyPolicyScreen
 import com.example.hydrateme.hydrateme.presentation.app_screens.reminder_schedule_screen.ReminderScheduleScreen
+import com.example.hydrateme.hydrateme.presentation.app_screens.reminder_sound_screen.ReminderSoundScreen
 import com.example.hydrateme.hydrateme.presentation.app_screens.settings_screen.SettingsScreen
 import com.example.hydrateme.hydrateme.presentation.app_screens.statistcs_screen.StatisticsScreen
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
@@ -47,9 +49,14 @@ fun HomeScreen(
                 showBottomBar = false
                 SettingsScreen(navController = homeNavController)
             }
-
             composable(NavigationRoute.ReminderScheduleScreen.route){
                 ReminderScheduleScreen(navController = homeNavController)
+            }
+            composable(NavigationRoute.ReminderSoundScreen.route){
+                ReminderSoundScreen(navController = homeNavController)
+            }
+            composable(NavigationRoute.PrivacyPolicyScreen.route){
+                PrivacyPolicyScreen(homeNavController)
             }
         }
     }

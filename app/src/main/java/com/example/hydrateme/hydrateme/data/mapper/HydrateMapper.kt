@@ -1,5 +1,6 @@
 package com.example.hydrateme.hydrateme.data.mapper
 
+import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.data.local.dto.*
 import com.example.hydrateme.hydrateme.domain.model.*
 
@@ -33,7 +34,7 @@ fun User.toUserEntity(): UserEntity {
         gender, weight,
         wakeUpHour, wakeUpMinutes,
         cupSize, bedHour, bedMinutes,
-        dailyGoal, complete, unit, soundPath, 0
+        dailyGoal, complete, unit, soundPath ?: R.raw.water_drop_deffault, 0
     )
 }
 
@@ -61,7 +62,7 @@ fun DayEntityWithHistoryEntity.toReport(): Report {
 
 fun AlarmEntity.toAlarm(): Alarm {
     return Alarm(
-        alarmId,hour, minute, emptyList(), isEnabled
+        alarmId, hour, minute, emptyList(), isEnabled
     )
 }
 

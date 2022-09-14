@@ -13,8 +13,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.presentation.app_screens.reminder_schedule_screen.components.ReminderItem
 import com.example.hydrateme.hydrateme.presentation.app_screens.reminder_schedule_screen.components.ReminderScheduleTopBar
 
@@ -36,7 +38,7 @@ fun ReminderScheduleScreen(
         topBar = {
             ReminderScheduleTopBar(onBackClick = { navController.navigateUp() }, onAddClick = {
                 timePickerDialog = true
-            })
+            }, stringResource(id = R.string.reminder_schedule), true)
         },
         backgroundColor = Color.White
     ) {
@@ -51,7 +53,7 @@ fun ReminderScheduleScreen(
         if (timePickerDialog) {
             val timeDialog = TimePickerDialog(
                 LocalContext.current,
-                { dialog, hour, min ->
+                { _, hour, min ->
                     viewModel.onEvent(ReminderScheduleScreenEvents.SetAlarm(hour, min))
                     timePickerDialog = false
                 },

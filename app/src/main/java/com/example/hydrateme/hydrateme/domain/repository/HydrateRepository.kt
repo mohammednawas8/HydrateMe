@@ -52,4 +52,7 @@ interface HydrateRepository {
 
     suspend fun getAlarmsAsFlow(): Flow<List<Alarm>>
 
+    suspend fun clearUserTable()
+
+    suspend fun getNotificationSound(): Int
 }

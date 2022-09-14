@@ -35,11 +35,17 @@ interface HydrateDao {
     @Query("UPDATE UserEntity SET complete = :totalAmount")
     suspend fun updateComplete(totalAmount: Int)
 
+    @Query("SELECT soundPath FROM UserEntity WHERE id=0")
+    fun getNotificationSound(): Int
+
     @Query("DELETE FROM DayEntity")
     suspend fun clearDayTable()
 
     @Query("DELETE FROM HistoryEntity")
     suspend fun clearHistoryTable()
+
+    @Query("DELETE FROM UserEntity")
+    suspend fun clearUserTable()
 
     @Query("DELETE FROM AlarmEntity")
     suspend fun clearAlarmsTable()

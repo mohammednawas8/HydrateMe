@@ -33,8 +33,6 @@ fun ChartCard(
     period: String,
 ) {
 
-    Log.d("test", history.size.toString())
-
     val maximumValue by derivedStateOf {
         val max = history.maxOfOrNull { it.drinkAmount }
         if (history.isEmpty() || max == 0 && max != null)
@@ -48,8 +46,6 @@ fun ChartCard(
     val decreaseSize by derivedStateOf {
         mutableStateOf(maximumValue / 5)
     }.value
-
-    Log.d("test11", maximumValue.toString())
 
     val amountList = derivedStateOf {
         val list = mutableListOf<Int>()

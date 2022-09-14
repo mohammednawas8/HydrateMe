@@ -6,11 +6,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.hydrateme.R
 import com.example.hydrateme.hydrateme.data.local.dto.Unit
 import com.example.hydrateme.hydrateme.data.local.dto.UserEntity
 import com.example.hydrateme.hydrateme.domain.alarm_manger.ReminderManger
 import com.example.hydrateme.hydrateme.domain.use_case.UseCases
 import com.example.hydrateme.hydrateme.presentation.app_start_screens.splash_screen.SplashViewModel.Companion.IS_DATABASE_EMPTY
+import com.example.hydrateme.hydrateme.presentation.util.calculateDailyGoal
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -121,7 +123,7 @@ class AppStartViewModel @Inject constructor(
                 data.weightUnit,
                 "ml"
             ),
-            "",
+            R.raw.water_drop_deffault,
             0
         )
 
@@ -156,7 +158,7 @@ class AppStartViewModel @Inject constructor(
     }
 
     private fun getDailyGoal(data: AppStartStates): Int {
-        return data.weight * 30 + 100
+        return calculateDailyGoal(data.weight,data.weightUnit)
     }
 
 }

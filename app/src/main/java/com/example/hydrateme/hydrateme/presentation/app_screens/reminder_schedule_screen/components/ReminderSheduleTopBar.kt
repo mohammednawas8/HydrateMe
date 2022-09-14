@@ -17,8 +17,10 @@ import com.example.hydrateme.R
 
 @Composable
 fun ReminderScheduleTopBar(
-    onBackClick:() -> Unit,
-    onAddClick: () -> Unit
+    onBackClick: () -> Unit,
+    onAddClick: () -> Unit,
+    text: String,
+    showIcon: Boolean,
 ) {
     TopAppBar(
         backgroundColor = MaterialTheme.colors.primary,
@@ -30,21 +32,27 @@ fun ReminderScheduleTopBar(
             Row(horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onBackClick) {
-                    Icon(painter = painterResource(id = R.drawable.ic_arrow_back), contentDescription = "Navigate back",Modifier.size(20.dp))
+                    Icon(painter = painterResource(id = R.drawable.ic_arrow_back),
+                        contentDescription = "Navigate back",
+                        Modifier.size(20.dp),
+                        tint = Color.White)
                 }
-                Text(text = stringResource(id = R.string.reminder_schedule),
+                Text(
+                    text = text,
                     color = Color.White,
                     style = MaterialTheme.typography.h2,
                     fontSize = 18.sp,
                 )
             }
-            IconButton(onClick = onAddClick) {
-                Text(text = "+",
-                    color = Color.White,
-                    style = MaterialTheme.typography.h2,
-                    fontSize = 33.sp,
-                )
-            }
+            if (showIcon)
+                IconButton(onClick = onAddClick) {
+                    Text(
+                        text = "+",
+                        color = Color.White,
+                        style = MaterialTheme.typography.h2,
+                        fontSize = 33.sp,
+                    )
+                }
         }
     }
 }

@@ -118,7 +118,7 @@ fun WelcomeSection(
                         Color.Black
                     )
                 ),
-                radius = 8f,
+                radius = 9f,
                 center = Offset(canvasWidth * 0.3f, canvasHeight * 0.9f)
             )
 
@@ -130,7 +130,7 @@ fun WelcomeSection(
                         Color.Black
                     )
                 ),
-                radius = 8f,
+                radius = 9f,
                 center = Offset(canvasWidth * 0.7f, canvasHeight * 0.9f)
             )
 

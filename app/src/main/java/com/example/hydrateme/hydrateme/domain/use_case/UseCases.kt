@@ -24,5 +24,7 @@ data class UseCases(
     val clearAlarmsTableUseCase: ClearAlarmsTableUseCase,
     val resetUserDataUseCase: ResetUserDataUseCase,
     val getAlarms: GetAlarmsUseCase,
-    val insertAlarmUseCase: InsertAlarmUseCase
+    val insertAlarmUseCase: InsertAlarmUseCase,
+    val clearUserTable: ClearUserTable,
+    val getNotificationSoundUseCase: GetNotificationSoundUseCase
 )

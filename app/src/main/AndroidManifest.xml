@@ -39,10 +39,14 @@
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
-<!--                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>-->
-<!--                <action android:name="android.intent.action.PACKAGE_REPLACED"/>-->
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.PACKAGE_REPLACED"/>
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9938514944370398~6658216304"/>
 
     </application>
 

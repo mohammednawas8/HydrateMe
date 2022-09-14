@@ -13,5 +13,5 @@ data class User(
     val dailyGoal: Int,
     val complete: Int,
     val unit: Unit,
-    val soundPath: String,
+    val soundPath: Int?,
 )

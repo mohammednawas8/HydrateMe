@@ -12,5 +12,7 @@ sealed class NavigationRoute(val route: String) {
     object SettingsScreen: NavigationRoute("Settings_screen")
     object SplashScreen: NavigationRoute("splash_screen")
     object ReminderScheduleScreen: NavigationRoute("reminder_schedule_screen")
+    object ReminderSoundScreen: NavigationRoute("reminder_sound_screen")
+    object PrivacyPolicyScreen: NavigationRoute("privacy_policy_screen")
 
 }

@@ -8,7 +8,7 @@ import com.example.hydrateme.hydrateme.data.local.dto.*
 
 @Database(
     entities = [UserEntity::class, DayEntity::class, HistoryEntity::class, AlarmEntity::class, AlarmDayEntity::class],
-    version = 6
+    version = 9
 )
 abstract class HydrateDatabase : RoomDatabase() {
 

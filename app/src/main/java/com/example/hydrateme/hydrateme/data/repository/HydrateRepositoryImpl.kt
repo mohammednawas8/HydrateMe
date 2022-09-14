@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class HydrateRepositoryImpl(
-    private val dao: HydrateDao
+    private val dao: HydrateDao,
 ) : HydrateRepository {
 
     override suspend fun insertUser(user: UserEntity) {
@@ -231,5 +231,13 @@ class HydrateRepositoryImpl(
 
     override suspend fun getAlarmsAsFlow(): Flow<List<Alarm>> {
         return dao.getAlarmsAsFlow().map { it.map { it.toAlarm() } }
+    }
+
+    override suspend fun clearUserTable() {
+        dao.clearUserTable()
+    }
+
+    override suspend fun getNotificationSound(): Int {
+        return dao.getNotificationSound()
     }
 }

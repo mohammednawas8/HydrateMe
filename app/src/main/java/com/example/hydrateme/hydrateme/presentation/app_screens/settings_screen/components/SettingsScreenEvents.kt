@@ -7,4 +7,5 @@ sealed class SettingsScreenEvents {
     data class UpdateWeight(val weight: Int, val unit: String): SettingsScreenEvents()
     data class UpdateWakeupTime(val wakeupHour: String, val wakeupMinutes: String): SettingsScreenEvents()
     data class UpdateBedTime(val bedHour: String, val bedMinutes: String): SettingsScreenEvents()
+    object ResetData: SettingsScreenEvents()
 }

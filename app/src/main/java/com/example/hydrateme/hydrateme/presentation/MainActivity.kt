@@ -26,6 +26,7 @@ import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
 import com.example.hydrateme.ui.theme.HydrateMeTheme
 import com.example.hydrateme.ui.theme.White
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -39,6 +40,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        MobileAds.initialize(this) {}
+
         setContent {
             val systemUiController = rememberSystemUiController()
             systemUiController.setSystemBarsColor(color = Color.White)
@@ -50,10 +53,6 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = White
                 ) {
-
-//                    HomeScreen()
-
-
 
                     val navController = rememberNavController()
                     val appStartViewModel by viewModels<AppStartViewModel>()
@@ -90,6 +89,7 @@ class MainActivity : ComponentActivity() {
                         composable(NavigationRoute.HomeScreen.route) {
                             HomeScreen()
                         }
+
                     }
                 }
             }

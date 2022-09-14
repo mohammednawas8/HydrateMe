@@ -42,42 +42,48 @@ class ReminderMangerImpl(
         CoroutineScope(Dispatchers.IO).launch {
             val alarmsList = dao.getAlarms(0)
             alarmsList.forEach { alarmEntity ->
-                val calendar = Calendar.getInstance().apply {
-                    timeInMillis = System.currentTimeMillis()
-                    set(Calendar.HOUR_OF_DAY, alarmEntity.hour)
-                    set(Calendar.MINUTE, alarmEntity.minute)
-                }
-                val intent = Intent(context, DrinkWaterReminderReceiver::class.java).apply {
-                    putExtra(NEXT_ALARM, calendar.timeInMillis + TimeUnit.DAYS.toMillis(1))
-                    putExtra(ALARM_ID, alarmEntity.alarmId)
-                    action = REMINDER_RECEIVER_ACTION
-                }
-
-                // Check if the Calendar time is in the past, if so we will handle it in the DrinkWaterReminderReceiver
-                if (calendar.timeInMillis < System.currentTimeMillis()) {
-                    intent.putExtra(ALARM_PASSED, true)
-                    Log.d(TAG, "Alarm is passed ${alarmEntity.hour}:${alarmEntity.minute}")
-                }
-
-                val pendingIntent =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        PendingIntent.getBroadcast(context,
-                            alarmEntity.alarmId,
-                            intent,
-                            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
-                    } else {
-                        PendingIntent.getBroadcast(context,
-                            alarmEntity.alarmId,
-                            intent,
-                            FLAG_UPDATE_CURRENT)
+                if (alarmEntity.isEnabled) {
+                    val calendar = Calendar.getInstance().apply {
+                        timeInMillis = System.currentTimeMillis()
+                        set(Calendar.HOUR_OF_DAY, alarmEntity.hour)
+                        set(Calendar.MINUTE, alarmEntity.minute)
+                    }
+                    val intent = Intent(context, DrinkWaterReminderReceiver::class.java).apply {
+                        putExtra(NEXT_ALARM, calendar.timeInMillis + TimeUnit.DAYS.toMillis(1))
+                        putExtra(ALARM_ID, alarmEntity.alarmId)
+                        action = REMINDER_RECEIVER_ACTION
                     }
 
-                    alarmManger.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
+                    // Check if the Calendar time is in the past, if so we will handle it in the DrinkWaterReminderReceiver
+                    if (calendar.timeInMillis < System.currentTimeMillis()) {
+                        intent.putExtra(ALARM_PASSED, true)
+                        Log.d(TAG, "Alarm is passed ${alarmEntity.hour}:${alarmEntity.minute}")
+                    }
+
+                    val pendingIntent =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            PendingIntent.getBroadcast(context,
+                                alarmEntity.alarmId,
+                                intent,
+                                FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE)
+                        } else {
+                            PendingIntent.getBroadcast(context,
+                                alarmEntity.alarmId,
+                                intent,
+                                FLAG_UPDATE_CURRENT)
+                        }
+
+
+                    alarmManger.setAlarmClock(
+                        AlarmManager.AlarmClockInfo(
+                            calendar.timeInMillis, pendingIntent),
                         pendingIntent
-                    ).also { Log.d(TAG, "Alarm set at ${alarmEntity.hour}:${alarmEntity.minute}") }
+                    ).also {
+                            Log.d(TAG,
+                                "Alarm set at ${alarmEntity.hour}:${alarmEntity.minute}")
+                        }
                 }
+            }
         }
     }
 
@@ -98,7 +104,7 @@ class ReminderMangerImpl(
                 PendingIntent.getBroadcast(context, alarm.id, intent, FLAG_UPDATE_CURRENT)
             }
         alarmManger.cancel(pendingIntent)
-        Log.d(TAG,"Alarm ${alarm.id} at ${alarm.hour}:${alarm.minute} is canceled")
+        Log.d(TAG, "Alarm ${alarm.id} at ${alarm.hour}:${alarm.minute} is canceled")
     }
 
     override fun updateDrinkReminder(alarm: Alarm) {
@@ -126,14 +132,16 @@ class ReminderMangerImpl(
                 } else {
                     PendingIntent.getBroadcast(context, alarmId, intent, FLAG_UPDATE_CURRENT)
                 }
-
-            alarmManger.setExact(
-                AlarmManager.RTC_WAKEUP,
-                time,
+            alarmManger.setAlarmClock(
+                AlarmManager.AlarmClockInfo(
+                    time, pendingIntent),
                 pendingIntent
             )
+
         }
+
     }
+
 
     override fun setInsertDayAlarm() {
         val intent = Intent(context, InsertDayReceiver::class.java)
@@ -147,7 +155,7 @@ class ReminderMangerImpl(
 
         val calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.HOUR_OF_DAY, 10)
         }
 
         alarmManger.setRepeating(
@@ -156,12 +164,18 @@ class ReminderMangerImpl(
             AlarmManager.INTERVAL_DAY,
             pendingIntent
         )
+
+        setDrinkReminders()
     }
 
     override suspend fun cancelAllReminders() {
         val alarms = dao.getAlarms(0)
         alarms.forEach {
-            val intent = Intent(context, DrinkWaterReminderReceiver::class.java)
+            val intent = Intent(context, DrinkWaterReminderReceiver::class.java).apply {
+                putExtra(NEXT_ALARM, 0L)
+                putExtra(ALARM_ID, 0)
+                action = REMINDER_RECEIVER_ACTION
+            }
             val pendingIntent =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     PendingIntent.getBroadcast(context,

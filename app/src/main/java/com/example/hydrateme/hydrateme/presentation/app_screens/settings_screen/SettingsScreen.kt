@@ -1,21 +1,30 @@
 package com.example.hydrateme.hydrateme.presentation.app_screens.settings_screen
 
+import android.app.Activity
+import android.content.Intent
+import android.content.Intent.getIntent
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.hydrateme.R
+import com.example.hydrateme.hydrateme.presentation.MainActivity
 import com.example.hydrateme.hydrateme.presentation.app_screens.home_screen.components.WavesTopAppBar
+import com.example.hydrateme.hydrateme.presentation.app_screens.privacy_policy.PrivacyPolicyScreen
+import com.example.hydrateme.hydrateme.presentation.app_screens.reminder_schedule_screen.components.ResetDialog
 import com.example.hydrateme.hydrateme.presentation.app_screens.settings_screen.components.*
 import com.example.hydrateme.hydrateme.presentation.util.Gender
 import com.example.hydrateme.hydrateme.presentation.util.NavigationRoute
+
 
 @Composable
 fun SettingsScreen(
@@ -35,6 +44,9 @@ fun SettingsScreen(
     var changeBedTimeDialog by remember {
         mutableStateOf(false)
     }
+    var resetDialog by remember {
+        mutableStateOf(false)
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -43,7 +55,7 @@ fun SettingsScreen(
             WavesTopAppBar(text = stringResource(id = R.string.settings), true) {
                 navController.navigateUp()
             }
-
+            val context = LocalContext.current
             Column(Modifier
                 .fillMaxSize()
                 .padding(horizontal = 8.dp)
@@ -52,7 +64,9 @@ fun SettingsScreen(
 
                 ReminderSection(
                     reminderScheduleClick = { navController.navigate(NavigationRoute.ReminderScheduleScreen.route) },
-                    reminderSoundClick = {})
+                    reminderSoundClick = {
+                        navController.navigate(NavigationRoute.ReminderSoundScreen.route)
+                    })
 
                 PersonalSection(personalInformation = state,
                     genderClick = {
@@ -115,12 +129,35 @@ fun SettingsScreen(
                             changeBedTimeDialog = false
                         })
                 }
+                OtherSection(resetData = {
+                    resetDialog = true
+                },
+                    feedbackClick = {
+                        Toast.makeText(context, "Soon", Toast.LENGTH_SHORT).show()
+                    },
+                    shareClick = {
+                        Toast.makeText(context, "Soon", Toast.LENGTH_SHORT).show()
+                    },
+                    privacyPolicyClick = {
+                        navController.navigate(NavigationRoute.PrivacyPolicyScreen.route)
+                    })
 
-                OtherSection(resetData = {},
-                    feedbackClick = {},
-                    shareClick = {},
-                    privacyPolicyClick = {})
-
+                if (resetDialog) {
+                    ResetDialog(
+                        onConfirmClick = {
+                            viewModel.onEvent(SettingsScreenEvents.ResetData)
+                        },
+                        onCancelClick = { resetDialog = false },
+                        onDismissRequest = { resetDialog = false })
+                }
+                val context = LocalContext.current
+                LaunchedEffect(key1 = true) {
+                    viewModel.resetData.collect {
+                        val intent = Intent(context, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(context, intent, null)
+                    }
+                }
             }
         }
     }
