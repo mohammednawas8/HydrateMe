@@ -1,5 +1,7 @@
 package com.hydrate_me.hydrateme.hydrateme.data.repository
 
+import android.util.Log
+import com.google.android.gms.common.util.ArrayUtils
 import com.hydrate_me.hydrateme.hydrateme.data.local.HydrateDao
 import com.hydrate_me.hydrateme.hydrateme.data.local.dto.DayEntity
 import com.hydrate_me.hydrateme.hydrateme.data.local.dto.HistoryEntity
@@ -9,6 +11,8 @@ import com.hydrate_me.hydrateme.hydrateme.domain.model.*
 import com.hydrate_me.hydrateme.hydrateme.domain.repository.HydrateRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import java.util.*
 
 class HydrateRepositoryImpl(
     private val dao: HydrateDao,
@@ -100,46 +104,55 @@ class HydrateRepositoryImpl(
     //Now take each sublist and find it's average then save it in the report list (the output list)
 
     override fun get10WeeksReport(): Flow<List<History>> {
-        return dao.getReportByDay(10 * 7).map {
-            var weeks = mutableListOf<History>() //Output list
-            val size = it.size
-            var weekStep = 0 //The shift amount here we will shift by 7 indices because it's a week
-            while (weekStep + 7 <= size) {
-                val subList = it.subList(weekStep, weekStep + 7)
-                val day =
-                    subList.first().day.day //Get the time of the first day in the sublist and consider (later it will be used to get the week)
-                var sum = 0
-                subList.forEach {
-                    sum += it.historyEntity.sumOf { it.drinkAmount }
+        return dao.getReportByDay(10 * 7)
+            .onEach {
+                Collections.reverse(it)
+            }
+            .map {
+                var weeks = mutableListOf<History>() //Output list
+                val size = it.size
+                var weekStep =
+                    0 //The shift value, here we will shift by 7 indices because it's a week
+                while (weekStep + 7 <= size) {
+                    val subList = it.subList(weekStep, weekStep + 7)
+                    val day =
+                        subList.first().day.day //Get the time of the first day in the sublist and consider (later it will be used to get the week)
+                    var sum = 0
+                    subList.forEach {
+                        sum += it.historyEntity.sumOf { it.drinkAmount }
+                    }
+                    weeks.add(History(day, sum))
+                    sum = 0
+                    weekStep += 7
                 }
-                weeks.add(History(day, sum))
-                sum = 0
-                weekStep += 7
-            }
-            //Put the extra days into new list
-            //example: [1,2,3,4,5,6,7,8,9] the sub lists of this list are [1,2,3,4,5,6,7] and [8,9]
-            //this code will make the [8,9] sublist
-            if (weekStep < size) {
-                val subList = it.subList(weekStep, size)
-                val day = subList.first().day.day
-                var sum = 0
-                subList.forEach {
-                    sum += it.historyEntity.sumOf { it.drinkAmount }
+                //Put the extra days into new list
+                //example: [1,2,3,4,5,6,7,8,9] the sub lists of this list are [1,2,3,4,5,6,7] and [8,9]
+                //this code will make the [8,9] sublist
+                if (weekStep < size) {
+                    val subList = it.subList(weekStep, size)
+                    val day = subList.first().day.day
+                    var sum = 0
+                    subList.forEach {
+                        sum += it.historyEntity.sumOf { it.drinkAmount }
+                    }
+                    weeks.add(History(day, sum))
+                    sum = 0
                 }
-                weeks.add(History(day, sum))
-                sum = 0
+                weeks.reverse()
+                //To make sure that our report has 10 weeks, if the report < 10 days, add empty history
+                while (weeks.size < 10) {
+                    weeks.add(History(0, 0))
+                }
+                weeks
             }
-            weeks.reverse()
-            //To make sure that our report has 10 weeks, if the report < 10 days, add empty history
-            while (weeks.size < 10) {
-                weeks.add(History(0, 0))
-            }
-            weeks
-        }
     }
 
     override fun get10MonthsReport(): Flow<List<History>> {
-        return dao.getReportByDay(10 * 30).map {
+        return dao.getReportByDay(10 * 30)
+            .onEach {
+                Collections.reverse(it)
+            }
+            .map {
             val months = mutableListOf<History>()
             val size = it.size
             var weekStep = 0
@@ -172,7 +185,11 @@ class HydrateRepositoryImpl(
     }
 
     override fun get10YearsReport(): Flow<List<History>> {
-        return dao.getReportByDay(10 * 362).map {
+        return dao.getReportByDay(10 * 362)
+            .onEach {
+                Collections.reverse(it)
+            }
+            .map {
             val years = mutableListOf<History>()
             val size = it.size
             var weekStep = 0

@@ -104,12 +104,15 @@ fun ChartCard(
                         .fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = period,
+                        Text(
+                            text = period,
                             color = Blue650,
                             fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold)
+                            fontWeight = FontWeight.Bold,
+
+                            )
                         (1..10).forEach {
-                            Text(text = String.format(Locale.ENGLISH,"%02d", it),
+                            Text(text = String.format(Locale.ENGLISH, "%02d", it),
                                 color = Gray150,
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Bold)
@@ -120,7 +123,9 @@ fun ChartCard(
             Box(contentAlignment = BottomCenter,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = maxWidth * 0.14f, bottom = 40.dp, end = 10.dp)) {
+                    .padding(start = maxWidth * 0.1f + period.length.dp * 6,
+                        bottom = 40.dp,
+                        end = 10.dp)) {
                 Row(
                     modifier = Modifier
                         .align(BottomCenter)

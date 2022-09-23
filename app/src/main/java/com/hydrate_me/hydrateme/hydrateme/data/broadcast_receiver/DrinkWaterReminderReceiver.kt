@@ -2,9 +2,15 @@ package com.hydrate_me.hydrateme.hydrateme.data.broadcast_receiver
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.media.AudioAttributes
+import android.media.MediaPlayer
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -22,7 +28,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import android.media.MediaPlayer
 
 
 private val TAG = "DrinkReminderReceiver"
@@ -54,34 +59,39 @@ class DrinkWaterReminderReceiver : BroadcastReceiver() {
 
     private fun showDrinkNotification(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
+
+
             val id = useCases.getNotificationSoundUseCase.invoke()
 
-                val intent = Intent(context, MainActivity::class.java).let {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
-                    } else {
-                        PendingIntent.getActivity(context, 0, it, 0)
-                    }
+            val alarmSound = Uri.parse("android.resource://" + context.packageName
+                .toString() + "/" + id)
+
+
+            val intent = Intent(context, MainActivity::class.java).let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    PendingIntent.getActivity(context, 0, it, PendingIntent.FLAG_IMMUTABLE)
+                } else {
+                    PendingIntent.getActivity(context, 0, it, 0)
                 }
+            }
 
-                val notification = NotificationCompat.Builder(
-                    context,
-                    DRINK_CHANNEL,
-                ).setAutoCancel(true)
-                    .setContentTitle(context.getString(R.string.drink_notification_title))
-                    .setContentText(context.getString(R.string.drink_notification_text))
-                    .setContentIntent(intent)
-                    .setSmallIcon(R.drawable.ic_water_cup)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.resources,
-                        R.drawable.notification_larg_image))
-                    .setSound(null)
-                    .build()
+            val notification = NotificationCompat.Builder(
+                context,
+                DRINK_CHANNEL,
+            ).setAutoCancel(true)
+                .setContentTitle(context.getString(R.string.drink_notification_title))
+                .setContentText(context.getString(R.string.drink_notification_text))
+                .setContentIntent(intent)
+                .setSmallIcon(R.drawable.ic_water_cup)
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources,
+                    R.drawable.notification_larg_image))
+                .setSound(null)
+                .build()
 
 
-                NotificationManagerCompat.from(context).notify(100, notification)
+            NotificationManagerCompat.from(context).notify(100, notification)
 
-                MediaPlayer.create(context, id).start()
-
+            RingtoneManager.getRingtone(context, alarmSound).play()
         }
     }
 
