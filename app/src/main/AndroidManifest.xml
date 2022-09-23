@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hydrate_me.hydrateme">
+    package="com.loc.hydrateme">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name="com.hydrate_me.hydrateme.HydrateApplication"
+        android:name="com.loc.hydrateme.HydrateApplication"
         android:allowBackup="true"
         android:icon="@mipmap/hydrate_me_icon"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.HydrateMe">
         <activity
-            android:name="com.hydrate_me.hydrateme.hydrateme.presentation.MainActivity"
+            android:name="com.loc.hydrateme.hydrateme.presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.HydrateMe">
@@ -26,15 +26,15 @@
         </activity>
 
         <receiver
-            android:name="com.hydrate_me.hydrateme.hydrateme.data.broadcast_receiver.InsertDayReceiver"
+            android:name="com.loc.hydrateme.hydrateme.data.broadcast_receiver.InsertDayReceiver"
             android:enabled="true"
             android:exported="true" />
 
-        <receiver android:name="com.hydrate_me.hydrateme.hydrateme.data.broadcast_receiver.DrinkWaterReminderReceiver"
+        <receiver android:name="com.loc.hydrateme.hydrateme.data.broadcast_receiver.DrinkWaterReminderReceiver"
             android:enabled="true"
             android:exported="true"/>
 
-        <receiver android:name="com.hydrate_me.hydrateme.hydrateme.data.broadcast_receiver.RescheduleAlarmsReceiver"
+        <receiver android:name="com.loc.hydrateme.hydrateme.data.broadcast_receiver.RescheduleAlarmsReceiver"
             android:exported="true"
             android:enabled="true">
             <intent-filter>
